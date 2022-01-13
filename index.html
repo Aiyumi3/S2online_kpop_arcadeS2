@@ -334,13 +334,13 @@
         player.anims.play('turn');
 
         bomb.disableBody(true, true);
-        let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+        /*let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
         let bomb = bombs.create(x, 570, 'bomb');
         bomb.setBounce(1);
         bomb.setCollideWorldBounds(true);
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
+        bomb.allowGravity = false;*/
         
         score -= 65.05;
         hearts -= 0.5;
