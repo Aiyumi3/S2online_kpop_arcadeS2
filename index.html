@@ -66,7 +66,7 @@
 
     const config = {    //1207, 720
         type: Phaser.CANVAS,   //window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: window.innerWidth * window.devicePixelRatio,
+        width: (window.innerWidth * window.devicePixelRatio) + (1207-(window.innerWidth * window.devicePixelRatio)),
         height: window.innerHeight * window.devicePixelRatio,
         physics: {
             default: 'arcade',
@@ -116,7 +116,6 @@
     }
 
     function create () {
-	scaleRatio = window.devicePixelRatio/3;
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
@@ -134,7 +133,6 @@
         platforms.create(1099, 409, 'ground2');
         platforms.create(750, 140, 'ground1');
         platforms.create(433, 320, 'ground2');
-	platforms.scale.setTo(scaleRatio, scaleRatio);
 
         this.anims.create({
             key: 'snooze',
@@ -150,19 +148,16 @@
         movingPlatform.setImmovable(true);
         movingPlatform.body.allowGravity = false;
         movingPlatform.setVelocityX(50);                                          // <--> moving platform
-	movingPlatform.scale.setTo(scaleRatio, scaleRatio);
 	    
         movingPlatform2 = this.physics.add.image(900, 687, 'ground2');
         movingPlatform2.setImmovable(true);
         movingPlatform2.body.allowGravity = false;
         movingPlatform2.setVelocityY(50);                                          // |^ moving platform
-        movingPlatform2.scale.setTo(scaleRatio, scaleRatio);
 	    
         movingPlatform3 = this.physics.add.image(770, 395, 'ground2');
         movingPlatform3.setImmovable(true);
         movingPlatform3.body.allowGravity = false;
         movingPlatform3.setVelocityX(50);                                          // <--> moving platform
-        movingPlatform3.scale.setTo(scaleRatio, scaleRatio);
 	    
                                                         // The player and its settings
         player = this.physics.add.sprite(270, 520, 'dude');
@@ -192,6 +187,15 @@
             frameRate: 10,
             repeat: -1
         });
+	this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNumbers('dude', { start: 3, end:5  }),
+            frameRate: 10,
+            repeat: -1
+        });
+	this.anims.addMix('turn', 'run', 1500);
+        this.anims.addMix('run', 'turn', 500);
+	player.anims.play('turn');
 		                                                 
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
@@ -240,8 +244,16 @@
         }
 	if(pointer.isDown){
 	    player.setPosition(pointer.worldX, pointer.worldY);	
-	    player.setVelocityX(-160);
-            player.anims.play('left', true);
+           
+            if (player.anims.getName() === 'turn')
+            {
+                player.anims.play('run', true);
+            }
+            else if (player.anims.getName() === 'run')
+            {
+                player.anims.play('turn');
+            }
+		
 	    if(player.body.touching.down) {
                 player.setVelocityY(-330);
 	    }
@@ -298,8 +310,15 @@
     function handleMouseDown(mousePointer) {
         player.x = mousePointer.x;
 	player.y = mousePointer.y;
-	player.setVelocityX(160);
-        player.anims.play('right', true);
+	if (player.anims.getName() === 'turn')
+        {
+            player.anims.play('run', true);
+        }
+        else if (player.anims.getName() === 'run')
+        {
+            player.anims.play('turn');
+        }
+	    
 	if(player.body.touching.down) {
             player.setVelocityY(-330);
 	}	
