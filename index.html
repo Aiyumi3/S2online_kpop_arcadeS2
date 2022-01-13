@@ -102,7 +102,7 @@
     let gameOver = false;
     let scoreText;
     let heartsText;
-    let pointer;
+    //let pointer;
 	
     let left;
     let right;
@@ -209,19 +209,19 @@
 	let graphics = this.add.graphics({ lineStyle:
         { width: 2, color: 0x00ff00 },{ fillStyle: { color: 0x8b0634 } });
     
-        let circle = new Phaser.Geom.Circle(30, 650, 5);
+        let circle = new Phaser.Geom.Circle(30, 550, 5);
         graphics.fillCircleShape(circle);
-        let circle1 = new Phaser.Geom.Circle(40, 650, 5);
+        let circle1 = new Phaser.Geom.Circle(40, 550, 5);
         graphics.fillCircleShape(circle1);
-        let circle2 = new Phaser.Geom.Circle(50, 650, 10);
+        let circle2 = new Phaser.Geom.Circle(50, 550, 10);
         graphics.fillCircleShape(circle2);
-        let circle3 = new Phaser.Geom.Circle(45, 640, 7);
+        let circle3 = new Phaser.Geom.Circle(45, 540, 7);
         graphics.fillCircleShape(circle3);
-        let circle4 = new Phaser.Geom.Circle(45, 660, 7);
+        let circle4 = new Phaser.Geom.Circle(45, 560, 7);
         graphics.fillCircleShape(circle4);
 	    
-	let circumcircle = Phaser.Geom.Triangle.CircumCircle(circle, circle1, circle2, circle3, circle4);
-        graphics.strokeCircleShape(circumcircle);
+	//let circumcircle = Phaser.Geom.Triangle.CircumCircle(circle, circle1, circle2, circle3, circle4);
+        //graphics.strokeCircleShape(circumcircle);
 	    
 		
         stars = this.physics.add.group({
