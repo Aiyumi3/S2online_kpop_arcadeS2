@@ -66,7 +66,7 @@
 
     const config = {    //1207, 720
         type: Phaser.CANVAS,   //window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: window.innerWidth * window.devicePixelRatio,
+        width: (window.innerWidth * window.devicePixelRatio)-160,
         height: window.innerHeight * window.devicePixelRatio,
         physics: {
             default: 'arcade',
@@ -196,7 +196,7 @@
 			                                                 
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
-	pointer = this.input.activePointer;
+	//pointer = this.input.activePointer;
         this.input.on('pointerdown', handleMouseDown, this);
 		
         stars = this.physics.add.group({
@@ -239,16 +239,7 @@
         if (gameOver) {
             return;
         }
-	if(pointer.isDown){
-	    //player.setPosition(pointer.worldX, pointer.worldY);	
-            
-            player.anims.play('run', true);
-	    this.physics.moveToObject(player, pointer, 240);
-            		
-	    if(player.body.touching.down) {
-                player.setVelocityY(-330);
-	    }
-	}
+	
 	
         if (cursors.left.isDown) {
             player.setVelocityX(-160);
@@ -266,6 +257,7 @@
 	    scoreText.y = player.y-90;
         }else if(cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
+	    player.anims.play('run', true);
 	    heartsText.x = player.x;
 	    heartsText.y = player.y-70;
 	    scoreText.x = player.x;
@@ -301,7 +293,7 @@
     function handleMouseDown(mousePointer) {
         player.x = mousePointer.x;
 	player.y = mousePointer.y;
-	player.setVelocityX(160);
+	player.setVelocityY(-330);
         player.anims.play('run', true);
            
 	if(player.body.touching.down) {
