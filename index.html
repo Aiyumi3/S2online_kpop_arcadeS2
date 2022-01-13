@@ -103,7 +103,12 @@
     let scoreText;
     let heartsText;
     let pointer;
-    let scaleRatio;
+	
+    let left;
+    let right;
+    let fire;
+    let up;
+
 
     function preload () {
         this.load.image('sky', 'assets/sky.jpg');
@@ -199,6 +204,25 @@
         cursors = this.input.keyboard.createCursorKeys();
 	//pointer = this.input.activePointer;
         this.input.on('pointerdown', handleMouseDown, this);
+	    
+	   
+	let graphics = this.add.graphics({ lineStyle:
+        { width: 2, color: 0x00ff00 },{ fillStyle: { color: 0x8b0634 } });
+    
+        let circle = new Phaser.Geom.Circle(30, 650, 5);
+        graphics.fillCircleShape(circle);
+        let circle1 = new Phaser.Geom.Circle(40, 650, 5);
+        graphics.fillCircleShape(circle1);
+        let circle2 = new Phaser.Geom.Circle(50, 650, 10);
+        graphics.fillCircleShape(circle2);
+        let circle3 = new Phaser.Geom.Circle(45, 640, 7);
+        graphics.fillCircleShape(circle3);
+        let circle4 = new Phaser.Geom.Circle(45, 660, 7);
+        graphics.fillCircleShape(circle4);
+	    
+	let circumcircle = Phaser.Geom.Triangle.CircumCircle(circle, circle1, circle2, circle3, circle4);
+        graphics.strokeCircleShape(circumcircle);
+	    
 		
         stars = this.physics.add.group({
             key: 'star',
@@ -292,13 +316,13 @@
 	
     function handleMouseDown(mousePointer) {
 	if(mousePointer.x < player.x) {
-            player.setVelocityX(-70);
+            player.setVelocityX(-100);
             player.anims.play('left', true);
-	    this.physics.moveToObject(player, mousePointer, 700);
+	    this.physics.moveToObject(player, mousePointer, 1200);
 	}else if(mousePointer.x > player.x) {
-            player.setVelocityX(70);
+            player.setVelocityX(100);
             player.anims.play('right', true);
-            this.physics.moveToObject(player, mousePointer, 700);
+            this.physics.moveToObject(player, mousePointer, 1200);
 	}else if ((mousePointer.y < player.y || mousePointer.y > player.y) &&  player.body.touching.down) {
             player.setVelocityY(-90);
             player.anims.play('run', true);
