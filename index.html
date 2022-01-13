@@ -65,7 +65,7 @@
 
 
     const config = {    //1207, 720
-        type: Phaser.AUTO,   //window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
+        type: Phaser.CANVAS,   //window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
         width: window.innerWidth * window.devicePixelRatio,
         height: window.innerHeight * window.devicePixelRatio,
         physics: {
@@ -103,6 +103,7 @@
     let scoreText;
     let heartsText;
     let pointer;
+    let scaleRatio;
 
     function preload () {
         this.load.image('sky', 'assets/sky.jpg');
@@ -115,7 +116,7 @@
     }
 
     function create () {
-	
+	scaleRatio = window.devicePixelRatio/3;
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
@@ -133,6 +134,7 @@
         platforms.create(1099, 409, 'ground2');
         platforms.create(750, 140, 'ground1');
         platforms.create(433, 320, 'ground2');
+	platforms.scale.setTo(scaleRatio, scaleRatio);
 
         this.anims.create({
             key: 'snooze',
@@ -148,19 +150,23 @@
         movingPlatform.setImmovable(true);
         movingPlatform.body.allowGravity = false;
         movingPlatform.setVelocityX(50);                                          // <--> moving platform
-
+	movingPlatform.scale.setTo(scaleRatio, scaleRatio);
+	    
         movingPlatform2 = this.physics.add.image(900, 687, 'ground2');
         movingPlatform2.setImmovable(true);
         movingPlatform2.body.allowGravity = false;
         movingPlatform2.setVelocityY(50);                                          // |^ moving platform
-
+        movingPlatform2.scale.setTo(scaleRatio, scaleRatio);
+	    
         movingPlatform3 = this.physics.add.image(770, 395, 'ground2');
         movingPlatform3.setImmovable(true);
         movingPlatform3.body.allowGravity = false;
         movingPlatform3.setVelocityX(50);                                          // <--> moving platform
-
+        movingPlatform3.scale.setTo(scaleRatio, scaleRatio);
+	    
                                                         // The player and its settings
         player = this.physics.add.sprite(270, 520, 'dude');
+	player.scale.setTo(scaleRatio, scaleRatio);
                                                          //  Player physics properties. Give the little guy a slight bounce
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);                                      //border's limit
@@ -198,13 +204,16 @@
             repeat: 11,                         //in total = 12
             setXY: { x: 65, y: 3, stepX: 107 }
         });
+	stars.scale.setTo(scaleRatio, scaleRatio);
         stars.children.iterate(function (child) {
                                                                         //  Give each star a slightly different bounce
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-            child.setCollideWorldBounds(true);                         
+            child.setCollideWorldBounds(true); 
+	    
         });
 
         bombs = this.physics.add.group();
+	bombs.scale.setTo(scaleRatio, scaleRatio);
         heartsText = this.add.text(player.x, player.y-70, '💚: 24', { fontSize: '10pt', fill: '#ccff99', fontFamily:'Comic Sans MS'});
         scoreText = this.add.text(player.x, player.y-90, 'score: 0', { fontSize: '12pt', fill: '#ccff99', fontFamily:'Comic Sans MS'});
 
@@ -233,6 +242,20 @@
         }
 	if(pointer.isDown){
 	    player.setPosition(pointer.worldX, pointer.worldY);	
+	    player.setVelocityX(-160);
+            player.anims.play('left', true);
+	    if (player.anims.getName() === 'left'){
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }else if (player.anims.getName() === 'turn'){
+                player.setVelocityX(160);
+                player.anims.play('right', true);
+            }else if (player.anims.getName() === 'right'){
+                player.setVelocityX(-160);
+                player.anims.play('left', true);
+            }else if(player.body.touching.down) {
+                player.setVelocityY(-330);
+	    }
 	}
 	
         if (cursors.left.isDown) {
@@ -284,9 +307,22 @@
     }
 	
     function handleMouseDown(mousePointer) {
-        /*player.x = mousePointer.x;
-	player.y = mousePointer.y;*/
-	player.setPosition(mousePointer.x, mousePointer.y);	
+        player.x = mousePointer.x;
+	player.y = mousePointer.y;
+	player.setVelocityX(-160);
+        player.anims.play('left', true);
+	if (player.anims.getName() === 'left'){
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }else if (player.anims.getName() === 'turn'){
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+        }else if (player.anims.getName() === 'right'){
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+        }else if(player.body.touching.down) {
+            player.setVelocityY(-330);
+	}	
         
     }
 
