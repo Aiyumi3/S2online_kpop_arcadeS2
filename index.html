@@ -193,8 +193,6 @@
             frameRate: 10,
             repeat: -1
         });
-	this.anims.addMix('turn', 'run', 1500);
-        this.anims.addMix('run', 'turn', 500);
 			                                                 
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
@@ -243,19 +241,12 @@
         }
 	if(pointer.isDown){
 	    player.setPosition(pointer.worldX, pointer.worldY);	
-           
-            if (player.anims.getName() === 'turn')
-            {
-                player.anims.play('run', true);
-            }
-            else if (player.anims.getName() === 'run')
-            {
-                player.anims.play('turn');
-            }
-		
-	    /*if(player.body.touching.down) {
+            player.setVelocityX(160);  
+            player.anims.play('run', true);
+            		
+	    if(player.body.touching.down) {
                 player.setVelocityY(-330);
-	    }*/
+	    }
 	}
 	
         if (cursors.left.isDown) {
@@ -309,18 +300,12 @@
     function handleMouseDown(mousePointer) {
         player.x = mousePointer.x;
 	player.y = mousePointer.y;
-	if (player.anims.getName() === 'turn')
-        {
-            player.anims.play('run', true);
-        }
-        else if (player.anims.getName() === 'run')
-        {
-            player.anims.play('turn');
-        }
-	    
-	/*if(player.body.touching.down) {
+	player.setVelocityX(160);
+        player.anims.play('run', true);
+           
+	if(player.body.touching.down) {
             player.setVelocityY(-330);
-	}*/	
+	}	
         
     }
 
