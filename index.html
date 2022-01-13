@@ -292,17 +292,17 @@
 	
     function handleMouseDown(mousePointer) {
 	if(mousePointer.x < player.x) {
-            player.setVelocityX(-160);
+            player.setVelocityX(-70);
             player.anims.play('left', true);
-	    this.physics.moveToObject(player, mousePointer, 2400);
+	    this.physics.moveToObject(player, mousePointer, 700);
 	}else if(mousePointer.x > player.x) {
-            player.setVelocityX(160);
+            player.setVelocityX(70);
             player.anims.play('right', true);
-            this.physics.moveToObject(player, mousePointer, 2400);
-	}else if (mousePointer.y < player.y || mousePointer.y > player.y || player.body.touching.down) {
-            player.setVelocityY(-330);
+            this.physics.moveToObject(player, mousePointer, 700);
+	}else if ((mousePointer.y < player.y || mousePointer.y > player.y) &&  player.body.touching.down) {
+            player.setVelocityY(-90);
             player.anims.play('run', true);
-	    this.physics.moveToObject(player, mousePointer, 2400);
+	    this.physics.moveToObject(player, mousePointer, 1000);
 	}
         
 	        
