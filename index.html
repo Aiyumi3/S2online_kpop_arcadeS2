@@ -75,6 +75,11 @@
                 debug: false
             }
         },
+	input: {
+            touch: {
+                capture: true
+            }
+        },
         scene: {
             preload: preload,
             create: create,
@@ -110,6 +115,7 @@
     }
 
     function create () {
+	this.input.on('pointerdown', handleMouseDown, this);
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
@@ -275,6 +281,12 @@
         } else if (movingPlatform2.y <= 270) {
             movingPlatform2.setVelocityY(50);
         }
+    }
+	
+    function handleMouseDown(mousePointer) {
+        player.x = mousePointer.x;
+	player.y = mousePointer.y;
+        
     }
 
     function collectStar (player, star) {
