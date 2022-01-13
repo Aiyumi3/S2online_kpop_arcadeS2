@@ -294,12 +294,15 @@
 	if(mousePointer.x < player.x) {
             player.setVelocityX(-160);
             player.anims.play('left', true);
+	    this.physics.moveToObject(player, mousePointer, 240);
 	}else if(mousePointer.x > player.x) {
             player.setVelocityX(160);
             player.anims.play('right', true);
+            this.physics.moveToObject(player, mousePointer, 240);
 	}else if (mousePointer.y < player.y || mousePointer.y > player.y || player.body.touching.down) {
             player.setVelocityY(-330);
             player.anims.play('run', true);
+	    this.physics.moveToObject(player, mousePointer, 240);
 	}
         
 	        
