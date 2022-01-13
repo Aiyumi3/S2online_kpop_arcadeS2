@@ -189,14 +189,14 @@
         });
 	this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('dude', { start: 2, end:6  }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 3, end:5  }),
             frameRate: 10,
             repeat: -1
         });
 			                                                 
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
-	//pointer = this.input.activePointer;
+	pointer = this.input.activePointer;
         this.input.on('pointerdown', handleMouseDown, this);
 		
         stars = this.physics.add.group({
@@ -294,11 +294,11 @@
         //player.x = mousePointer.x;
 	//player.y = mousePointer.y;
 	this.physics.moveToObject(player, pointer, 110);
-	player.setVelocityY(-90);
-        player.anims.play('run', true);
+	player.setVelocityY(-330);
+	player.anims.play('run', true);
            
 	if(player.body.touching.down) {
-            player.setVelocityY(-90);
+            player.setVelocityY(-330);
 	}	
         
     }
@@ -349,7 +349,6 @@
             }).then(() => {location.reload();});
         }
     }
-
 
 </script>
 </body>
