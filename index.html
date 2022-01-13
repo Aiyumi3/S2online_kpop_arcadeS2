@@ -166,7 +166,6 @@
 	    
                                                         // The player and its settings
         player = this.physics.add.sprite(270, 520, 'dude');
-	player.scale.setTo(scaleRatio, scaleRatio);
                                                          //  Player physics properties. Give the little guy a slight bounce
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);                                      //border's limit
@@ -204,7 +203,7 @@
             repeat: 11,                         //in total = 12
             setXY: { x: 65, y: 3, stepX: 107 }
         });
-	stars.scale.setTo(scaleRatio, scaleRatio);
+
         stars.children.iterate(function (child) {
                                                                         //  Give each star a slightly different bounce
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -213,7 +212,6 @@
         });
 
         bombs = this.physics.add.group();
-	bombs.scale.setTo(scaleRatio, scaleRatio);
         heartsText = this.add.text(player.x, player.y-70, '💚: 24', { fontSize: '10pt', fill: '#ccff99', fontFamily:'Comic Sans MS'});
         scoreText = this.add.text(player.x, player.y-90, 'score: 0', { fontSize: '12pt', fill: '#ccff99', fontFamily:'Comic Sans MS'});
 
@@ -244,16 +242,7 @@
 	    player.setPosition(pointer.worldX, pointer.worldY);	
 	    player.setVelocityX(-160);
             player.anims.play('left', true);
-	    if (player.anims.getName() === 'left'){
-                player.setVelocityX(0);
-                player.anims.play('turn');
-            }else if (player.anims.getName() === 'turn'){
-                player.setVelocityX(160);
-                player.anims.play('right', true);
-            }else if (player.anims.getName() === 'right'){
-                player.setVelocityX(-160);
-                player.anims.play('left', true);
-            }else if(player.body.touching.down) {
+	    if(player.body.touching.down) {
                 player.setVelocityY(-330);
 	    }
 	}
@@ -309,18 +298,9 @@
     function handleMouseDown(mousePointer) {
         player.x = mousePointer.x;
 	player.y = mousePointer.y;
-	player.setVelocityX(-160);
-        player.anims.play('left', true);
-	if (player.anims.getName() === 'left'){
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }else if (player.anims.getName() === 'turn'){
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-        }else if (player.anims.getName() === 'right'){
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-        }else if(player.body.touching.down) {
+	player.setVelocityX(160);
+        player.anims.play('right', true);
+	if(player.body.touching.down) {
             player.setVelocityY(-330);
 	}	
         
