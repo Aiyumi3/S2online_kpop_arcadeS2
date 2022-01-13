@@ -240,9 +240,10 @@
             return;
         }
 	if(pointer.isDown){
-	    player.setPosition(pointer.worldX, pointer.worldY);	
-            player.setVelocityX(160);  
+	    //player.setPosition(pointer.worldX, pointer.worldY);	
+            
             player.anims.play('run', true);
+	    this.physics.moveToObject(player, pointer, 240);
             		
 	    if(player.body.touching.down) {
                 player.setVelocityY(-330);
