@@ -297,12 +297,9 @@
 	}else if(mousePointer.x > player.x) {
             player.setVelocityX(160);
             player.anims.play('right', true);
-	}else if (mousePointer.y < player.y && player.body.touching.down) {
+	}else if (mousePointer.y < player.y || mousePointer.y > player.y || player.body.touching.down) {
             player.setVelocityY(-330);
             player.anims.play('run', true);
-	}else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
 	}
         
 	        
