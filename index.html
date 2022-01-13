@@ -104,10 +104,9 @@
     let heartsText;
     //let pointer;
 	
-    let left;
-    let right;
-    let fire;
-    let up;
+    let left = false;
+    let right = false;
+    let up = false;
 
 
     function preload () {
@@ -117,15 +116,46 @@
         this.load.image('ground2', 'assets/platformShort.png');
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
+	this.load.image('left', 'assets/left.png');        //btns
+	this.load.image('right', 'assets/right.png');
+	this.load.image('up', 'assets/up.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
+	 // fullscreen setup
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     }
 
     function create () {
+	if (!this.device.desktop){ this.input.onDown.add(gofull, this); } // fullscreen on mobile devices    
+	   
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
 
         platforms = this.physics.add.staticGroup();
+	                                                                //game, x, y, key, callback,
+	btnUp = this.add.button(410, 680, 'up', null, this, 0, 1, 0, 1);  // callbackContext, overFrame, outFrame, downFrame, upFrame
+        btnUp.fixedToCamera = true;                       // stay on the same place  
+        btnUp.events.onInputOver.add(function(){up=true;});
+        btnUp.events.onInputOut.add(function(){up=false;});
+        btnUp.events.onInputDown.add(function(){up=true;});
+        btnUp.events.onInputUp.add(function(){up=false;});
+	 
+	btnLeft = this.add.button(3, 680, 'left', null, this, 0, 1, 0, 1);
+        btnLeft.fixedToCamera = true;
+        btnLeft.events.onInputOver.add(function(){left=true;});
+        btnLeft.events.onInputOut.add(function(){left=false;});
+        btnLeft.events.onInputDown.add(function(){left=true;});
+        btnLeft.events.onInputUp.add(function(){left=false;});
+	    
+	btnRight = this.add.button(200, 680, 'right', null, this, 0, 1, 0, 1);
+        btnRight.fixedToCamera = true;
+        btnRight.events.onInputOver.add(function(){left=true;});
+        btnRight.events.onInputOut.add(function(){left=false;});
+        btnRight.events.onInputDown.add(function(){left=true;});
+        btnRight.events.onInputUp.add(function(){left=false;});
+	    
+	
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');                                     //  create platforms
@@ -206,7 +236,7 @@
         this.input.on('pointerdown', handleMouseDown, this);
 	    
 	   
-	let graphics = this.add.graphics({ lineStyle:
+	/*let graphics = this.add.graphics({ lineStyle:
         { width: 2, color: 0x00ff00 },{ fillStyle: { color: 0x8b0634 } });
     
         let circle = new Phaser.Geom.Circle(30, 550, 5);
@@ -218,7 +248,7 @@
         let circle3 = new Phaser.Geom.Circle(45, 540, 7);
         graphics.fillCircleShape(circle3);
         let circle4 = new Phaser.Geom.Circle(45, 560, 7);
-        graphics.fillCircleShape(circle4);
+        graphics.fillCircleShape(circle4);*/
 	    
 	//let circumcircle = Phaser.Geom.Triangle.CircumCircle(circle, circle1, circle2, circle3, circle4);
         //graphics.strokeCircleShape(circumcircle);
@@ -265,21 +295,21 @@
             return;
         }
 	
-        if (cursors.left.isDown) {
+        if (cursors.left.isDown || left) {
             player.setVelocityX(-160);
             player.anims.play('left', true);
 	    heartsText.x = player.x;
 	    heartsText.y = player.y-70;
 	    scoreText.x = player.x;
 	    scoreText.y = player.y-90;
-        } else if (cursors.right.isDown) {
+        } else if (cursors.right.isDown || right) {
             player.setVelocityX(160);
             player.anims.play('right', true);
 	    heartsText.x = player.x;
 	    heartsText.y = player.y-70;
 	    scoreText.x = player.x;
 	    scoreText.y = player.y-90;
-        }else if(cursors.up.isDown && player.body.touching.down) {
+        }else if( (cursors.up.isDown || up) && player.body.touching.down) {
             player.setVelocityY(-330);
 	    player.anims.play('run', true);
 	    heartsText.x = player.x;
@@ -313,6 +343,7 @@
             movingPlatform2.setVelocityY(50);
         }
     }
+    function gofull() { game.scale.startFullScreen(false);}
 	
     function handleMouseDown(mousePointer) {
 	if(mousePointer.x < player.x) {
