@@ -66,7 +66,7 @@
 
     const config = {    //1207, 720
         type: Phaser.AUTO,   //window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: (window.innerWidth * window.devicePixelRatio)-160,
+        width: window.innerWidth * window.devicePixelRatio,
         height: window.innerHeight * window.devicePixelRatio,
         physics: {
             default: 'arcade',
@@ -115,7 +115,7 @@
     }
 
     function create () {
-	this.input.on('pointerdown', handleMouseDown, this);
+	
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
@@ -191,7 +191,7 @@
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
 	pointer = this.input.activePointer;
-
+        this.input.on('pointerdown', handleMouseDown, this);
 		
         stars = this.physics.add.group({
             key: 'star',
@@ -284,8 +284,9 @@
     }
 	
     function handleMouseDown(mousePointer) {
-        player.x = mousePointer.x;
-	player.y = mousePointer.y;
+        /*player.x = mousePointer.x;
+	player.y = mousePointer.y;*/
+	player.setPosition(mousePointer.x, mousePointer.y);	
         
     }
 
