@@ -195,8 +195,7 @@
         });
 	this.anims.addMix('turn', 'run', 1500);
         this.anims.addMix('run', 'turn', 500);
-	player.anims.play('turn');
-		                                                 
+			                                                 
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
 	pointer = this.input.activePointer;
@@ -254,9 +253,9 @@
                 player.anims.play('turn');
             }
 		
-	    if(player.body.touching.down) {
+	    /*if(player.body.touching.down) {
                 player.setVelocityY(-330);
-	    }
+	    }*/
 	}
 	
         if (cursors.left.isDown) {
@@ -319,9 +318,9 @@
             player.anims.play('turn');
         }
 	    
-	if(player.body.touching.down) {
+	/*if(player.body.touching.down) {
             player.setVelocityY(-330);
-	}	
+	}*/	
         
     }
 
