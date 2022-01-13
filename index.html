@@ -196,7 +196,7 @@
 			                                                 
 	                                                    //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
-	pointer = this.input.activePointer;
+	//pointer = this.input.activePointer;
         this.input.on('pointerdown', handleMouseDown, this);
 		
         stars = this.physics.add.group({
@@ -291,9 +291,9 @@
     }
 	
     function handleMouseDown(mousePointer) {
-        //player.x = mousePointer.x;
-	//player.y = mousePointer.y;
-	this.physics.moveToObject(player, pointer, 110);
+        player.x = mousePointer.x;
+	player.y = mousePointer.y;
+	
 	player.setVelocityY(-330);
 	player.anims.play('run', true);
            
