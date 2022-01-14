@@ -126,11 +126,15 @@
     }
 
     function create () {
-        
+        //let music = this.sound.add('theme');
+        //music.play({
+          //  loop: true
+        //});
+
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
-        //  Input Events
+          //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
         mousePointer = this.input.activePointer;
 
@@ -227,9 +231,9 @@
             this.setTint(0x8b0634);
 
             //if(mousePointer.isDown){
-            //pointer.worldX,
-            player.setVelocityX(-260);
-            player.anims.play('left', true);
+                //pointer.worldX,
+                player.setVelocityX(-260);
+                player.anims.play('left', true);
             //}
 
         });
@@ -246,9 +250,9 @@
             this.setTint(0x8b0634);
 
             //if(mousePointer.isDown){
-            //pointer.worldX,
-            player.setVelocityX(260);
-            player.anims.play('right', true);
+                //pointer.worldX,
+                player.setVelocityX(260);
+                player.anims.play('right', true);
             //}
 
         });
@@ -295,11 +299,6 @@
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
-        
-        //let music = this.sound.add('theme');
-        //music.play({
-            //  loop: true
-        //});
     }
 
     function update () {
