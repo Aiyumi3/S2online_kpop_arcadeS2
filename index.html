@@ -65,7 +65,7 @@
 
 
     const config = {    //1207, 720
-        type: Phaser.CANVAS,   //window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
+        type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
         width: (window.innerWidth * window.devicePixelRatio)-160,
         height: window.innerHeight * window.devicePixelRatio,
         physics: {
@@ -75,7 +75,7 @@
                 debug: false
             }
         },
-	input: {
+        input: {
             touch: {
                 capture: true
             }
@@ -86,9 +86,9 @@
             update: update
         }
     };
-	
+
     const game = new Phaser.Game(config);
-	
+
     let player;
     let stars;
     let bombs;
@@ -102,11 +102,12 @@
     let gameOver = false;
     let scoreText;
     let heartsText;
-    //let pointer;
-	
-    let left = false;
-    let right = false;
-    let up = false;
+
+    let btnUp;
+    let btnLeft;
+    let btnRight;
+    let mousePointer;
+    let timedEvent;
 
 
     function preload () {
@@ -116,46 +117,29 @@
         this.load.image('ground2', 'assets/platformShort.png');
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
-	this.load.image('left', 'assets/left.png');        //btns
-	this.load.image('right', 'assets/right.png');
-	this.load.image('up', 'assets/up.png');
+        this.load.image('leftBtn', 'assets/left.png');        //btns
+        this.load.image('rightBtn', 'assets/right.png');
+        this.load.image('upBtn', 'assets/up.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
-	 // fullscreen setup
-        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        this.load.audio('theme', ['assets/audio/nctdream_hellofuture.mp3']);
+
     }
 
     function create () {
-	if (!this.device.desktop){ this.input.onDown.add(gofull, this); } // fullscreen on mobile devices    
-	   
+        let music = this.sound.add('theme');
+        music.play({
+            //  loop: true
+        });
+
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
+        //  Input Events
+        cursors = this.input.keyboard.createCursorKeys();
+        mousePointer = this.input.activePointer;
+
 
         platforms = this.physics.add.staticGroup();
-	                                                                //game, x, y, key, callback,
-	btnUp = this.add.button(410, 680, 'up', null, this, 0, 1, 0, 1);  // callbackContext, overFrame, outFrame, downFrame, upFrame
-        btnUp.fixedToCamera = true;                       // stay on the same place  
-        btnUp.events.onInputOver.add(function(){up=true;});
-        btnUp.events.onInputOut.add(function(){up=false;});
-        btnUp.events.onInputDown.add(function(){up=true;});
-        btnUp.events.onInputUp.add(function(){up=false;});
-	 
-	btnLeft = this.add.button(3, 680, 'left', null, this, 0, 1, 0, 1);
-        btnLeft.fixedToCamera = true;
-        btnLeft.events.onInputOver.add(function(){left=true;});
-        btnLeft.events.onInputOut.add(function(){left=false;});
-        btnLeft.events.onInputDown.add(function(){left=true;});
-        btnLeft.events.onInputUp.add(function(){left=false;});
-	    
-	btnRight = this.add.button(200, 680, 'right', null, this, 0, 1, 0, 1);
-        btnRight.fixedToCamera = true;
-        btnRight.events.onInputOver.add(function(){left=true;});
-        btnRight.events.onInputOut.add(function(){left=false;});
-        btnRight.events.onInputDown.add(function(){left=true;});
-        btnRight.events.onInputUp.add(function(){left=false;});
-	    
-	
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');                                     //  create platforms
@@ -183,28 +167,28 @@
         movingPlatform.setImmovable(true);
         movingPlatform.body.allowGravity = false;
         movingPlatform.setVelocityX(50);                                          // <--> moving platform
-	    
+
         movingPlatform2 = this.physics.add.image(900, 687, 'ground2');
         movingPlatform2.setImmovable(true);
         movingPlatform2.body.allowGravity = false;
         movingPlatform2.setVelocityY(50);                                          // |^ moving platform
-	    
+
         movingPlatform3 = this.physics.add.image(770, 395, 'ground2');
         movingPlatform3.setImmovable(true);
         movingPlatform3.body.allowGravity = false;
         movingPlatform3.setVelocityX(50);                                          // <--> moving platform
-	    
-                                                        // The player and its settings
-        player = this.physics.add.sprite(270, 520, 'dude');
-                                                         //  Player physics properties. Give the little guy a slight bounce
-        player.setBounce(0.2);
-        player.setCollideWorldBounds(true);                                      //border's limit
 
+        // The player and its settings
+        player = this.physics.add.sprite(270, 520, 'dude');
+        //  Player physics properties. Give the little guy a slight bounce
+        player.setBounce(0.2);
+        player.setScale(0.7);
+        player.setCollideWorldBounds(true);                                      //border's limit
         this.cameras.main.startFollow(player, true, 0.07, 0.07);
+        this.cameras.main.followOffset.set(-100, 0);
         this.cameras.main.setZoom(2);
 
-                                                            //  player animations, turning, walking left and walking right~
-	
+        //  player animations, turning, walking left and walking right~
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -222,56 +206,83 @@
             frameRate: 10,
             repeat: -1
         });
-	this.anims.create({
+        this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('dude', { start: 3, end:5  }),
             frameRate: 10,
             repeat: -1
         });
-			                                                 
-	                                                    //  Input Events
 
-        cursors = this.input.keyboard.createCursorKeys();
-	//pointer = this.input.activePointer;
-        this.input.on('pointerdown', handleMouseDown, this);
-	    
-	   
-	/*let graphics = this.add.graphics({ lineStyle:
-        { width: 2, color: 0x00ff00 },{ fillStyle: { color: 0x8b0634 } });
-    
-        let circle = new Phaser.Geom.Circle(30, 550, 5);
-        graphics.fillCircleShape(circle);
-        let circle1 = new Phaser.Geom.Circle(40, 550, 5);
-        graphics.fillCircleShape(circle1);
-        let circle2 = new Phaser.Geom.Circle(50, 550, 10);
-        graphics.fillCircleShape(circle2);
-        let circle3 = new Phaser.Geom.Circle(45, 540, 7);
-        graphics.fillCircleShape(circle3);
-        let circle4 = new Phaser.Geom.Circle(45, 560, 7);
-        graphics.fillCircleShape(circle4);*/
-	    
-	//let circumcircle = Phaser.Geom.Triangle.CircumCircle(circle, circle1, circle2, circle3, circle4);
-        //graphics.strokeCircleShape(circumcircle);
-	    
-		
+        btnUp = this.add.sprite(player.x, player.y-45, 'upBtn').setInteractive();
+        btnUp.setScale(0.3);
+        btnUp.on('pointerdown', function(){ //, handleMouseDown, this);
+            this.setTint(0x8b0634);
+            player.setVelocityY(-330);
+            player.anims.play('run', true);
+        });
+        btnUp.on('pointerup', function(/*pointer, localX, localY, event*/){
+            this.clearTint();
+        });
+
+
+        btnLeft = this.add.sprite(player.x-30, player.y+15, 'leftBtn').setInteractive();
+        btnLeft.setScale(0.3);
+        btnLeft.on('pointerdown', function(){ //, handleMouseDown, this);
+            this.setTint(0x8b0634);
+
+            //if(mousePointer.isDown){
+            //pointer.worldX,
+            player.setVelocityX(-260);
+            player.anims.play('left', true);
+            //}
+
+        });
+        btnLeft.on('pointerup', function(/*pointer, localX, localY, event*/){
+            this.clearTint();
+        });
+
+
+        btnRight = this.add.sprite(player.x+30, player.y+15, 'rightBtn').setInteractive();
+        //btnRight.setScrollFactor(0);//.fixedToCamera = true;//.setScrollFactor(0);
+        btnRight.setScale(0.3);   //smaller
+
+        btnRight.on('pointerdown', function(){ //, handleMouseDown, this);
+            this.setTint(0x8b0634);
+
+            //if(mousePointer.isDown){
+            //pointer.worldX,
+            player.setVelocityX(260);
+            player.anims.play('right', true);
+            //}
+
+        });
+        btnRight.on('pointerup', function(/*pointer, localX, localY, event*/){
+            this.clearTint();
+        });
+
+
+
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,                         //in total = 12
             setXY: { x: 65, y: 3, stepX: 107 }
         });
-
         stars.children.iterate(function (child) {
-                                                                        //  Give each star a slightly different bounce
+            //  Give each star a slightly different bounce
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-            child.setCollideWorldBounds(true); 
-	    
+            child.setCollideWorldBounds(true);
+            child.setScale(0.6);
+
         });
 
         bombs = this.physics.add.group();
         heartsText = this.add.text(player.x, player.y-70, '💚: 24', { fontSize: '10pt', fill: '#ccff99', fontFamily:'Comic Sans MS'});
         scoreText = this.add.text(player.x, player.y-90, 'score: 0', { fontSize: '12pt', fill: '#ccff99', fontFamily:'Comic Sans MS'});
+        heartsText.setScale(0.7);
+        scoreText.setScale(0.7);
 
-                                                                        //  Collide with the platforms
+
+        //  Collide with the platforms
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, movingPlatform);
         this.physics.add.collider(player, movingPlatform2);
@@ -285,7 +296,7 @@
         this.physics.add.collider(bombs, movingPlatform2);
         this.physics.add.collider(bombs, movingPlatform3);
 
-                                                        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+        //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
     }
@@ -294,35 +305,61 @@
         if (gameOver) {
             return;
         }
-	
-        if (cursors.left.isDown || left) {
+
+        if (cursors.left.isDown) {
             player.setVelocityX(-160);
             player.anims.play('left', true);
-	    heartsText.x = player.x;
-	    heartsText.y = player.y-70;
-	    scoreText.x = player.x;
-	    scoreText.y = player.y-90;
-        } else if (cursors.right.isDown || right) {
+            heartsText.x = player.x;
+            heartsText.y = player.y-70;
+            scoreText.x = player.x;
+            scoreText.y = player.y-90;
+            btnLeft.x = player.x-30;
+            btnLeft.y = player.y+15;
+            btnUp.x = player.x;
+            btnUp.y = player.y-45;
+            btnRight.x = player.x+30;
+            btnRight.y = player.y+15;
+            this.cameras.main.followOffset.x = 165;
+        } else if (cursors.right.isDown) {
             player.setVelocityX(160);
             player.anims.play('right', true);
-	    heartsText.x = player.x;
-	    heartsText.y = player.y-70;
-	    scoreText.x = player.x;
-	    scoreText.y = player.y-90;
-        }else if( (cursors.up.isDown || up) && player.body.touching.down) {
+            heartsText.x = player.x;
+            heartsText.y = player.y-70;
+            scoreText.x = player.x;
+            scoreText.y = player.y-90;
+            btnLeft.x = player.x-30;
+            btnLeft.y = player.y+15;
+            btnUp.x = player.x;
+            btnUp.y = player.y-45;
+            btnRight.x = player.x+30;
+            btnRight.y = player.y+15;
+            this.cameras.main.followOffset.x = -165;
+        }else if(cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
-	    player.anims.play('run', true);
-	    heartsText.x = player.x;
-	    heartsText.y = player.y-70;
-	    scoreText.x = player.x;
-	    scoreText.y = player.y-90;
-	}else {
+            player.anims.play('run', true);
+            heartsText.x = player.x;
+            heartsText.y = player.y-70;
+            scoreText.x = player.x;
+            scoreText.y = player.y-90;
+            btnLeft.x = player.x-30;
+            btnLeft.y = player.y+15;
+            btnUp.x = player.x;
+            btnUp.y = player.y-45;
+            btnRight.x = player.x+30;
+            btnRight.y = player.y+15;
+        }else {
             player.setVelocityX(0);
             player.anims.play('turn');
-	    heartsText.x = player.x;
-	    heartsText.y = player.y-70;
-	    scoreText.x = player.x;
-	    scoreText.y = player.y-90;
+            heartsText.x = player.x;
+            heartsText.y = player.y-70;
+            scoreText.x = player.x;
+            scoreText.y = player.y-90;
+            btnLeft.x = player.x-30;
+            btnLeft.y = player.y+15;
+            btnUp.x = player.x;
+            btnUp.y = player.y-45;
+            btnRight.x = player.x+30;
+            btnRight.y = player.y+15;
         }
 
         if (movingPlatform.x >= 600 ) {
@@ -343,66 +380,42 @@
             movingPlatform2.setVelocityY(50);
         }
     }
-    function gofull() { game.scale.startFullScreen(false);}
-	
-    function handleMouseDown(mousePointer) {
-	if(mousePointer.x < player.x) {
-            player.setVelocityX(-100);
-            player.anims.play('left', true);
-	    this.physics.moveToObject(player, mousePointer, 1200);
-	}else if(mousePointer.x > player.x) {
-            player.setVelocityX(100);
-            player.anims.play('right', true);
-            this.physics.moveToObject(player, mousePointer, 1200);
-	}else if ((mousePointer.y < player.y || mousePointer.y > player.y) &&  player.body.touching.down) {
-            player.setVelocityY(-90);
-            player.anims.play('run', true);
-	    this.physics.moveToObject(player, mousePointer, 1000);
-	}
-        
-	        
-    }
-    
+
     function collectStar (player, star) {
         star.disableBody(true, true);
-        
         score += 15;
         scoreText.setText('score: ' + score);
 
         if (stars.countActive(true) === 0) {
-              //  A new batch of stars to collect
+            //  A new batch of stars to collect
             stars.children.iterate(function (child) {
                 child.enableBody(true, child.x, 0, true, true);
             });
 
             let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
             let bomb = bombs.create(x, 16, 'bomb');
             bomb.setBounce(1);
+            bomb.setScale(0.4);     //smaller
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
             bomb.allowGravity = false;
+            timedEvent = this.time.delayedCall(3000, onEvent, [], this);
         }
+    }
+    function onEvent(bomb) {
+        bomb.disableBody(true, true);
     }
 
     function hitBomb (player, bomb) {
         player.anims.play('turn');
-
         bomb.disableBody(true, true);
-        /*let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-        let bomb = bombs.create(x, 570, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;*/
-        
         score -= 65.05;
         hearts -= 0.5;
         scoreText.setText('score: ' + score.toFixed(2));
         heartsText.setText('💚: ' + hearts);
 
-        if (hearts === 0) { 
+        if (hearts === 0) {
             player.setTint(0x8B0634);
             this.physics.pause();
             gameOver = true;
