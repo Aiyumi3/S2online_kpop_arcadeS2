@@ -121,7 +121,7 @@
         this.load.image('rightBtn', 'assets/right.png');
         this.load.image('upBtn', 'assets/up.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
-        this.load.audio('theme', ['assets/audio/nctdream_hellofuture.mp3']);
+        //this.load.audio('theme', ['assets/audio/nctdream_hellofuture.mp3']);
 
     }
 
@@ -296,10 +296,10 @@
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
         
-        let music = this.sound.add('theme');
-        music.play({
+        //let music = this.sound.add('theme');
+        //music.play({
             //  loop: true
-        });
+        //});
     }
 
     function update () {
