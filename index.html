@@ -214,6 +214,7 @@
 
         btnUp = this.add.sprite(player.x, player.y-45, 'upBtn').setInteractive();
         btnUp.setScale(0.3);
+        btnUp.setCollideWorldBounds(true); 
         btnUp.on('pointerdown', function(){
             this.setTint(0x8b0634);
             player.setVelocityY(-330);
@@ -227,6 +228,7 @@
 
         btnLeft = this.add.sprite(player.x-30, player.y+15, 'leftBtn').setInteractive();
         btnLeft.setScale(0.3);
+        btnLeft.setCollideWorldBounds(true); 
         btnLeft.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
             player.setVelocityX(-260);
@@ -241,6 +243,7 @@
 
         btnRight = this.add.sprite(player.x+30, player.y+15, 'rightBtn').setInteractive();
         btnRight.setScale(0.3);   //smaller
+        btnRight.setCollideWorldBounds(true); 
         btnRight.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
             player.setVelocityX(260);
@@ -295,7 +298,8 @@
         //this.scale.on('orientationchange', checkOriention, this);
         
         btn = this.add.image(player.x-120, player.y+100, 'upBtn').setInteractive();
-        btn.setScale(0.2);
+        btn.setScale(0.17);
+        btn.setCollideWorldBounds(true); 
         btn.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
