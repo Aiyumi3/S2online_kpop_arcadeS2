@@ -5,8 +5,9 @@
     <title>🍉 Mark catches watermelons 🍉</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
@@ -66,8 +67,8 @@
 
     const config = {    //1207, 720
         type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: (window.innerWidth * window.devicePixelRatio)-160,
-        height: window.innerHeight * window.devicePixelRatio,
+        width: window.innerWidth, //* window.devicePixelRatio,
+        height: window.innerHeight, //* window.devicePixelRatio,
         physics: {
             default: 'arcade',
             arcade: {
@@ -107,7 +108,6 @@
     let btnLeft;
     let btnRight;
     let mousePointer;
-    let timedEvent;
 
 
     function preload () {
@@ -121,15 +121,10 @@
         this.load.image('rightBtn', 'assets/right.png');
         this.load.image('upBtn', 'assets/up.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
-        //this.load.audio('theme', ['assets/audio/nctdream_hellofuture.mp3']);
 
     }
 
     function create () {
-        //let music = this.sound.add('theme');
-        //music.play({
-            //  loop: true
-        //});
 
         this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
@@ -215,48 +210,38 @@
 
         btnUp = this.add.sprite(player.x, player.y-45, 'upBtn').setInteractive();
         btnUp.setScale(0.3);
-        btnUp.on('pointerdown', function(){ //, handleMouseDown, this);
+        btnUp.on('pointerdown', function(){
             this.setTint(0x8b0634);
             player.setVelocityY(-330);
             player.anims.play('run', true);
         });
-        btnUp.on('pointerup', function(/*pointer, localX, localY, event*/){
+        btnUp.on('pointerup', function(){
             this.clearTint();
         });
 
 
         btnLeft = this.add.sprite(player.x-30, player.y+15, 'leftBtn').setInteractive();
         btnLeft.setScale(0.3);
-        btnLeft.on('pointerdown', function(){ //, handleMouseDown, this);
+        btnLeft.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
-
-            //if(mousePointer.isDown){
-            //pointer.worldX,
             player.setVelocityX(-260);
             player.anims.play('left', true);
-            //}
-
+            player.x -= 50;
         });
-        btnLeft.on('pointerup', function(/*pointer, localX, localY, event*/){
+        btnLeft.on('pointerup', function(){
             this.clearTint();
         });
 
 
         btnRight = this.add.sprite(player.x+30, player.y+15, 'rightBtn').setInteractive();
-        //btnRight.setScrollFactor(0);//.fixedToCamera = true;//.setScrollFactor(0);
         btnRight.setScale(0.3);   //smaller
-
-        btnRight.on('pointerdown', function(){ //, handleMouseDown, this);
-            this.setTint(0x8b0634);
-
-            //if(mousePointer.isDown){
-            //pointer.worldX,
+        btnRight.on('pointerdown', function(){ 
+            this.setTint(0x8b0634);,
             player.setVelocityX(260);
             player.anims.play('right', true);
-            //}
-
+            player.x += 50;
         });
-        btnRight.on('pointerup', function(/*pointer, localX, localY, event*/){
+        btnRight.on('pointerup', function(){
             this.clearTint();
         });
 
@@ -363,21 +348,21 @@
         }
 
         if (movingPlatform.x >= 600 ) {
-            movingPlatform.setVelocityX(-50);
+            movingPlatform.setVelocityX(-15);
         } else if (movingPlatform.x <= 310 ) {
-            movingPlatform.setVelocityX(50);
+            movingPlatform.setVelocityX(15);
         }
 
         if (movingPlatform3.x >= 800 ) {
-            movingPlatform3.setVelocityX(-50);
+            movingPlatform3.setVelocityX(-15);
         } else if (movingPlatform3.x <= 500 ) {
-            movingPlatform3.setVelocityX(50);
+            movingPlatform3.setVelocityX(15);
         }
 
         if (movingPlatform2.y >= 450) {
-            movingPlatform2.setVelocityY(-50);
+            movingPlatform2.setVelocityY(-15);
         } else if (movingPlatform2.y <= 270) {
-            movingPlatform2.setVelocityY(50);
+            movingPlatform2.setVelocityY(15);
         }
     }
 
@@ -399,13 +384,9 @@
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
             bomb.allowGravity = false;
-            timedEvent = this.time.delayedCall(3000, onEvent, [], this);
+           
         }
     }
-    function onEvent(bomb) {
-        bomb.disableBody(true, true);
-    }
-
     function hitBomb (player, bomb) {
         player.anims.play('turn');
         bomb.disableBody(true, true);
