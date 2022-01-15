@@ -67,8 +67,8 @@
 
     const config = {    //1207, 720
         type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: window.innerWidth, //* window.devicePixelRatio,
-        height: window.innerHeight, //* window.devicePixelRatio,
+        width: 1207*((720/1207)*(window.innerWidth/window.innerHeight)), //window.innerWidth, //* window.devicePixelRatio,
+        height: window.innerHeight * window.devicePixelRatio,
         physics: {
             default: 'arcade',
             arcade: {
@@ -89,6 +89,11 @@
     };
 
     const game = new Phaser.Game(config);
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorisontally = true;
+    game.scale.pageAlignVertically = true;
+    game.scale.forceLandscape = true;
+    game.scale.setScreenSize(true);
 
     let player;
     let stars;
