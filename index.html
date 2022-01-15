@@ -31,7 +31,7 @@
 <script type="text/javascript">
 
 
-    Swal.fire({
+    const load = Swal.fire({
         imageUrl: 'assets/mark_dino.jpg',
         imageWidth: 180,
         imageHeight: 206,
@@ -138,7 +138,7 @@
         
 
         platforms = this.physics.add.staticGroup();
-        let p1 = platforms.create(390, 677, 'ground').setScale(3).refreshBody();
+        platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');                                     //  create platforms
         platforms.create(70, 600, 'ground2');
@@ -287,16 +287,9 @@
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
         
-        p1.setInteractive();
-        p1.on('pointerup', function () {
-            if (this.scale.isFullscreen){
-                button.setFrame(0);
-                this.scale.stopFullscreen();
-            }else {
-                button.setFrame(1);
-                this.scale.startFullscreen();
-            }
-        }, this);
+        checkOriention(this.scale.orientation);
+        this.scale.on('orientationchange', checkOriention, this);
+       
     }
 
     function update () {
@@ -376,6 +369,15 @@
             movingPlatform2.setVelocityY(-37);
         } else if (movingPlatform2.y <= 270) {
             movingPlatform2.setVelocityY(37);
+        }
+    }
+    function checkOriention (orientation){
+        if (orientation === Phaser.Scale.PORTRAIT){
+            load.alpha = 0.2;
+            this.scale.stopFullscreen();
+        }else if (orientation === Phaser.Scale.LANDSCAPE){
+            load.alpha = 1;
+            this.scale.startFullscreen();
         }
     }
 
