@@ -68,16 +68,16 @@
     const config = {    //1207, 720
         type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
 
-        //width: window.innerWidth * window.devicePixelRatio, //1207*((720/1207)*(window.innerWidth/window.innerHeight))
-        //height: window.innerHeight * window.devicePixelRatio,
+        width: window.innerWidth * window.devicePixelRatio, //1207*((720/1207)*(window.innerWidth/window.innerHeight))
+        height: window.innerHeight * window.devicePixelRatio,
 
-        scale: {
+       /* scale: {
             mode: Phaser.Scale.FIT,
             parent: 'phaser-example',
             autoCenter: 1,//Phaser.Scale.CENTER_BOTH,
             width: 1207,
             height: 720
-        },
+        },*/
         physics: {
             default: 'arcade',
             arcade: {
@@ -261,6 +261,12 @@
         btnRight.on('pointerup', function(){
             this.clearTint();
         });
+        
+        if (width > 900){
+            btnRight.alpha = 0;
+            btnLeft.alpha = 0;
+            btnUp.alpha = 0;
+        }
 
 
 
