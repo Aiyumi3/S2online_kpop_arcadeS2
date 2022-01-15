@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <title>🍉 Mark catches watermelons 🍉</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <!-- <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>-->
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
@@ -38,7 +38,7 @@
         title: 'loading...',
         allowEscapeKey: false,
         allowOutsideClick: false,
-        timer: 15500,
+        timer: 15000,
         timerProgressBar: true,
         didOpen: () => {
             Swal.showLoading()
@@ -55,23 +55,18 @@
             Swal.fire({
                 title: 'Finished!',
                 icon: "success",
-                timer: 900,
+                timer: 700,
                 showConfirmButton: false
             })
         }
     })
-/*
-    let music = new Audio('./assets/audio/nctdream_hellofuture.mp3');
-    music.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-    }, false);
-    music.play();*/
+
+
 
 
     const config = {    //1207, 720
         type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: window.innerWidth * window.devicePixelRatio,
+        width: (window.innerWidth * window.devicePixelRatio)-160,
         height: window.innerHeight * window.devicePixelRatio,
         physics: {
             default: 'arcade',
@@ -112,8 +107,7 @@
     let btnLeft;
     let btnRight;
     let mousePointer;
-    let time = 0;
-    let timer;
+    let timedEvent;
 
 
     function preload () {
@@ -127,22 +121,27 @@
         this.load.image('rightBtn', 'assets/right.png');
         this.load.image('upBtn', 'assets/up.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
-        //this.load.audio('nctDream', ['assets/audio/nctdream_hellofuture.mp3']);
+        //this.load.audio('theme', ['assets/audio/nctdream_hellofuture.mp3']);
+
     }
 
     function create () {
-        this.cameras.main.setBounds(0, 0, 1207, 720);                           // 0,0, 1024, 2048width, height
+        //let music = this.sound.add('theme');
+        //music.play({
+            //  loop: true
+        //});
+
+        this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
-          //  Input Events
+        //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
         mousePointer = this.input.activePointer;
-        //let songs = this.sound.add('nctDream', { loop: true });
-        //songs.play();
+
 
         platforms = this.physics.add.staticGroup();
-        platforms.create(390, 677, 'ground').setScale(2.5).refreshBody();
-        platforms.create(1000, 677, 'ground').setScale(2.5).refreshBody();
+        platforms.create(390, 677, 'ground').setScale(3).refreshBody();
+        platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');                                     //  create platforms
         platforms.create(70, 600, 'ground2');
         platforms.create(580, 530, 'ground2');
@@ -220,7 +219,6 @@
             this.setTint(0x8b0634);
             player.setVelocityY(-330);
             player.anims.play('run', true);
-            player.y -= 30;
         });
         btnUp.on('pointerup', function(/*pointer, localX, localY, event*/){
             this.clearTint();
@@ -231,9 +229,13 @@
         btnLeft.setScale(0.3);
         btnLeft.on('pointerdown', function(){ //, handleMouseDown, this);
             this.setTint(0x8b0634);
-            player.setVelocityX(-100);
+
+            //if(mousePointer.isDown){
+            //pointer.worldX,
+            player.setVelocityX(-260);
             player.anims.play('left', true);
-            player.x -= 50;
+            //}
+
         });
         btnLeft.on('pointerup', function(/*pointer, localX, localY, event*/){
             this.clearTint();
@@ -243,11 +245,16 @@
         btnRight = this.add.sprite(player.x+30, player.y+15, 'rightBtn').setInteractive();
         //btnRight.setScrollFactor(0);//.fixedToCamera = true;//.setScrollFactor(0);
         btnRight.setScale(0.3);   //smaller
+
         btnRight.on('pointerdown', function(){ //, handleMouseDown, this);
             this.setTint(0x8b0634);
-            player.setVelocityX(100);
+
+            //if(mousePointer.isDown){
+            //pointer.worldX,
+            player.setVelocityX(260);
             player.anims.play('right', true);
-            player.x += 50;
+            //}
+
         });
         btnRight.on('pointerup', function(/*pointer, localX, localY, event*/){
             this.clearTint();
@@ -291,17 +298,7 @@
 
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, collectStar, null, this);
-        //this.physics.add.collider(player, bombs, hitBomb, null, this);
-        if(time === 5){
-            //this.time.delayedCall(2000, onEvent, null, this);
-            this.physics.add.collider(platforms, bombs, onEvent, null, this);
-            time -= 5;
-        }else{
-            this.physics.add.collider(player, bombs, hitBomb, null, this);
-        }
-
-
-
+        this.physics.add.collider(player, bombs, hitBomb, null, this);
     }
 
     function update () {
@@ -310,7 +307,7 @@
         }
 
         if (cursors.left.isDown) {
-            player.setVelocityX(-100);
+            player.setVelocityX(-160);
             player.anims.play('left', true);
             heartsText.x = player.x;
             heartsText.y = player.y-70;
@@ -324,7 +321,7 @@
             btnRight.y = player.y+15;
             this.cameras.main.followOffset.x = 165;
         } else if (cursors.right.isDown) {
-            player.setVelocityX(100);
+            player.setVelocityX(160);
             player.anims.play('right', true);
             heartsText.x = player.x;
             heartsText.y = player.y-70;
@@ -366,21 +363,21 @@
         }
 
         if (movingPlatform.x >= 600 ) {
-            movingPlatform.setVelocityX(-20);
+            movingPlatform.setVelocityX(-50);
         } else if (movingPlatform.x <= 310 ) {
-            movingPlatform.setVelocityX(20);
+            movingPlatform.setVelocityX(50);
         }
 
         if (movingPlatform3.x >= 800 ) {
-            movingPlatform3.setVelocityX(-20);
+            movingPlatform3.setVelocityX(-50);
         } else if (movingPlatform3.x <= 500 ) {
-            movingPlatform3.setVelocityX(20);
+            movingPlatform3.setVelocityX(50);
         }
 
         if (movingPlatform2.y >= 450) {
-            movingPlatform2.setVelocityY(-20);
+            movingPlatform2.setVelocityY(-50);
         } else if (movingPlatform2.y <= 270) {
-            movingPlatform2.setVelocityY(20);
+            movingPlatform2.setVelocityY(50);
         }
     }
 
@@ -402,13 +399,11 @@
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
             bomb.allowGravity = false;
-
-            time++;
+            timedEvent = this.time.delayedCall(3000, onEvent, [], this);
         }
     }
-    function onEvent(bomb){
+    function onEvent(bomb) {
         bomb.disableBody(true, true);
-
     }
 
     function hitBomb (player, bomb) {
@@ -424,12 +419,13 @@
             player.setTint(0x8B0634);
             this.physics.pause();
             gameOver = true;
-            timer = setInterval(Swal.fire({
+
+            Swal.fire({
                 title: `✨🎈📢Game over✨🎊🎉 🌸~ your score: ${score} ~🌸`,
                 icon: "success",
                 confirmButtonColor: '#a7fa5a',
                 confirmButtonText: '~reload~'
-            }).then(() => {location.reload();}), 5000);
+            }).then(() => {location.reload();});
         }
     }
 
