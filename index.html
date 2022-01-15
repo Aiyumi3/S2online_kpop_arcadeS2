@@ -211,8 +211,18 @@
             frameRate: 10,
             repeat: -1
         });
+        
+        btn = this.add.image(player.x-120, player.y+100, 'upBtn').setInteractive();
+        btn.setScale(0.17); 
+        btn.on('pointerup', function () {
+            if (this.scale.isFullscreen){
+                this.scale.stopFullscreen();
+            }else{
+                this.scale.startFullscreen();
+            }
+        }, this); 
 
-        btnUp = this.add.sprite(player.x, player.y-45, 'upBtn').setInteractive();
+        btnUp = this.add.sprite(btnRight.x+95, player.y+100, 'upBtn').setInteractive();
         btnUp.setScale(0.3); 
         btnUp.on('pointerdown', function(){
             this.setTint(0x8b0634);
@@ -225,7 +235,7 @@
         });
 
 
-        btnLeft = this.add.sprite(player.x-30, player.y+15, 'leftBtn').setInteractive();
+        btnLeft = this.add.sprite(btn.x+70, player.y+100, 'leftBtn').setInteractive();
         btnLeft.setScale(0.3);
         btnLeft.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
@@ -239,7 +249,7 @@
         });
 
 
-        btnRight = this.add.sprite(player.x+30, player.y+15, 'rightBtn').setInteractive();
+        btnRight = this.add.sprite(btnLeft.x+70, player.y+100, 'rightBtn').setInteractive();
         btnRight.setScale(0.3);   //smaller 
         btnRight.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
@@ -290,19 +300,7 @@
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
-        
-        //checkOriention(this.scale.orientation);
-        //this.scale.on('orientationchange', checkOriention, this);
-        
-        btn = this.add.image(player.x-120, player.y+100, 'upBtn').setInteractive();
-        btn.setScale(0.17); 
-        btn.on('pointerup', function () {
-            if (this.scale.isFullscreen){
-                this.scale.stopFullscreen();
-            }else{
-                this.scale.startFullscreen();
-            }
-        }, this); 
+       
     }
 
     function update () {
@@ -317,21 +315,33 @@
             heartsText.y = player.y-70;
             scoreText.x = player.x;
             scoreText.y = player.y-90;
-            btnLeft.x = player.x-30;
-            btnLeft.y = player.y+15;
-            btnUp.x = player.x;
-            btnUp.y = player.y-45;
-            btnRight.x = player.x+30;
-            btnRight.y = player.y+15;
             if(player.x < 100 ){
                 btn.x = player.x+12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }else if(player.x > 1000){
                 btn.x = player.x-12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x-70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x-95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x-70;
+                btnRight.y = player.y+100;
             }else{
                 btn.x = player.x-120; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }
             this.cameras.main.followOffset.x = 165;
         } else if (cursors.right.isDown) {
@@ -341,21 +351,33 @@
             heartsText.y = player.y-70;
             scoreText.x = player.x;
             scoreText.y = player.y-90;
-            btnLeft.x = player.x-30;
-            btnLeft.y = player.y+15;
-            btnUp.x = player.x;
-            btnUp.y = player.y-45;
-            btnRight.x = player.x+30;
-            btnRight.y = player.y+15;
             if(player.x < 100 ){
                 btn.x = player.x+12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }else if(player.x > 1000){
                 btn.x = player.x-12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x-70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x-95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x-70;
+                btnRight.y = player.y+100;
             }else{
                 btn.x = player.x-120; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }
             this.cameras.main.followOffset.x = -165;
         }else if(cursors.up.isDown && player.body.touching.down) {
@@ -365,29 +387,35 @@
             heartsText.y = player.y-70;
             scoreText.x = player.x;
             scoreText.y = player.y-90;
-            btnLeft.x = player.x-30;
-            btnLeft.y = player.y+15;
-            btnUp.x = player.x;
-            btnUp.y = player.y-45;
-            btnRight.x = player.x+30;
-            btnRight.y = player.y+15;
             if(player.x < 100 ){
                 btn.x = player.x+12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }else if(player.x > 1000){
                 btn.x = player.x-12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x-70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x-95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x-70;
+                btnRight.y = player.y+100;
             }else{
                 btn.x = player.x-120; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }
-            
-            if(player.y < 500){
-                player.y +=20;
-            }else{
-                player.y -=20;
-            }
-                
+                           
         }else {
             player.setVelocityX(0);
             player.anims.play('turn');
@@ -395,21 +423,33 @@
             heartsText.y = player.y-70;
             scoreText.x = player.x;
             scoreText.y = player.y-90;
-            btnLeft.x = player.x-30;
-            btnLeft.y = player.y+15;
-            btnUp.x = player.x;
-            btnUp.y = player.y-45;
-            btnRight.x = player.x+30;
-            btnRight.y = player.y+15;
             if(player.x < 100 ){
                 btn.x = player.x+12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }else if(player.x > 1000){
                 btn.x = player.x-12; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x-70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x-95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x-70;
+                btnRight.y = player.y+100;
             }else{
                 btn.x = player.x-120; 
                 btn.y = player.y+100;
+                btnLeft.x = btn.x+70; 
+                btnLeft.y = player.y+100;
+                btnUp.x = btnRight.x+95;
+                btnUp.y = player.y+100;
+                btnRight.x = btnLeft.x+70;
+                btnRight.y = player.y+100;
             }
         }
 
@@ -431,11 +471,6 @@
             movingPlatform2.setVelocityY(37);
         }
     }
-    /*function checkOriention (orientation){
-        if (orientation === Phaser.Scale.PORTRAIT){
-            this.scale.stopFullscreen();
-        }
-    }*/
 
     function collectStar (player, star) {
         star.disableBody(true, true);
