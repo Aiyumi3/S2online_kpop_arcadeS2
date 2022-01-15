@@ -67,8 +67,17 @@
 
     const config = {    //1207, 720
         type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-        width: window.innerWidth * window.devicePixelRatio, //1207*((720/1207)*(window.innerWidth/window.innerHeight))
-        height: window.innerHeight * window.devicePixelRatio,
+
+        //width: window.innerWidth * window.devicePixelRatio, //1207*((720/1207)*(window.innerWidth/window.innerHeight))
+        //height: window.innerHeight * window.devicePixelRatio,
+
+        scale: {
+            mode: Phaser.Scale.FIT,
+            parent: 'phaser-example',
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: 1207,
+            height: 720
+        },
         physics: {
             default: 'arcade',
             arcade: {
@@ -134,11 +143,11 @@
         cursors = this.input.keyboard.createCursorKeys();
         mousePointer = this.input.activePointer;
 
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        /*game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.pageAlignHorisontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.forceLandscape = true;
-        game.scale.setScreenSize(true);
+        game.scale.setScreenSize(true);*/
        
 
 
