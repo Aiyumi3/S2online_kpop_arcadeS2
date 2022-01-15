@@ -112,7 +112,6 @@
     let btnLeft;
     let btnRight;
     let mousePointer;
-    let button;
 
     function preload () {
         this.load.image('sky', 'assets/sky.jpg');
@@ -139,7 +138,7 @@
         
 
         platforms = this.physics.add.staticGroup();
-        platforms.create(390, 677, 'ground').setScale(3).refreshBody();
+        let p1 = platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');                                     //  create platforms
         platforms.create(70, 600, 'ground2');
@@ -288,9 +287,8 @@
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
         
-        button = this.add.image(0, 1, 'upBtn', 0).setOrigin(1, 0).setInteractive();
-        button.setScrollFactor(0);
-        button.on('pointerup', function () {
+        p1.setInteractive();
+        p1.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 button.setFrame(0);
                 this.scale.stopFullscreen();
