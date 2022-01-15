@@ -213,8 +213,7 @@
         });
 
         btnUp = this.add.sprite(player.x, player.y-45, 'upBtn').setInteractive();
-        btnUp.setScale(0.3);
-        btnUp.setCollideWorldBounds(true); 
+        btnUp.setScale(0.3); 
         btnUp.on('pointerdown', function(){
             this.setTint(0x8b0634);
             player.setVelocityY(-330);
@@ -228,7 +227,6 @@
 
         btnLeft = this.add.sprite(player.x-30, player.y+15, 'leftBtn').setInteractive();
         btnLeft.setScale(0.3);
-        btnLeft.setCollideWorldBounds(true); 
         btnLeft.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
             player.setVelocityX(-260);
@@ -242,8 +240,7 @@
 
 
         btnRight = this.add.sprite(player.x+30, player.y+15, 'rightBtn').setInteractive();
-        btnRight.setScale(0.3);   //smaller
-        btnRight.setCollideWorldBounds(true); 
+        btnRight.setScale(0.3);   //smaller 
         btnRight.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
             player.setVelocityX(260);
@@ -298,8 +295,7 @@
         //this.scale.on('orientationchange', checkOriention, this);
         
         btn = this.add.image(player.x-120, player.y+100, 'upBtn').setInteractive();
-        btn.setScale(0.17);
-        btn.setCollideWorldBounds(true); 
+        btn.setScale(0.17); 
         btn.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
@@ -327,8 +323,16 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
-            btn.x = player.x-120; 
-            btn.y = player.y+100;
+            if(player.x < 100 ){
+                btn.x = player.x+12; 
+                btn.y = player.y+100;
+            }else if(player.x > 1000){
+                btn.x = player.x-12; 
+                btn.y = player.y+100;
+            }else{
+                btn.x = player.x-120; 
+                btn.y = player.y+100;
+            }
             this.cameras.main.followOffset.x = 165;
         } else if (cursors.right.isDown) {
             player.setVelocityX(160);
@@ -343,8 +347,16 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
-            btn.x = player.x-120; 
-            btn.y = player.y+100;
+            if(player.x < 100 ){
+                btn.x = player.x+12; 
+                btn.y = player.y+100;
+            }else if(player.x > 1000){
+                btn.x = player.x-12; 
+                btn.y = player.y+100;
+            }else{
+                btn.x = player.x-120; 
+                btn.y = player.y+100;
+            }
             this.cameras.main.followOffset.x = -165;
         }else if(cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
@@ -359,8 +371,16 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
-            btn.x = player.x-120; 
-            btn.y = player.y+100;
+            if(player.x < 100 ){
+                btn.x = player.x+12; 
+                btn.y = player.y+100;
+            }else if(player.x > 1000){
+                btn.x = player.x-12; 
+                btn.y = player.y+100;
+            }else{
+                btn.x = player.x-120; 
+                btn.y = player.y+100;
+            }
         }else {
             player.setVelocityX(0);
             player.anims.play('turn');
@@ -374,8 +394,16 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
-            btn.x = player.x-120; 
-            btn.y = player.y+100;
+            if(player.x < 100 ){
+                btn.x = player.x+12; 
+                btn.y = player.y+100;
+            }else if(player.x > 1000){
+                btn.x = player.x-12; 
+                btn.y = player.y+100;
+            }else{
+                btn.x = player.x-120; 
+                btn.y = player.y+100;
+            }
         }
 
         if (movingPlatform.x >= 600 ) {
