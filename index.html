@@ -31,7 +31,7 @@
 <script type="text/javascript">
 
 
-    const load = Swal.fire({
+    Swal.fire({
         imageUrl: 'assets/mark_dino.jpg',
         imageWidth: 180,
         imageHeight: 206,
@@ -289,7 +289,14 @@
         
         checkOriention(this.scale.orientation);
         this.scale.on('orientationchange', checkOriention, this);
-       
+        player.setOrigin(1, 0).setInteractive();
+        player.on('pointerup', function () {
+            if (this.scale.isFullscreen){
+                this.scale.stopFullscreen();
+            }else{
+                this.scale.startFullscreen();
+            }
+        }, this); 
     }
 
     function update () {
@@ -373,11 +380,7 @@
     }
     function checkOriention (orientation){
         if (orientation === Phaser.Scale.PORTRAIT){
-            load.alpha = 0.2;
             this.scale.stopFullscreen();
-        }else if (orientation === Phaser.Scale.LANDSCAPE){
-            load.alpha = 1;
-            this.scale.startFullscreen();
         }
     }
 
