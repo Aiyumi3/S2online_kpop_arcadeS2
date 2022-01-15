@@ -64,14 +64,11 @@
    
 
     const config = {    //1207, 720
-        type: Phaser.AUTO,   // CANVAS,window.innerWidth * window.devicePixelRatio,window.innerHeight * window.devicePixelRatio,
-
-        //width: window.innerWidth * window.devicePixelRatio, //1207*((720/1207)*(window.innerWidth/window.innerHeight))
-        //height: window.innerHeight * window.devicePixelRatio,
+        type: Phaser.AUTO,  
         scale: {
             mode: Phaser.Scale.FIT,
             parent: 'phaser-example',
-            
+            autoCenter: Phaser.Scale.CENTER_BOTH,
             width: 1207,
             height: 720
         },
@@ -115,7 +112,7 @@
     let btnLeft;
     let btnRight;
     let mousePointer;
-
+    let button;
 
     function preload () {
         this.load.image('sky', 'assets/sky.jpg');
@@ -139,7 +136,7 @@
         //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
         mousePointer = this.input.activePointer;
-
+        
 
         platforms = this.physics.add.staticGroup();
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
@@ -290,6 +287,17 @@
         //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
+        
+        button = this.add.image(784, 16, 'upBtn', 0).setOrigin(1, 0).setInteractive();
+        button.on('pointerup', function () {
+            if (this.scale.isFullscreen){
+                button.setFrame(0);
+                this.scale.stopFullscreen();
+            }else {
+                button.setFrame(1);
+                this.scale.startFullscreen();
+            }
+        }, this);
     }
 
     function update () {
