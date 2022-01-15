@@ -217,6 +217,7 @@
         btnUp.on('pointerdown', function(){
             this.setTint(0x8b0634);
             player.setVelocityY(-330);
+            player.setFrame(3);
             player.anims.play('run', true);
         });
         btnUp.on('pointerup', function(){
@@ -229,6 +230,7 @@
         btnLeft.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
             player.setVelocityX(-260);
+            player.setFrame(3);
             player.anims.play('left', true);
             player.x -= 50;
         });
@@ -242,6 +244,7 @@
         btnRight.on('pointerdown', function(){ 
             this.setTint(0x8b0634);
             player.setVelocityX(260);
+            player.setFrame(5);
             player.anims.play('right', true);
             player.x += 50;
         });
@@ -291,9 +294,8 @@
         //checkOriention(this.scale.orientation);
         //this.scale.on('orientationchange', checkOriention, this);
         
-        btn = this.add.image(100, 680, 'upBtn').setInteractive();
+        btn = this.add.image(player.x-120, player.y-130, 'upBtn').setInteractive();
         btn.setScale(0.2);
-        btn.setScrollFactor(0);
         btn.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
@@ -321,6 +323,8 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
+            btn.x = player.x-120; 
+            btn.y = player.y-130;
             this.cameras.main.followOffset.x = 165;
         } else if (cursors.right.isDown) {
             player.setVelocityX(160);
@@ -335,6 +339,8 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
+            btn.x = player.x-120; 
+            btn.y = player.y-130;
             this.cameras.main.followOffset.x = -165;
         }else if(cursors.up.isDown && player.body.touching.down) {
             player.setVelocityY(-330);
@@ -349,6 +355,8 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
+            btn.x = player.x-120; 
+            btn.y = player.y-130;
         }else {
             player.setVelocityX(0);
             player.anims.play('turn');
@@ -362,6 +370,8 @@
             btnUp.y = player.y-45;
             btnRight.x = player.x+30;
             btnRight.y = player.y+15;
+            btn.x = player.x-120; 
+            btn.y = player.y-130;
         }
 
         if (movingPlatform.x >= 600 ) {
