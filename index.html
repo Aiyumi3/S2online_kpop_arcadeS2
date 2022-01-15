@@ -71,7 +71,7 @@
         scale: {
             mode: Phaser.Scale.FIT,
             parent: 'phaser-example',
-            autoCenter: 1,
+            
             width: 1207,
             height: 720
         },
@@ -133,7 +133,7 @@
 
     function create () {
 
-        this.cameras.main.setBounds(0, 0, 1207, 820);                           // 0,0, 1024, 2048
+        this.cameras.main.setBounds(0, 0, 1207, 720);                           // 0,0, 1024, 2048
         //  background for game
         this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);
         //  Input Events
