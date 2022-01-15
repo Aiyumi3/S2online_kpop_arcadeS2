@@ -288,7 +288,8 @@
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
         
-        button = this.add.image(784, 16, 'upBtn', 0).setOrigin(1, 0).setInteractive();
+        button = this.add.image(0, 1, 'upBtn', 0).setOrigin(1, 0).setInteractive();
+        button.setScrollFactor(0);
         button.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 button.setFrame(0);
