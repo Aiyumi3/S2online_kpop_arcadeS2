@@ -7,7 +7,7 @@
 
     <script src="//cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-  <!--  <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>-->
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
@@ -177,7 +177,7 @@
         movingPlatform3.setVelocityX(50);                                          // <--> moving platform
 
         // The player and its settings
-        player = this.physics.add.sprite(270, 520, 'dude').setInteractive();;
+        player = this.physics.add.sprite(270, 520, 'dude');
         //  Player physics properties. Give the little guy a slight bounce
         player.setBounce(0.2);
         player.setScale(0.7);
@@ -290,8 +290,9 @@
         checkOriention(this.scale.orientation);
         this.scale.on('orientationchange', checkOriention, this);
         
-        
-        player.on('pointerup', function () {
+        let fullScreen = this.add.sprite(100, 680, 'upBtn').setInteractive();
+        fullScreen.setScale(0.2);
+        fullScreen.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }else{
