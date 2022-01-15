@@ -289,7 +289,8 @@
         
         checkOriention(this.scale.orientation);
         this.scale.on('orientationchange', checkOriention, this);
-        player.setOrigin(1, 0).setInteractive();
+        
+        player.setInteractive();
         player.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
