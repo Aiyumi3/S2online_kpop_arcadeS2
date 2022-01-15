@@ -293,7 +293,7 @@
         
         btn = this.add.image(100, 680, 'upBtn').setInteractive();
         btn.setScale(0.2);
-        btn.fixedToCamera = true;
+        btn.setScrollFactor(0);
         btn.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
