@@ -381,6 +381,13 @@
                 btn.x = player.x-120; 
                 btn.y = player.y+100;
             }
+            
+            if(player.y--){
+                player.y +=20;
+            }else{
+                player.y -=20;
+            }
+                
         }else {
             player.setVelocityX(0);
             player.anims.play('turn');
