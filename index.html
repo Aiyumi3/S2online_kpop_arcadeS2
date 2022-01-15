@@ -112,6 +112,7 @@
     let btnLeft;
     let btnRight;
     let mousePointer;
+    let btn;
 
     function preload () {
         this.load.image('sky', 'assets/sky.jpg');
@@ -287,12 +288,12 @@
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
         
-        checkOriention(this.scale.orientation);
-        this.scale.on('orientationchange', checkOriention, this);
+        //checkOriention(this.scale.orientation);
+        //this.scale.on('orientationchange', checkOriention, this);
         
-        let fullScreen = this.add.sprite(100, 680, 'upBtn').setInteractive();
-        fullScreen.setScale(0.2);
-        fullScreen.on('pointerup', function () {
+        btn = this.add.image(100, 680, 'upBtn').setInteractive();
+        btn.setScale(0.2);
+        btn.on('pointerup', function () {
             if (this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }else{
@@ -380,11 +381,11 @@
             movingPlatform2.setVelocityY(37);
         }
     }
-    function checkOriention (orientation){
+    /*function checkOriention (orientation){
         if (orientation === Phaser.Scale.PORTRAIT){
             this.scale.stopFullscreen();
         }
-    }
+    }*/
 
     function collectStar (player, star) {
         star.disableBody(true, true);
