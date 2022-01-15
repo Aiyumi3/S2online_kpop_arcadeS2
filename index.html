@@ -61,7 +61,13 @@
             })
         }
     })
-
+   /* scale: {
+            mode: Phaser.Scale.FIT,
+            parent: 'phaser-example',
+            autoCenter: 1,//Phaser.Scale.CENTER_BOTH,
+            width: 1207,
+            height: 720
+        },*/
 
 
 
@@ -70,14 +76,6 @@
 
         width: window.innerWidth * window.devicePixelRatio, //1207*((720/1207)*(window.innerWidth/window.innerHeight))
         height: window.innerHeight * window.devicePixelRatio,
-
-       /* scale: {
-            mode: Phaser.Scale.FIT,
-            parent: 'phaser-example',
-            autoCenter: 1,//Phaser.Scale.CENTER_BOTH,
-            width: 1207,
-            height: 720
-        },*/
         physics: {
             default: 'arcade',
             arcade: {
@@ -142,13 +140,6 @@
         //  Input Events
         cursors = this.input.keyboard.createCursorKeys();
         mousePointer = this.input.activePointer;
-
-        /*game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        game.scale.pageAlignHorisontally = true;
-        game.scale.pageAlignVertically = true;
-        game.scale.forceLandscape = true;
-        game.scale.setScreenSize(true);*/
-       
 
 
         platforms = this.physics.add.staticGroup();
@@ -371,21 +362,21 @@
         }
 
         if (movingPlatform.x >= 600 ) {
-            movingPlatform.setVelocityX(-15);
+            movingPlatform.setVelocityX(-37);
         } else if (movingPlatform.x <= 310 ) {
-            movingPlatform.setVelocityX(15);
+            movingPlatform.setVelocityX(37);
         }
 
         if (movingPlatform3.x >= 800 ) {
-            movingPlatform3.setVelocityX(-15);
+            movingPlatform3.setVelocityX(-37);
         } else if (movingPlatform3.x <= 500 ) {
-            movingPlatform3.setVelocityX(15);
+            movingPlatform3.setVelocityX(37);
         }
 
         if (movingPlatform2.y >= 450) {
-            movingPlatform2.setVelocityY(-15);
+            movingPlatform2.setVelocityY(-37);
         } else if (movingPlatform2.y <= 270) {
-            movingPlatform2.setVelocityY(15);
+            movingPlatform2.setVelocityY(37);
         }
     }
 
