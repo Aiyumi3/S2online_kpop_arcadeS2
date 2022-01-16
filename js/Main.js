@@ -369,6 +369,9 @@ function collectStar (player, star) {
         bomb.setScale(0.4);                                              //smaller
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         bomb.allowGravity = false;
+        setInterval(() => {
+            bomb.setCollideWorldBounds(true);
+        }, 30000);
     }
 }
 
