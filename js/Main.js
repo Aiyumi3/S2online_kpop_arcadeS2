@@ -391,6 +391,10 @@ function hitBullet(player, bullet){
         player.setTint(0x8B0634);
         this.physics.pause();
         gameOver = true;
+        
+        if (this.scale.isFullscreen){
+            this.scale.stopFullscreen();
+        }
 
         Swal.fire({
             title: `✨😢📢Game over✨🥴🎊 🌸~ your score: ${score}, hearts: ${hearts} ~🌸`,
