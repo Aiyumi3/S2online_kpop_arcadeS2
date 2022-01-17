@@ -385,6 +385,11 @@ function hitBullet(player, bullet){
     }else if(bullet.y > 580) {
         bullet.y = 580;
     }
+    
+    if (hearts < 0) {
+        hearts = 0;
+        heartsText.setText(`💚: ${hearts}`);
+    }
 
     if (hearts === 0) {
         player.anims.play('turn');
@@ -414,6 +419,11 @@ function hitBomb (player, bomb) {
     hearts -= 0.5;
     scoreText.setText(`score: ${score}`);
     heartsText.setText(`💚: ${hearts}`);
+    
+    if (hearts < 0) {
+        hearts = 0;
+        heartsText.setText(`💚: ${hearts}`);
+    }
 
     if (hearts === 0 || btn.y > 720) {
         player.setTint(0x8B0634);
