@@ -58,26 +58,11 @@ const config = {    //1207, 720
 };
 const game = new Phaser.Game(config);
 
-let player;
-let stars;
-let bombs;
-let platforms;
-let movingPlatform;
-let movingPlatform2;
-let movingPlatform3;
-let cursors;
 let score = 0;
-let bullet1;
 let hearts = 24;
 let gameOver = false;
-let scoreText;
-let heartsText;
-let btnUp;
-let btnLeft;
-let btnRight;
-let mousePointer;
-let btn;
-let tween;
+let player, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, scoreText, bullet1, heartsText, 
+    btnUp, btnLeft, btnRight, mousePointer, btn, tween;
 
 function preload () {
     this.load.image('sky', './assets/sky.jpg');
@@ -273,13 +258,13 @@ function create () {
 function update () {
     if (gameOver) {return;}
 
-    let textXY = () => {
+    const textXY = () => {
         heartsText.x = player.x;
         heartsText.y = player.y-70;
         scoreText.x = player.x;
         scoreText.y = player.y-90;
     };
-    let btnXY = () => {
+    const btnXY = () => {
         if(player.x < 100 ){
             btn.x = player.x+12;
             btn.y = player.y+100;
@@ -334,15 +319,15 @@ function update () {
         btnXY();
     }
 
-    if (movingPlatform.x >= 600 ) {
+    if (movingPlatform.x >= 600) {
         movingPlatform.setVelocityX(-50);
     } else if (movingPlatform.x <= 310 ) {
         movingPlatform.setVelocityX(50);
     }
 
-    if (movingPlatform3.x >= 800 ) {
+    if (movingPlatform3.x >= 800) {
         movingPlatform3.setVelocityX(-50);
-    } else if (movingPlatform3.x <= 500 ) {
+    } else if (movingPlatform3.x <= 500) {
         movingPlatform3.setVelocityX(50);
     }
 
