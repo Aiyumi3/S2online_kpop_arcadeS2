@@ -415,7 +415,7 @@ function hitBomb (player, bomb) {
         heartsText.setText(`💚: ${hearts}`);
     }
 
-    if (hearts === 0 || btn.y > 720) {
+    if (hearts === 0 || btn.y > 700 || player.y > 700) {
         player.setTint(0x8B0634);
         this.physics.pause();
         gameOver = true;
