@@ -6,7 +6,7 @@ Swal.fire({
     title: 'loading...',
     allowEscapeKey: false,
     allowOutsideClick: false,
-    timer: 45000,
+    timer: 65000,
     timerProgressBar: true,
     didOpen: () => {
         Swal.showLoading()
@@ -23,7 +23,7 @@ Swal.fire({
         Swal.fire({
             title: 'Finished!',
             icon: "success",
-            timer: 700,
+            timer: 900,
             showConfirmButton: false
         })
     }
