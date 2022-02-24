@@ -397,6 +397,10 @@ function hitBullet(player, bullet){
 }
 
 function hitBomb (player, bomb) {
+    player.setTint(0x8B0634);
+    setInterval(() => {
+        player.clearTint();
+    }, 1507);
     player.anims.play('turn');
     bomb.disableBody(true, true);
 
