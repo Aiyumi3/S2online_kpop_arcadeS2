@@ -405,6 +405,7 @@ function hitBomb (player, bomb) {
     bomb.disableBody(true, true);
 
     score -= 65.93;
+    score.toFixed(2);
     hearts -= 0.5;
     scoreText.setText(`score: ${score}`);
     heartsText.setText(`💚: ${hearts}`);
