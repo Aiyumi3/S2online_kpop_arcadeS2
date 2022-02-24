@@ -141,7 +141,7 @@ function create () {
     player.setBounce(0.2);                                                   //  a slight bounce
     player.setScale(0.7);                                                    //smaller
     player.setCollideWorldBounds(true);                                      //border's limit
-    this.cameras.main.startFollow(player, true, 0.07, 0.07);
+    this.cameras.main.startFollow(player, true, 0.04, 0.04);
     this.cameras.main.followOffset.set(-100, 0);
     this.cameras.main.setZoom(2);
 
