@@ -404,7 +404,7 @@ function hitBomb (player, bomb) {
     player.anims.play('turn');
     bomb.disableBody(true, true);
 
-    score -= 65.93;
+    score -= 65.02;
     score.toFixed(2);
     hearts -= 0.5;
     scoreText.setText(`score: ${score}`);
