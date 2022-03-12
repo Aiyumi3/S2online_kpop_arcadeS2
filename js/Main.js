@@ -28,7 +28,6 @@ Swal.fire({
         })
     }
 })
-
 const config = {    //1207, 720
     type: Phaser.AUTO,
     scale: {
@@ -61,8 +60,8 @@ const game = new Phaser.Game(config);
 let score = 0;
 let hearts = 24;
 let gameOver = false;
-let player, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, scoreText, bullet1, heartsText, 
-    btnUp, btnLeft, btnRight, mousePointer, btn, tween;
+let player, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, scoreText, bullet1, heartsText,
+    btnUp, btnLeft, btnRight, mousePointer, btn, tween, backgroundSound, bombsound, soundbullet;
 
 function preload () {
     this.load.image('sky', './assets/sky.jpg');
@@ -75,14 +74,36 @@ function preload () {
     this.load.image('rightBtn', './assets/right.png');
     this.load.image('upBtn', './assets/up.png');
     this.load.image('bullet', './assets/bullet-bill.png');
-    this.load.image('cannon', './assets/cannon.png');
     this.load.spritesheet('mark', './assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
+    this.load.audio('background', ['./assets/audio/nctdream_hotsouce_dinover.mp3']);
+    this.load.audio('bombsound', ['./assets/audio/bombsound.wav']);
+    this.load.audio('soundbullet', ['./assets/audio/soundbullet.wav']);
 }
 
 function create () {
     this.cameras.main.setBounds(0, 0, 1207, 720);
     this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);               //  background for game
 
+    backgroundSound =  this.sound.add('background', {
+        volume: 0.003,
+        loop: true
+    });
+    if (!this.sound.locked) {
+        // already unlocked so play
+        backgroundSound.play();
+    } else {
+        // wait for 'unlocked' to fire and then play
+        this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+            backgroundSound.play();
+        });
+    }
+
+    soundbullet = this.sound.add('soundbullet', {
+        volume: 0.3
+    });
+    bombsound = this.sound.add('bombsound', {
+        volume: 0.3
+    });
     cursors = this.input.keyboard.createCursorKeys();                          //  input events
     mousePointer = this.input.activePointer;
 
@@ -247,12 +268,10 @@ function create () {
     this.physics.add.collider(bombs, movingPlatform);
     this.physics.add.collider(bombs, movingPlatform2);
     this.physics.add.collider(bombs, movingPlatform3);
-
-    this.physics.add.collider(player, bullet1, hitBullet, null, this);
     this.physics.add.collider(platforms, bullet1);
-
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+    this.physics.add.collider(player, bullet1, hitBullet, null, this);
 }
 
 function update () {
@@ -351,7 +370,7 @@ function collectStar (player, star) {
         let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
         let bomb = bombs.create(x, 16, 'bomb');
         bomb.setBounce(1);
-        bomb.setScale(0.4);                                              //smaller
+        bomb.setScale(0.2);                                              //smaller
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         bomb.allowGravity = false;
         bomb.setCollideWorldBounds(true);
@@ -360,9 +379,19 @@ function collectStar (player, star) {
 
 function hitBullet(player, bullet){
     player.setTint(0x8B0634);
+    if (!this.sound.locked) {
+        // already unlocked so play
+        soundbullet.play();
+    } else {
+        // wait for 'unlocked' to fire and then play
+        this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+            soundbullet.play();
+        });
+    }
     setInterval(() => {
         player.clearTint();
     }, 3000);
+
     hearts -= 3;
     heartsText.setText(`💚: ${hearts}`);
     if(bullet.x >= 700) {
@@ -370,7 +399,7 @@ function hitBullet(player, bullet){
     }else if(bullet.y > 580) {
         bullet.y = 580;
     }
-    
+
     if (hearts < 0) {
         hearts = 0;
         heartsText.setText(`💚: ${hearts}`);
@@ -382,7 +411,7 @@ function hitBullet(player, bullet){
         player.setTint(0x8B0634);
         this.physics.pause();
         gameOver = true;
-        
+
         if (this.scale.isFullscreen){
             this.scale.stopFullscreen();
         }
@@ -400,7 +429,16 @@ function hitBomb (player, bomb) {
     player.setTint(0x8B0634);
     setInterval(() => {
         player.clearTint();
-    }, 1507);
+    }, 2500);
+    if (!this.sound.locked) {
+        // already unlocked so play
+        bombsound.play();
+    } else {
+        // wait for 'unlocked' to fire and then play
+        this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+            bombsound.play();
+        });
+    }
     player.anims.play('turn');
     bomb.disableBody(true, true);
 
@@ -408,7 +446,7 @@ function hitBomb (player, bomb) {
     hearts -= 0.5;
     scoreText.setText(`score: ${score}`);
     heartsText.setText(`💚: ${hearts}`);
-    
+
     if (hearts < 0) {
         hearts = 0;
         heartsText.setText(`💚: ${hearts}`);
