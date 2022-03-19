@@ -80,7 +80,7 @@ class Example extends Phaser.Scene {
         this.load.image('upBtn', './assets/up.png');
         this.load.image('bullet', './assets/bullet-bill.png');
         this.load.image('fullscreen', './assets/fullscreen.png');
-        this.load.image('watermelon', './assets/wm.png');
+        this.load.image('watermelon', './assets/wm.PNG');
         this.load.image('healing', './assets/healing.png');
         this.load.spritesheet('mark', './assets/dude.png', { frameWidth: 63.3, frameHeight: 93 });
         this.load.audio('background', ['./assets/audio/nctdream_hotsouce_dinover.mp3']);
