@@ -2,16 +2,17 @@ let score = 0;
 let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, scoreText, bullet1, heartsText,
-    btnUp, btnLeft, btnRight, mousePointer, btn, tween, backgroundSound, bombsound, soundbullet, cam, timerInterval, heal, sky, snooze1, snooze2, snooze3, wm1, wm2, wm3, progress;
+    btnUp, btnLeft, btnRight, mousePointer, btn, tween, backgroundSound, bombsound, soundbullet, cam, timerInterval, heal, sky, snooze1, 
+    snooze2, snooze3, wm1, wm2, wm3, progress;
 
 class Example extends Phaser.Scene {
     constructor () {super();}
     
     preload () {
-		    let width = this.cameras.main.width;
+        let width = this.cameras.main.width;
         let height = this.cameras.main.height;
 		
-		    let progressBar = this.add.graphics();
+        let progressBar = this.add.graphics();
         let progressBox = this.add.graphics();
         progressBox.fillStyle(0x222222, 0.8);//color, transparency 
         progressBox.fillRoundedRect(width / 2 - 165, height / 2 - 15, 320, 50, 15);//(x, y, w, h, radius)
@@ -96,9 +97,9 @@ class Example extends Phaser.Scene {
         mousePointer = this.input.activePointer;
 
         startplay = this.add.image(609, 360, 'startplay').setInteractive();
-		    startplay.setScrollFactor(0);
-		    startplay.setScale(0.3);
-		    startplay.setDepth(1); //on top
+        startplay.setScrollFactor(0);
+	startplay.setScale(0.3);
+	startplay.setDepth(1); //on top
         startplay.on('pointerdown', function(){
             this.setTint(0xe0faa5);
         });
@@ -247,8 +248,8 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(-160);
-            player.x -= 80;
+            player.setVelocityX(-110);
+            player.x -= 53;
             player.anims.play('left');
         });
         btnLeft.on('pointerup', function(){
@@ -267,8 +268,8 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(160);
-            player.x += 80;
+            player.setVelocityX(110);
+            player.x += 53;
             player.anims.play('right');
         });
         btnRight.on('pointerup', function(){
@@ -287,7 +288,7 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityY(-130);
+            player.setVelocityY(-95);
             player.y -= 50;
             player.anims.play('run');
         });
@@ -299,7 +300,6 @@ class Example extends Phaser.Scene {
             player.anims.play('turn');
         });
 
-        /////
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,                                                         //in total = 12
@@ -344,7 +344,6 @@ class Example extends Phaser.Scene {
         heal.on('pointerup', function(){
             this.clearTint();
             this.setScale(0.017);
-            //this.disableBody(true, true);
             this.setVisible(false);
         });
             
@@ -540,15 +539,15 @@ class Example extends Phaser.Scene {
 
 
         if(cursors.left.isDown){
-            player.setVelocityX(-160);
-            player.x -= 80;
+            player.setVelocityX(-100);
+            player.x -= 53;
             player.anims.play('left');
         }else if(cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.x += 80;
+            player.setVelocityX(100);
+            player.x += 53;
             player.anims.play('right');
         }else if(cursors.up.isDown) {
-            player.setVelocityY(-130);
+            player.setVelocityY(-90);
             player.y -= 50;
             player.anims.play('run');
         }else if(player.body.touching.down){
