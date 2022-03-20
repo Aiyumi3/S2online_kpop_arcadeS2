@@ -1,22 +1,22 @@
 let score = 0;
 let hearts = 24;
 let gameOver = false;
-let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, scoreText, bullet1, heartsText,
-    btnUp, btnLeft, btnRight, mousePointer, btn, tween, backgroundSound, bombsound, soundbullet, cam, timerInterval, heal, sky, snooze1, 
-    snooze2, snooze3, wm1, wm2, wm3, progress;
+let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, 
+    scoreText, bullet1, heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, tween, 
+	backgroundSound, bombsound, soundbullet, cam, heal, sky, snooze1, snooze2, snooze3, wm1, wm2, wm3, progress;
 
-class Example extends Phaser.Scene {
+class KPopGame extends Phaser.Scene {
     constructor () {super();}
-    
+
     preload () {
         let width = this.cameras.main.width;
         let height = this.cameras.main.height;
-		
+
         let progressBar = this.add.graphics();
         let progressBox = this.add.graphics();
-        progressBox.fillStyle(0x222222, 0.8);//color, transparency 
+        progressBox.fillStyle(0x222222, 0.8);//color, transparency
         progressBox.fillRoundedRect(width / 2 - 165, height / 2 - 15, 320, 50, 15);//(x, y, w, h, radius)
-            
+
         let loadingText = this.make.text({
             x: width / 2 + 10,
             y: height / 2 - 50,
@@ -27,7 +27,7 @@ class Example extends Phaser.Scene {
             }
         });
         loadingText.setOrigin(0.5, 0.5);
-            
+
         let percentText = this.make.text({
             x: width / 2,
             y: height / 2 - 19,
@@ -53,7 +53,7 @@ class Example extends Phaser.Scene {
         this.load.on('progress', function (value) {
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
-            progressBar.fillStyle(0xe0faa5, 1); 
+            progressBar.fillStyle(0xe0faa5, 1);
             progressBar.fillRoundedRect(width / 2 - 155, height / 2 - 5, 300 * value, 30, 15);//(x, y, w, h, radius)
         });
 
@@ -89,17 +89,14 @@ class Example extends Phaser.Scene {
     }
 
     create () {
-      
-        sky = this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);               //  background for game
-        
-        //  From here down is just camera controls and feedback
-        cursors = this.input.keyboard.createCursorKeys();
+        sky = this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);       //  background for game
+
         mousePointer = this.input.activePointer;
 
         startplay = this.add.image(609, 360, 'startplay').setInteractive();
-        startplay.setScrollFactor(0);
-	startplay.setScale(0.3);
-	startplay.setDepth(1); //on top
+        startplay.setScrollFactor(0); // is fixed to cam
+        startplay.setScale(0.3);  //smaller
+        startplay.setDepth(1); //on top
         startplay.on('pointerdown', function(){
             this.setTint(0xe0faa5);
         });
@@ -110,17 +107,17 @@ class Example extends Phaser.Scene {
 
         cam = this.cameras.main;
         cam.setBounds(0, 0, 1207, 720);
-        cam.setZoom(3.5);
+        cam.setZoom(3.5); //zoom in
 
         backgroundSound =  this.sound.add('background', {
             volume: 0.07,
             loop: true
         });
-        if (!this.sound.locked) {
+        if(!this.sound.locked){
             // already unlocked so play
             backgroundSound.play();
-        } else {
-            // wait for 'unlocked' to fire and then play
+        }else{
+            // wait for 'unlocked' and then play
             this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
                 backgroundSound.play();
             });
@@ -132,37 +129,53 @@ class Example extends Phaser.Scene {
             volume: 0.3
         });
 
-        platforms = this.physics.add.staticGroup();                               //  create platforms
+        platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');
         platforms.create(70, 600, 'ground2');
         platforms.create(580, 530, 'ground2');
-        platforms.create(770, 395, 'ground2');
         platforms.create(100, 239, 'ground2');
-        platforms.create(200, 239, 'ground2');
-        platforms.create(973, 258, 'ground2');
-        platforms.create(1099, 409, 'ground2');
+		platforms.create(200, 239, 'ground2');
+        snooze1 = platforms.create(200, 239, 'ground1');
+		platforms.create(973, 258, 'ground2');
+        snooze2 = platforms.create(1050, 258, 'ground1');
+        snooze3 = platforms.create(1099, 409, 'ground2');
         platforms.create(750, 140, 'ground1');
-        platforms.create(433, 320, 'ground2');
+        this.pic = platforms.create(433, 370, 'ground2');
 
-        this.anims.create({
-            key: 'snooze',
-            frames: [{ key: 'ground2' }, { key: 'ground1' }, { key: 'ground2' }, { key: 'ground1', duration: 15 }],
-            frameRate: 8,
+        this.tween1 = this.tweens.add({
+            targets: snooze1,
+            alpha: 0,
+            ease: 'Power1',
+            duration: 700,
+            yoyo: true,
             repeat: -1
         });
-        snooze1 = this.add.sprite(200, 239, 'ground2').play('snooze');                      //platform animation
-        snooze2 = this.add.sprite(973, 258, 'ground2').play('snooze');
-        snooze3 = this.add.sprite(1099, 409, 'ground2').play('snooze');
-
+		this.tween2 = this.tweens.add({
+            targets: snooze2,
+            alpha: 0,
+            ease: 'Power1',
+            duration: 400,
+            yoyo: true,
+            repeat: -1
+        });
+		this.tween3 = this.tweens.add({
+            targets: snooze3,
+            alpha: 0,
+            ease: 'Power1',
+            duration: 170,
+            yoyo: true,
+            repeat: -1
+        });
+		
         movingPlatform = this.physics.add.image(207, 239, 'ground2');
         movingPlatform.setImmovable(true);
-        movingPlatform.body.allowGravity = false;                                         // <--> moving platform
+        movingPlatform.body.allowGravity = false;                             // <--> moving platform
 
         movingPlatform2 = this.physics.add.image(900, 573, 'ground2');
         movingPlatform2.setImmovable(true);
-        movingPlatform2.body.allowGravity = false;                                         // |^ moving platform
+        movingPlatform2.body.allowGravity = false;                            // |^ moving platform
 
         bullet1 = this.physics.add.image(700, 580, 'bullet').setOrigin(0);
         bullet1.setScale(0.4);
@@ -173,7 +186,7 @@ class Example extends Phaser.Scene {
             targets: bullet1,
             x: 1100,
             ease: 'Power1',
-            duration: 3000,
+            duration: 500,
             flipX: true,
             yoyo: true,
             repeat: -1
@@ -181,7 +194,7 @@ class Example extends Phaser.Scene {
 
         movingPlatform3 = this.physics.add.image(770, 395, 'ground2');
         movingPlatform3.setImmovable(true);
-        movingPlatform3.body.allowGravity = false;                                         // <--> moving platform
+        movingPlatform3.body.allowGravity = false;                              // <--> moving platform
 
         player = this.physics.add.sprite(270, 520, 'mark');
         player.setBounce(0.2);                                                   //  a slight bounce
@@ -192,19 +205,19 @@ class Example extends Phaser.Scene {
         this.anims.create({                                                      //  player animations
             key: 'left',
             frames: [ { key: 'mark', frame: 1 }, { key: 'mark', frame: 2 }, { key: 'mark', frame: 3 }],
-            frameRate: 20,
+            frameRate: 17,
             repeat: -1
         });
         this.anims.create({
             key: 'turn',
             frames: [ { key: 'mark', frame: 4 }, { key: 'mark', frame: 6 }],
-            frameRate: 15,
+            frameRate: 7,
             repeat: -1
         });
         this.anims.create({
             key: 'right',
             frames: [ { key: 'mark', frame: 5 }, { key: 'mark', frame: 6 }, { key: 'mark', frame: 7 }],
-            frameRate: 20,
+            frameRate: 17,
             repeat: -1
         });
         this.anims.create({
@@ -218,20 +231,35 @@ class Example extends Phaser.Scene {
         this.physics.add.collider(player, movingPlatform);
         this.physics.add.collider(player, movingPlatform2);
         this.physics.add.collider(player, movingPlatform3);
-        this.physics.add.collider(player, snooze1);
-        this.physics.add.collider(player, snooze2);
-        this.physics.add.collider(player, snooze3);
+        this.physics.add.collider(player, snooze1, fallDown, null, this);
+        this.physics.add.collider(player, snooze2, fallDown, null, this);
+        this.physics.add.collider(player, snooze3, fallDown, null, this);
+		this.physics.add.collider(player, this.pic, fallDown2, null, this);
         this.physics.add.collider(platforms, bullet1);
         this.physics.add.collider(player, bullet1, hitBullet, null, this);
+		
+		function fallDown(player){
+		    player.setVelocityY(333);
+			player.body.setDragY(200);
+            player.y += 50;
+            player.anims.play('run');
+		}
+		function fallDown2(player){
+		    player.setVelocity(-100, -333);
+			player.body.setDragY(-200);
+            player.y -= 50;
+			player.x -= 30;
+            player.anims.play('left');
+		}
 
         btn = this.add.image(443, 453, 'fullscreen').setInteractive();//can tap
-        btn.setScale(0.15);                                                    //smaller
+        btn.setScale(0.15);         //smaller
         btn.setAlpha(0.5);
         btn.setScrollFactor(0); //is fixed to camera
         btn.on('pointerup', function () {
-            if (this.scale.isFullscreen){
+            if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
-                btn.setScale(0.25);                                                    //smaller
+                btn.setScale(0.25);             //smaller
                 btn.setAlpha(0.5);
             }else{
                 this.scale.startFullscreen();
@@ -248,8 +276,7 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(-110);
-            player.x -= 53;
+            player.setVelocityX(-210);
             player.anims.play('left');
         });
         btnLeft.on('pointerup', function(){
@@ -268,8 +295,7 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(110);
-            player.x += 53;
+            player.setVelocityX(210);
             player.anims.play('right');
         });
         btnRight.on('pointerup', function(){
@@ -288,8 +314,7 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityY(-95);
-            player.y -= 50;
+            player.setVelocityY(-295);
             player.anims.play('run');
         });
         btnUp.on('pointerup', function(){
@@ -306,7 +331,7 @@ class Example extends Phaser.Scene {
             setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 107 }
         });
         stars.children.iterate(function (child) {
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));            // a slightly different bounce for each watermelon
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));          // a slightly different bounce for each watermelon
             child.setCollideWorldBounds(true);
             child.setScale(0.5);
         });
@@ -318,7 +343,7 @@ class Example extends Phaser.Scene {
         heartsText.setShadow(2, 2,'#2a031b', 1, false, true);
 
         scoreText = this.add.text(437, 255, 'score: 0', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'Comic Sans MS',
-             stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3});
+            stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3});
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
 
@@ -329,8 +354,8 @@ class Example extends Phaser.Scene {
         heal.on('pointerdown', function(){
             this.setTint(0xe0faa5);
             this.setScale(0.08);
-            
-            if(hearts >= 17 && hearts <= 24) {
+
+            if(hearts >= 17 && hearts <= 24){
                 hearts += 1.5;
                 heartsText.setText(`💚: ${hearts}`);
             }else if(hearts < 9){
@@ -346,12 +371,12 @@ class Example extends Phaser.Scene {
             this.setScale(0.017);
             this.setVisible(false);
         });
-            
+
         progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm3 = this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
-       
+
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
         this.physics.add.collider(stars, movingPlatform3);
@@ -363,15 +388,14 @@ class Example extends Phaser.Scene {
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
 
-
         function hitBullet(player, bullet){
             player.setTint(0x8B0634);
             player.anims.play('turn');
-            if (!this.sound.locked) {
+            if(!this.sound.locked){
                 // already unlocked so play
                 soundbullet.play();
-            } else {
-                // wait for 'unlocked' to fire and then play
+            }else{
+                // wait for 'unlocked' and then play
                 this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
                     soundbullet.play();
                 });
@@ -382,25 +406,24 @@ class Example extends Phaser.Scene {
 
             hearts -= 3;
             heartsText.setText(`💚: ${hearts}`);
-            if(bullet.x >= 700) {
+            if(bullet.x >= 700){
                 player.x = 500;
-            }else if(bullet.y > 580) {
+            }else if(bullet.y > 580){
                 bullet.y = 580;
             }
 
-            if (hearts < 0) {
+            if(hearts < 0){
                 hearts = 0;
                 heartsText.setText(`💚: ${hearts}`);
             }
 
-            if (hearts === 0) {
-              
+            if(hearts === 0){
                 bullet.disableBody(true, true);
                 player.setTint(0x8B0634);
                 this.physics.pause();
                 gameOver = true;
 
-                if (this.scale.isFullscreen){
+                if(this.scale.isFullscreen){
                     this.scale.stopFullscreen();
                 }
 
@@ -412,15 +435,15 @@ class Example extends Phaser.Scene {
                 }).then(() => {location.reload();})
             }
         }
-        
-        function collectStar (player, star) {
+
+        function collectStar(player, star){
             star.disableBody(true, true);
             score += 5;
             scoreText.setText(`score: ${score}`);
 
-            if (stars.countActive(true) === 0) {
-                stars.children.iterate(function (child) {
-                  //  new watermelons
+            if(stars.countActive(true) === 0){
+                stars.children.iterate(function(child){
+                    //  new watermelons
                     child.enableBody(true, child.x, Phaser.Math.Between(3, 525), true, true);
                 });
 
@@ -433,20 +456,20 @@ class Example extends Phaser.Scene {
                 bomb.setCollideWorldBounds(true);
                 setInterval(() => {
                     bomb.disableBody(true, true);
-            }, 19703);
+                }, 19703);
             }
         }
-        
-        function hitBomb(player, bomb) {
+
+        function hitBomb(player, bomb){
             player.setTint(0x8B0634);
             setInterval(() => {
                 player.clearTint();
             }, 2500);
-            if (!this.sound.locked) {
+            if(!this.sound.locked){
                 // already unlocked so play
                 bombsound.play();
-            } else {
-                // wait for 'unlocked' to fire and then play
+            }else{
+                // wait for 'unlocked' and then play
                 this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {bombsound.play();});
             }
             player.anims.play('turn');
@@ -457,18 +480,18 @@ class Example extends Phaser.Scene {
             scoreText.setText(`score: ${score}`);
             heartsText.setText(`💚: ${hearts}`);
 
-            if (hearts < 0) {
+            if(hearts < 0){
                 hearts = 0;
                 heartsText.setText(`💚: ${hearts}`);
             }
 
-            if (hearts === 0 || btn.y > 700 || player.y > 700) {
+            if(hearts === 0 || btn.y > 700 || player.y > 700){
                 player.setTint(0x8B0634);
                 this.physics.pause();
                 gameOver = true;
-                
-                if (this.scale.isFullscreen) {
-                  this.scale.stopFullscreen();
+
+                if(this.scale.isFullscreen){
+                    this.scale.stopFullscreen();
                 }
 
                 Swal.fire({
@@ -479,15 +502,13 @@ class Example extends Phaser.Scene {
                 }).then(() => {location.reload();})
             }
         }
-
-    }        
+    }
 
     update () {
-
         if(gameOver){
-          return;//allows to show alert
+            return;//allows to show alert
         }
-        
+
         if((score > 562 && score < 600) || (hearts <= 12 && hearts > 5)){
             heal.setVisible(true);
         }
@@ -496,70 +517,50 @@ class Example extends Phaser.Scene {
             heartsText.setText(`💚: ${hearts}`);
             heal.setVisible(false);
         }
-        
+
         progress.clear();
         const size = 200; //width rect
         let sizeCh = (size*score)/3425;
-        
+
         progress.fillStyle(0x463b66, 0.5);
         progress.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
-        
+
         progress.fillStyle(0xb2f731, 0.9);
         progress.fillRect(514, 264.5, sizeCh, 9);
-        
-       if(score >= 3425){
+
+        if(score >= 3425){
             this.physics.pause();
             gameOver = true;
-            Swal.fire({ // alert 
-              title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
-              icon: 'success',
-              confirmButtonColor: '#a7fa5a',
-              confirmButtonText: '~reload~'
+            Swal.fire({ // alert
+                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
+                icon: 'success',
+                confirmButtonColor: '#a7fa5a',
+                confirmButtonText: '~reload~'
             }).then(() => { location.reload(); })
         }
-        
-        if (movingPlatform.x >= 600) {
+
+        if(movingPlatform.x >= 600){
             movingPlatform.setVelocityX(-193);
-        } else if (movingPlatform.x <= 310 ) {
-            movingPlatform.setVelocityX(400);
+        }else if(movingPlatform.x <= 310){
+            movingPlatform.setVelocityX(500);
         }
 
-        if (movingPlatform3.x >= 750) {
-            movingPlatform3.setVelocityX(-106);
-        } else if (movingPlatform3.x <= 409) {
-            movingPlatform3.setVelocityX(30);
+        if(movingPlatform3.x >= 770){
+            movingPlatform3.setVelocityX(-290);
+        }else if(movingPlatform3.x <= 520){
+            movingPlatform3.setVelocityX(77);
         }
 
-        if (movingPlatform2.y >= 550) {
-            movingPlatform2.setVelocityY(-290);
-        } else if (movingPlatform2.y <= 219) {
-            movingPlatform2.setVelocityY(95);
+        if(movingPlatform2.y >= 555){
+            movingPlatform2.setVelocityY(-340);
+        }else if(movingPlatform2.y <= 200){
+            movingPlatform2.setVelocityY(131);
         }
-
-
-
-        if(cursors.left.isDown){
-            player.setVelocityX(-100);
-            player.x -= 53;
-            player.anims.play('left');
-        }else if(cursors.right.isDown) {
-            player.setVelocityX(100);
-            player.x += 53;
-            player.anims.play('right');
-        }else if(cursors.up.isDown) {
-            player.setVelocityY(-90);
-            player.y -= 50;
-            player.anims.play('run');
-        }else if(player.body.touching.down){
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }
+		
+		this.pic.rotation -= 0.5;
 
     }
-
 }
-
-
 
 const config = {
     type: Phaser.AUTO,
@@ -583,7 +584,6 @@ const config = {
         }
     },
     backgroundColor: '#000000',
-    scene: [ Example ]
+    scene: [ KPopGame ]
 };
-
 const game = new Phaser.Game(config);
