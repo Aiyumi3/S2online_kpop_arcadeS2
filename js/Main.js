@@ -3,7 +3,7 @@ let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, cursors, 
     scoreText, bullet1, heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, tween, 
-	backgroundSound, bombsound, soundbullet, cam, heal, sky, snooze1, snooze2, snooze3, wm1, wm2, wm3, progress;
+    backgroundSound, bombsound, soundbullet, cam, heal, sky, snooze1, snooze2, snooze3, wm1, wm2, wm3, progress;
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -136,9 +136,9 @@ class KPopGame extends Phaser.Scene {
         platforms.create(70, 600, 'ground2');
         platforms.create(580, 530, 'ground2');
         platforms.create(100, 239, 'ground2');
-		platforms.create(200, 239, 'ground2');
+	platforms.create(200, 239, 'ground2');
         snooze1 = platforms.create(200, 239, 'ground1');
-		platforms.create(973, 258, 'ground2');
+	platforms.create(973, 258, 'ground2');
         snooze2 = platforms.create(1050, 258, 'ground1');
         snooze3 = platforms.create(1099, 409, 'ground2');
         platforms.create(750, 140, 'ground1');
@@ -152,7 +152,7 @@ class KPopGame extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-		this.tween2 = this.tweens.add({
+        this.tween2 = this.tweens.add({
             targets: snooze2,
             alpha: 0,
             ease: 'Power1',
@@ -160,7 +160,7 @@ class KPopGame extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-		this.tween3 = this.tweens.add({
+	this.tween3 = this.tweens.add({
             targets: snooze3,
             alpha: 0,
             ease: 'Power1',
@@ -234,25 +234,25 @@ class KPopGame extends Phaser.Scene {
         this.physics.add.collider(player, snooze1, fallDown, null, this);
         this.physics.add.collider(player, snooze2, fallDown, null, this);
         this.physics.add.collider(player, snooze3, fallDown, null, this);
-		this.physics.add.collider(player, this.pic, fallDown2, null, this);
+	this.physics.add.collider(player, this.pic, fallDown2, null, this);
         this.physics.add.collider(platforms, bullet1);
         this.physics.add.collider(player, bullet1, hitBullet, null, this);
 		
-		function fallDown(player){
-		    player.setVelocityY(333);
-			player.body.setDragY(200);
+	function fallDown(player){
+	    player.setVelocityY(333);
+	    player.body.setDragY(200);
             player.y += 50;
             player.anims.play('run');
-		}
-		function fallDown2(player){
-		    player.setVelocity(-100, -333);
-			player.body.setDragY(-200);
+	}
+	function fallDown2(player){
+            player.setVelocity(-100, -333);
+            player.body.setDragY(-200);
             player.y -= 50;
-			player.x -= 30;
+	    player.x -= 30;
             player.anims.play('left');
-		}
+	}
 
-        btn = this.add.image(443, 453, 'fullscreen').setInteractive();//can tap
+        btn = this.add.image(443, 453, 'fullscreen').setInteractive(); //can tap
         btn.setScale(0.15);         //smaller
         btn.setAlpha(0.5);
         btn.setScrollFactor(0); //is fixed to camera
@@ -557,7 +557,7 @@ class KPopGame extends Phaser.Scene {
             movingPlatform2.setVelocityY(131);
         }
 		
-		this.pic.rotation -= 0.5;
+	this.pic.rotation -= 0.5;
 
     }
 }
@@ -583,7 +583,7 @@ const config = {
             capture: true
         }
     },
-    backgroundColor: '#000000',
+    backgroundColor: '#1d0126',
     scene: [ KPopGame ]
 };
 const game = new Phaser.Game(config);
