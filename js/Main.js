@@ -5,7 +5,7 @@ let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
     sky, snooze1, snooze2, snooze3, progress;
 
-class Example extends Phaser.Scene {
+class KPopGame extends Phaser.Scene {
     constructor () {super();}
 
     preload () {
@@ -14,7 +14,7 @@ class Example extends Phaser.Scene {
 
         let progressBar = this.add.graphics();
         let progressBox = this.add.graphics();
-        progressBox.fillStyle(0x222222, 0.8);//color, transparency
+        progressBox.fillStyle(0x222222, 0.3);//color, transparency
         progressBox.fillRoundedRect(width / 2 - 165, height / 2 - 15, 320, 50, 15);//(x, y, w, h, radius)
 
         let loadingText = this.make.text({
@@ -53,7 +53,7 @@ class Example extends Phaser.Scene {
         this.load.on('progress', function (value) {
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
-            progressBar.fillStyle(0xe0faa5, 1);
+            progressBar.fillStyle(0xb1f0e1, 0.7);
             progressBar.fillRoundedRect(width / 2 - 155, height / 2 - 5, 300 * value, 30, 5);//(x, y, w, h, radius)
         });
 
@@ -137,37 +137,33 @@ class Example extends Phaser.Scene {
         platforms.create(580, 530, 'ground2');
         platforms.create(100, 239, 'ground2');
 	platforms.create(200, 239, 'ground2');
-        snooze1 = platforms.create(200, 239, 'ground1');
+        snooze1 = platforms.create(250, 239, 'ground1').setScale(0.7);
 	platforms.create(973, 258, 'ground2');
-        snooze2 = platforms.create(1050, 258, 'ground1');
-        snooze3 = platforms.create(1099, 409, 'ground2');
+        snooze2 = platforms.create(990, 258, 'ground1');
+        snooze3 = platforms.create(1099, 409, 'ground2').setScale(0.7);
         platforms.create(750, 140, 'ground1');
-        fly = platforms.create(433, 370, 'ground2');
+        fly = platforms.create(433, 370, 'ground2').setScale(0.5);
 
-        this.tweens.add({
-            targets: snooze1,
-            alpha: 0,
-            ease: 'Power1',
-            duration: 700,
-            yoyo: true,
-            repeat: -1
-        });
-	this.tweens.add({
-            targets: snooze2,
-            alpha: 0,
-            ease: 'Power1',
-            duration: 400,
-            yoyo: true,
-            repeat: -1
-        });
-	this.tweens.add({
-            targets: snooze3,
-            alpha: 0,
-            ease: 'Power1',
-            duration: 170,
-            yoyo: true,
-            repeat: -1
-        });
+        setInterval(() => {   //animation
+            snooze1.disableBody(true, true);
+        }, 3107);
+	setInterval(() => {   //animation
+            snooze1.enableBody(true, snooze1.x, snooze1.y, true, true);
+        }, 1050);
+	    
+	setInterval(() => {   //animation
+            snooze2.disableBody(true, true);
+        }, 1000);
+	setInterval(() => {   //animation
+            snooze2.enableBody(true, snooze2.x, snooze2.y, true, true);
+        }, 555);
+	    
+	setInterval(() => {   //animation
+            snooze3.disableBody(true,true);
+        }, 900);
+	setInterval(() => {   //animation
+            snooze3.enableBody(true, snooze3.x, snooze3.y, true, true);
+        }, 280);
 		
         movingPlatform = this.physics.add.image(207, 239, 'ground2');
         movingPlatform.setImmovable(true);
@@ -231,25 +227,12 @@ class Example extends Phaser.Scene {
         this.physics.add.collider(player, movingPlatform);
         this.physics.add.collider(player, movingPlatform2);
         this.physics.add.collider(player, movingPlatform3);
-        this.physics.add.collider(player, snooze1, fallDown, null, this);
-        this.physics.add.collider(player, snooze2, fallDown, null, this);
-        this.physics.add.collider(player, snooze3, fallDown, null, this);
+        this.physics.add.collider(player, snooze1);
+        this.physics.add.collider(player, snooze2);
+        this.physics.add.collider(player, snooze3);
 	this.physics.add.collider(player, fly, upWay, null, this);
         this.physics.add.collider(platforms, bullet1);
         this.physics.add.collider(player, bullet1, hitBullet, null, this);
-		
-	function fallDown(player){
-            player.setVelocityY(333);
-	    player.body.setDragY(200);
-            player.anims.play('run');
-	}
-	function upWay(player){
-	    player.setVelocity(-100, -333);
-	    player.body.setDragY(-200);
-            //player.y -= 50;
-	    //player.x -= 30;
-            player.anims.play('left');
-	}
 
         btn = this.add.image(443, 453, 'fullscreen').setInteractive();//can tap
         btn.setScale(0.15);         //smaller
@@ -262,7 +245,7 @@ class Example extends Phaser.Scene {
                 btn.setAlpha(0.5);
             }else{
                 this.scale.startFullscreen();
-                btn.setScale(0.19);                                                    //smaller
+                btn.setScale(0.19);                                  //smaller
                 btn.setAlpha(0.7);
             }
         }, this);
@@ -275,7 +258,7 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(-210);
+            player.setVelocityX(-410);
             player.anims.play('left');
         });
         btnLeft.on('pointerup', function(){
@@ -294,8 +277,9 @@ class Example extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(210);
+            player.setVelocityX(480);
             player.anims.play('right');
+	    player.x += 25;
         });
         btnRight.on('pointerup', function(){
             this.clearTint();
@@ -387,7 +371,14 @@ class Example extends Phaser.Scene {
         this.physics.add.overlap(player, stars, collectStar, null, this);
         this.physics.add.collider(player, bombs, hitBomb, null, this);
 
-        function hitBullet(player, bullet){
+        function upWay(player){
+	    player.setVelocity(-160, -450);
+            player.y -= 99;
+	    player.x -= 50;
+            player.anims.play('left');
+	}
+	
+	function hitBullet(player, bullet){
             player.setTint(0x8B0634);
             player.anims.play('turn');
             if(!this.sound.locked){
@@ -484,7 +475,7 @@ class Example extends Phaser.Scene {
                 heartsText.setText(`💚: ${hearts}`);
             }
 
-            if(hearts === 0 || btn.y > 700 || player.y > 700){
+            if(hearts === 0 || player.y > 700){
                 player.setTint(0x8B0634);
                 this.physics.pause();
                 gameOver = true;
@@ -505,7 +496,7 @@ class Example extends Phaser.Scene {
 
     update () {
         if(gameOver){
-            return;//allows to show alert
+            return;  //allows to show alert
         }
 
         if((score > 562 && score < 600) || (hearts <= 12 && hearts > 5)){
@@ -583,6 +574,6 @@ const config = {
         }
     },
     backgroundColor: '#734ca1',
-    scene: [ Example ]
+    scene: [ KPopGame ]
 };
 const game = new Phaser.Game(config);
