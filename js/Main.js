@@ -1,5 +1,6 @@
 let score = 0;
 let hearts = 24;
+let time = 0;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
@@ -129,7 +130,9 @@ class KPopGame extends Phaser.Scene {
             volume: 0.3
         });
 
-        platforms = this.physics.add.staticGroup();                        //  create platforms
+        time++;
+            
+	platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');
@@ -499,7 +502,16 @@ class KPopGame extends Phaser.Scene {
             return;  //allows to show alert
         }
 
-        if((score > 562 && score < 600) || (hearts <= 12 && hearts > 5)){
+        if(time === 60){
+            let timeM = 0;
+            timeM++;
+            time -= 60;
+            if(timeM === 15){
+		heal.setVisible(true); 
+		timeM -= 15;
+	    }
+        }
+	if(score == 700){
             heal.setVisible(true);
         }
         if(hearts >= 24){
@@ -518,15 +530,20 @@ class KPopGame extends Phaser.Scene {
         progress.fillStyle(0xb2f731, 0.9);
         progress.fillRect(514, 264.5, sizeCh, 9);
 
-        if(score >= 3425){
+        if(score >= 25){
             this.physics.pause();
             gameOver = true;
             Swal.fire({ // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
+		showCancelButton: true,
                 confirmButtonColor: '#a7fa5a',
-                confirmButtonText: '~reload~'
-            }).then(() => { location.reload(); })
+                confirmButtonText: '~reload~',
+		cancelButtonColor: '#9f4ae0',
+		cancelButtonText: '~continue~'
+            }).then((result) => { 
+		if (result.isConfirmed) {location.reload();}
+	    })
         }
 
         if(movingPlatform.x >= 600){
