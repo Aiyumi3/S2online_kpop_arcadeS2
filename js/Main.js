@@ -134,7 +134,7 @@ class KPopGame extends Phaser.Scene {
             
 	platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
-        platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
+       // platforms.create(1000, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');
         platforms.create(70, 600, 'ground2');
         platforms.create(580, 530, 'ground2');
