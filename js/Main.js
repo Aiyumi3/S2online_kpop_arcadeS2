@@ -370,8 +370,8 @@ class KPopGame extends Phaser.Scene {
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
 
 	   //progressBox.destroy();
-	if(progress.width == progressBox.width){
-	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
+	//if(progress.width == progressBox.width){
+	progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.physics.pause();
             gameOver = true;
             let winMG = Swal.fire({ // alert
