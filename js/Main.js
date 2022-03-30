@@ -363,7 +363,7 @@ class KPopGame extends Phaser.Scene {
 	setInterval(() => {   //animation
             //heal.setAlpha(1);//
 	    heal.enableBody(true, 763, 282, true, true);
-        }, 900000);
+        }, 15000);
        
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         let progressBox = this.add.graphics().setScrollFactor(0);
@@ -374,16 +374,10 @@ class KPopGame extends Phaser.Scene {
         this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
 	    
-	const size = 200; //width rect
-        let sizeCh = (size*score)/3425;
-       // this.load.on('progress', function (value) {
-            progress.clear();
-            progress.fillStyle(0xb2f731, 0.9);
-            progress.fillRect(514, 264.5, sizeCh, 9);
-        //});
+	
         //this.load.on('complete', function () {
             //progressBox.destroy();
-	 if (sizeCh == size){
+	 progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.physics.pause();
             gameOver = true;
             Swal.fire({ // alert
@@ -405,7 +399,11 @@ class KPopGame extends Phaser.Scene {
 		    progress.fillRect(514, 264.5, size, 9);//sizeCh = size;
 		}
 	    })
-	 }
+         }, this);
+
+	 //if (sizeCh == size){
+            
+	 //}
         //});
 
         this.physics.add.collider(stars, movingPlatform);
@@ -551,8 +549,12 @@ class KPopGame extends Phaser.Scene {
 	    heal.enableBody(true, 763, 282, true, true);
             //heal.setAlpha(1);
         }
-	
-	
+	const size = 200; //width rect
+        let sizeCh = (size*score)/3425;
+        progress.clear();
+        progress.fillStyle(0xb2f731, 0.9);
+        progress.fillRect(514, 264.5, sizeCh, 9);
+        
         if(hearts >= 24){
             hearts = 24;
             heartsText.setText(`💚: ${hearts}`);
