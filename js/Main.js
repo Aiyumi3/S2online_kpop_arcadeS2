@@ -503,7 +503,7 @@ class KPopGame extends Phaser.Scene {
 
 	 if(time === 180){
 	     heal.setVisible(true); 
-	     time = 0;
+	     clearInterval(time);
         }
 	console.log(time);
 	
