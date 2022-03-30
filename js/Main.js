@@ -4,7 +4,6 @@ let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
     sky, snooze1, snooze2, snooze3, progress; 
-let time = 0;
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -355,13 +354,10 @@ class KPopGame extends Phaser.Scene {
             this.setScale(0.017);
             this.setVisible(false);
         });
-	let timer = setInterval(() => {
-	  console.log(time++);
-	  if(time == 180){
-	      heal.setVisible(true); 
-	      time -= 180;
-	  }
-        }, 180000);
+	
+	setInterval(() => {   
+            heal.setVisible(true);
+        }, 5000);
        
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
