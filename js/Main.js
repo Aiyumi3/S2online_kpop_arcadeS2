@@ -530,7 +530,7 @@ class KPopGame extends Phaser.Scene {
         progress.fillStyle(0xb2f731, 0.9);
         progress.fillRect(514, 264.5, sizeCh, 9);
 
-        if(score >= 25){
+        if(score == 25){
             this.physics.pause();
             gameOver = true;
             Swal.fire({ // alert
