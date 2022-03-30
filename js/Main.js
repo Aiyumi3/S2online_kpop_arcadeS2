@@ -89,16 +89,7 @@ class KPopGame extends Phaser.Scene {
         this.load.audio('soundbullet', ['./assets/audio/soundbullet.wav']);
     }
 
-    create () {
-	//  Create  Timer
-        timer = game.time.create(false);
-
-        //  Set a TimerEvent to occur after 2 seconds
-        timer.loop(2000, updateCounter, this);
-
-        //  Start the timer running 
-        timer.start();
-	    
+    create () {	    
         sky = this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);       //  background for game
 
         mousePointer = this.input.activePointer;
@@ -139,6 +130,15 @@ class KPopGame extends Phaser.Scene {
             volume: 0.3
         });
             
+	//  Create  Timer
+        timer = game.time.create(false);
+
+        //  Set a TimerEvent to occur after 2 seconds
+        timer.loop(2000, updateCounter, this);
+
+        //  Start the timer running 
+        timer.start();
+	    
 	platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1200, 677, 'ground').setScale(3).refreshBody();
