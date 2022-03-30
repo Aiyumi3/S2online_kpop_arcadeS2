@@ -502,8 +502,8 @@ class KPopGame extends Phaser.Scene {
 
         time++;
 	
-        if(time === 60000){
-            time -= 60000;
+        if(time == 2000){
+            time -= 2000;
              heal.setVisible(true); 
         }
 	if(score == 700){
@@ -542,6 +542,7 @@ class KPopGame extends Phaser.Scene {
 		    gameOver = false; 
 		    this.physics.resume();
 	            score += 1;
+		    progress.fillStyle(0xb2f731, 0.9);
 		    progress.fillRect(514, 264.5, size, 9);
 		}
 	    })
