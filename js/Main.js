@@ -365,12 +365,6 @@ class KPopGame extends Phaser.Scene {
         });
 	    
 	timedEvent = 0;
-	timedEvent++;
-	 console.log(timedEvent);
-        if(timedEvent == 2000){
-	    heal.setVisible(true); 
-            timedEvent = 0;
-	}
 
         progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -516,6 +510,12 @@ class KPopGame extends Phaser.Scene {
             return;  //allows to show alert
         }
 
+	 timedEvent++;
+	 console.log(timedEvent);
+        if(timedEvent == 2000){
+	    heal.setVisible(true); 
+            timedEvent = 0;
+	}
 	if(score == 700){
             heal.setVisible(true);
         }
