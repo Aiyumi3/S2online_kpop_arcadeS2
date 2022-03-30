@@ -3,7 +3,7 @@ let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress; 
+    sky, snooze1, snooze2, snooze3, progress, progressBox; 
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -360,7 +360,7 @@ class KPopGame extends Phaser.Scene {
 	    heal.enableBody(true, 763, 282, true, true);
         }, 15000);
         
-	let progressBox = this.add.graphics().setScrollFactor(0);
+	progressBox = this.add.graphics().setScrollFactor(0);
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
         progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
