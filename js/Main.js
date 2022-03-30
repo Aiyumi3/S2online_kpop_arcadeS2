@@ -3,8 +3,8 @@ let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress; 
-let timedEvent = 0;
+    sky, snooze1, snooze2, snooze3, progress, timedEvent; 
+//let timedEvent = 0;
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -129,15 +129,6 @@ class KPopGame extends Phaser.Scene {
         bombsound = this.sound.add('bombsound', {
             volume: 0.3
         });
-            
-	//  Create  Timer
-        timer = game.time.create(false);
-
-        //  Set a TimerEvent to occur after 2 seconds
-        timer.loop(2000, updateCounter, this);
-
-        //  Start the timer running 
-        timer.start();
 	    
 	platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
@@ -364,8 +355,15 @@ class KPopGame extends Phaser.Scene {
             this.setScale(0.017);
             this.setVisible(false);
         });
-	    
-        progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
+	timedEvent = new Phaser.Time.TimerEvent({ delay: 4000 });
+        this.time.addEvent(timedEvent);
+        if(timedEvent == 2000){
+	    heal.setVisible(true); 
+            //timedEvent = 0;
+	    this.time.addEvent(timedEvent);
+	}    
+       
+	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -509,12 +507,9 @@ class KPopGame extends Phaser.Scene {
             return;  //allows to show alert
         }
 
-	 timedEvent++;
-	 console.log(timedEvent);
-        if(timedEvent == 2000){
-	    heal.setVisible(true); 
-            timedEvent = 0;
-	}
+	 //timedEvent++;
+	 //console.log(timedEvent);
+	
 	if(score == 700){
             heal.setVisible(true);
         }
