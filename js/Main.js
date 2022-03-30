@@ -359,10 +359,10 @@ class KPopGame extends Phaser.Scene {
 	setInterval(() => {   //animation
 	    heal.enableBody(true, 763, 282, true, true);
         }, 15000);
-       
+        
+	let progressBox = this.add.graphics().setScrollFactor(0);
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
-        let progressBox = this.add.graphics().setScrollFactor(0);
-        progressBox.fillStyle(0x463b66, 0.57); //color, transparency
+        progressBox.fillStyle(0x222222, 0.4); //color, transparency
         progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
 	    
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -370,8 +370,8 @@ class KPopGame extends Phaser.Scene {
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
 
 	   //progressBox.destroy();
-	//if(progress.width == progressBox.width){
-	progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
+	if(progress.width == progressBox.width){
+	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.physics.pause();
             gameOver = true;
             let winMG = Swal.fire({ // alert
@@ -389,11 +389,11 @@ class KPopGame extends Phaser.Scene {
 		    gameOver = false; 
 		    this.physics.resume();
 	            winMG.destroy();
-		    progress.fillStyle(0x19f78c, 0.9);
+		    progress.fillStyle(0xc9f5bc, 0.9);
 		    progress.fillRect(514, 264.5, 200, 9);
 		}
 	    });
-         }, this);
+         };//, this);
 
 	 //if (sizeCh == size){
             
@@ -542,8 +542,8 @@ class KPopGame extends Phaser.Scene {
         }
 	const size = 200; //width rect
         let sizeCh = (size*score)/3425;
-        progress.clear();
-        progress.fillStyle(0x19f78c, 0.7);
+        //progress.clear();
+        progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
         
         if(hearts >= 24){
