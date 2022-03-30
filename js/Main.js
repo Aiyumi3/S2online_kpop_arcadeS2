@@ -501,7 +501,7 @@ class KPopGame extends Phaser.Scene {
             return;  //allows to show alert
         }
 
-	 if(time === 4000){
+	 if(time === 180){
 	     heal.setVisible(true); 
 	     time = 0;
         }
