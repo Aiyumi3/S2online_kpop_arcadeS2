@@ -501,15 +501,10 @@ class KPopGame extends Phaser.Scene {
         }
 
         time++;
-	console.log(time);
-        if(time === 60){
-            let timeM = 0;
-            timeM++;
-            time -= 60;
-            if(timeM === 15){
-		heal.setVisible(true); 
-		timeM -= 15;
-	    }
+	
+        if(time === 60000){
+            time -= 60000;
+             heal.setVisible(true); 
         }
 	if(score == 700){
             heal.setVisible(true);
@@ -520,7 +515,6 @@ class KPopGame extends Phaser.Scene {
             heal.setVisible(false);
         }
 
-        progress.clear();
         const size = 200; //width rect
         let sizeCh = (size*score)/3425;
 
@@ -548,6 +542,7 @@ class KPopGame extends Phaser.Scene {
 		    gameOver = false; 
 		    this.physics.resume();
 	            score += 1;
+		    progress.fillRect(514, 264.5, size, 9);
 		}
 	    })
         }
