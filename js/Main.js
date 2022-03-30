@@ -513,8 +513,7 @@ class KPopGame extends Phaser.Scene {
 	
         if(total == 2){
              heal.setVisible(true); 
-	     timer.stop();
-	      total = 0;
+	     total = 0;
         }
 	if(score == 700){
             heal.setVisible(true);
