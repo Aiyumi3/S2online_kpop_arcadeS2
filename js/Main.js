@@ -356,8 +356,7 @@ class KPopGame extends Phaser.Scene {
             this.setVisible(false);
         });
 	let timer = setInterval(function() {
-          time++;
-	  console.log(time);
+	  console.log(time++);
 	   if(time == 180){
 	       heal.setVisible(true); 
 	   }
