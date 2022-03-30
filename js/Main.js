@@ -501,7 +501,8 @@ class KPopGame extends Phaser.Scene {
         }
 	
 	let timer = setInterval(function() {
-	  console.log(time++);
+          time++;
+	  console.log(time);
 	   if(time == 180){
 	       heal.setVisible(true); 
 	   }
@@ -545,7 +546,7 @@ class KPopGame extends Phaser.Scene {
 		    this.physics.resume();
 	            score += 1;
 		    progress.fillStyle(0xb2f731, 0.9);
-		    progress.fillRect(514, 264.5, size, 9);
+		    sizeCh = size;
 		}
 	    })
         }
