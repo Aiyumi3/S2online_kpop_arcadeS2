@@ -333,7 +333,7 @@ class KPopGame extends Phaser.Scene {
         heal = this.add.image(763, 282, 'healing').setInteractive();
         heal.setScale(0.017);
         heal.setScrollFactor(0); //is fixed to camera
-        heal.setAlpha(0);
+       // heal.setAlpha(0);
         heal.on('pointerdown', function(){
             this.setTint(0xe0faa5);
             this.setScale(0.08);
@@ -352,14 +352,14 @@ class KPopGame extends Phaser.Scene {
         heal.on('pointerup', function(){
             this.clearTint();
             this.setScale(0.017);
-            //this.setAlpha(0);
-            heal.disableBody(true, true);
+            this.setAlpha(0);
+            //heal.disableBody(true, true);
         });
 	setInterval(() => {   //animation
-            heal.disableBody(true, true);
+            heal.setAlpha(0);//heal.disableBody(true, true);
         }, 3107);
 	setInterval(() => {   //animation
-            heal.enableBody(true, 763, 282, true, true);
+            heal.setAlpha(1);//heal.enableBody(true, 763, 282, true, true);
         }, 1050);
        
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
@@ -544,8 +544,8 @@ class KPopGame extends Phaser.Scene {
         }
 	    
 	if(score == 700){
-	    heal.enableBody(true, 763, 282, true, true);
-            //heal.setAlpha(1);
+	    //heal.enableBody(true, 763, 282, true, true);
+            heal.setAlpha(1);
         }
 	
         if(hearts >= 24){
