@@ -333,7 +333,7 @@ class KPopGame extends Phaser.Scene {
         heal = this.add.image(763, 282, 'healing').setInteractive();
         heal.setScale(0.017);
         heal.setScrollFactor(0); //is fixed to camera
-        heal.setVisible(false);
+        heal.setAlpha(0);
         heal.on('pointerdown', function(){
             this.setTint(0xe0faa5);
             this.setScale(0.08);
@@ -352,13 +352,57 @@ class KPopGame extends Phaser.Scene {
         heal.on('pointerup', function(){
             this.clearTint();
             this.setScale(0.017);
-            this.setVisible(false);
+            //this.setAlpha(0);
+            heal.disableBody(true, true);
         });
+	setInterval(() => {   //animation
+            heal.disableBody(true, true);
+        }, 3107);
+	setInterval(() => {   //animation
+            heal.enableBody(true, 763, 282, true, true);
+        }, 1050);
        
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
+        let progressBox = this.add.graphics().setScrollFactor(0);
+	const size = 200; //width rect
+        let sizeCh = (size*score)/3425;
+
+        progressBox.fillStyle(0x463b66, 0.5); //color, transparency
+        progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
+	    
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
+	    
+	this.load.on('progress', function (value) {
+            progress.clear();
+            progress.fillStyle(0xb2f731, 0.9);
+            progress.fillRect(514, 264.5, sizeCh, 9);
+        });
+        this.load.on('complete', function () {
+            //progressBox.destroy();
+            this.physics.pause();
+            gameOver = true;
+            Swal.fire({ // alert
+                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
+                icon: 'success',
+		showCancelButton: true,
+                confirmButtonColor: '#a7fa5a',
+                confirmButtonText: '~reload~',
+		cancelButtonColor: '#9f4ae0',
+		cancelButtonText: '~continue~'
+            }).then((result) => { 
+		if (result.isConfirmed) {
+	            location.reload();
+		}else{
+		    gameOver = false; 
+		    this.physics.resume();
+	            //score += 1; Swal.destroy();
+		    progress.fillStyle(0xb2f731, 0.9);
+		    progress.fillRect(514, 264.5, size, 9);//sizeCh = size;
+		}
+	    })
+        });
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -500,49 +544,14 @@ class KPopGame extends Phaser.Scene {
         }
 	    
 	if(score == 700){
-            heal.setVisible(true);
+	    heal.enableBody(true, 763, 282, true, true);
+            //heal.setAlpha(1);
         }
-	setInterval(() => {   
-            heal.setVisible(true);
-        }, 5000);
 	
         if(hearts >= 24){
             hearts = 24;
             heartsText.setText(`💚: ${hearts}`);
             heal.setVisible(false);
-        }
-
-        const size = 200; //width rect
-        let sizeCh = (size*score)/3425;
-
-        progress.fillStyle(0x463b66, 0.5);
-        progress.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
-
-        progress.fillStyle(0xb2f731, 0.9);
-        progress.fillRect(514, 264.5, sizeCh, 9);
-
-        if(score == 25){
-            this.physics.pause();
-            gameOver = true;
-            Swal.fire({ // alert
-                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
-                icon: 'success',
-		showCancelButton: true,
-                confirmButtonColor: '#a7fa5a',
-                confirmButtonText: '~reload~',
-		cancelButtonColor: '#9f4ae0',
-		cancelButtonText: '~continue~'
-            }).then((result) => { 
-		if (result.isConfirmed) {
-	            location.reload();
-		}else{
-		    gameOver = false; 
-		    this.physics.resume();
-	            score += 1;
-		    progress.fillStyle(0xb2f731, 0.9);
-		    sizeCh = size;
-		}
-	    })
         }
 
         if(movingPlatform.x >= 600){
