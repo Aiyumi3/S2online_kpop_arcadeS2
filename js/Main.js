@@ -364,11 +364,12 @@ class KPopGame extends Phaser.Scene {
             this.setVisible(false);
         });
 	    
-	timedEvent = new Phaser.Time.TimerEvent({ delay: 4000 });
-	this.time.addEvent(timedEvent);
+	timedEvent = 0;
+	timedEvent++;
+	 console.log(timedEvent);
         if(timedEvent == 2000){
 	    heal.setVisible(true); 
-            this.time.addEvent(timedEvent);
+            timedEvent = 0;
 	}
 
         progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
