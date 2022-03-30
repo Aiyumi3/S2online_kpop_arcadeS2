@@ -129,8 +129,6 @@ class KPopGame extends Phaser.Scene {
         bombsound = this.sound.add('bombsound', {
             volume: 0.3
         });
-
-        time++;
             
 	platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
@@ -502,6 +500,8 @@ class KPopGame extends Phaser.Scene {
             return;  //allows to show alert
         }
 
+        time++;
+	console.log(time);
         if(time === 60){
             let timeM = 0;
             timeM++;
@@ -547,7 +547,7 @@ class KPopGame extends Phaser.Scene {
 		}else{
 		    gameOver = false; 
 		    this.physics.resume();
-	            swal.close();
+	            score += 1;
 		}
 	    })
         }
