@@ -334,7 +334,7 @@ class KPopGame extends Phaser.Scene {
         heal.setScale(0.017);
 	heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
-       // heal.setAlpha(0);
+       
         heal.on('pointerdown', function(){
             this.setTint(0xe0faa5);
             this.setScale(0.08);
@@ -357,11 +357,9 @@ class KPopGame extends Phaser.Scene {
             heal.disableBody(true, true);
         });
 	setInterval(() => {   //animation
-            //heal.setAlpha(0);
             heal.disableBody(true, true);
         }, 5107);
 	setInterval(() => {   //animation
-            //heal.setAlpha(1);//
 	    heal.enableBody(true, 763, 282, true, true);
         }, 15000);
        
