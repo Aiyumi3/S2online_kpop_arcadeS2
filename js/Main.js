@@ -1,10 +1,10 @@
 let score = 0;
 let hearts = 24;
-let time = 0;
+let total = 0;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress;
+    sky, snooze1, snooze2, snooze3, progress, timer;
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -90,6 +90,15 @@ class KPopGame extends Phaser.Scene {
     }
 
     create () {
+	//  Create  Timer
+        timer = game.time.create(false);
+
+        //  Set a TimerEvent to occur after 2 seconds
+        timer.loop(2000, updateCounter, this);
+
+        //  Start the timer running 
+        timer.start();
+	    
         sky = this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);       //  background for game
 
         mousePointer = this.input.activePointer;
@@ -500,11 +509,12 @@ class KPopGame extends Phaser.Scene {
             return;  //allows to show alert
         }
 
-        time++;
+        total++;
 	
-        if(time == 2000){
-            time -= 2000;
+        if(total == 2){
              heal.setVisible(true); 
+	     timer.stop();
+	      total = 0;
         }
 	if(score == 700){
             heal.setVisible(true);
@@ -524,7 +534,7 @@ class KPopGame extends Phaser.Scene {
         progress.fillStyle(0xb2f731, 0.9);
         progress.fillRect(514, 264.5, sizeCh, 9);
 
-        if(score == 25){
+        if(score == 105){
             this.physics.pause();
             gameOver = true;
             Swal.fire({ // alert
