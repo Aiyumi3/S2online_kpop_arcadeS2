@@ -547,6 +547,7 @@ class KPopGame extends Phaser.Scene {
 		}else{
 		    gameOver = false; 
 		    this.physics.resume();
+	            swal.close();
 		}
 	    })
         }
