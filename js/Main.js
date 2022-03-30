@@ -334,11 +334,9 @@ class KPopGame extends Phaser.Scene {
         heal.setScale(0.017);
 	heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
-       
         heal.on('pointerdown', function(){
             this.setTint(0xe0faa5);
             this.setScale(0.08);
-
             if(hearts >= 17 && hearts <= 24){
                 hearts += 1.5;
                 heartsText.setText(`💚: ${hearts}`);
@@ -353,7 +351,6 @@ class KPopGame extends Phaser.Scene {
         heal.on('pointerup', function(){
             this.clearTint();
             this.setScale(0.017);
-            //this.setAlpha(0);
             heal.disableBody(true, true);
         });
 	setInterval(() => {   //animation
@@ -365,7 +362,7 @@ class KPopGame extends Phaser.Scene {
        
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         let progressBox = this.add.graphics().setScrollFactor(0);
-        progressBox.fillStyle(0x463b66, 0.7); //color, transparency
+        progressBox.fillStyle(0x463b66, 0.57); //color, transparency
         progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
 	    
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -373,8 +370,8 @@ class KPopGame extends Phaser.Scene {
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
 	    
 	
-        //this.load.on('complete', function () {
             //progressBox.destroy();
+	    //if(progress.width == progressBox.width){
 	 progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.physics.pause();
             gameOver = true;
@@ -392,9 +389,9 @@ class KPopGame extends Phaser.Scene {
 		}else{
 		    gameOver = false; 
 		    this.physics.resume();
-	            //score += 1; Swal.destroy();
+	            // Swal.destroy();
 		    progress.fillStyle(0xb2f731, 0.9);
-		    progress.fillRect(514, 264.5, size, 9);//sizeCh = size;
+		    progress.fillRect(514, 264.5, 200, 9);
 		}
 	    })
          }, this);
@@ -402,7 +399,6 @@ class KPopGame extends Phaser.Scene {
 	 //if (sizeCh == size){
             
 	 //}
-        //});
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -545,7 +541,6 @@ class KPopGame extends Phaser.Scene {
 	    
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
-            //heal.setAlpha(1);
         }
 	const size = 200; //width rect
         let sizeCh = (size*score)/3425;
@@ -606,4 +601,5 @@ const config = {
     backgroundColor: '#734ca1',
     scene: [ KPopGame ]
 };
+
 const game = new Phaser.Game(config);
