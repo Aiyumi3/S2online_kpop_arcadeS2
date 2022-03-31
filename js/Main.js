@@ -196,7 +196,7 @@ class KPopGame extends Phaser.Scene {
         player.setBounce(0.2);                                                   //  a slight bounce
         player.setScale(0.7);                                                    //smaller
         player.setCollideWorldBounds(true);                                      //border's limit
-        cam.startFollow(player, true, 0.07, 0.07);
+        cam.startFollow(player, true, 0.2, 0.2);
 
         this.anims.create({                                                      //  player animations
             key: 'left',
@@ -511,18 +511,17 @@ class KPopGame extends Phaser.Scene {
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
         }
-
-        progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, (200*score)/200, 9);
 	    
 	const size = 200; //width rect
         sizeCh = (size*score)/200;
-          //progressBox.destroy();
+	 
+	progress.fillStyle(0xc9f5bc, 0.7);
+        progress.fillRect(514, 264.5, sizeCh, 9);
+          
 	if(sizeCh == size){
 	    if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }
-	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.physics.pause();
             gameOver = true;
             Swal.fire({ // alert
@@ -539,13 +538,15 @@ class KPopGame extends Phaser.Scene {
 		}else{
 		    gameOver = false; 
 		    this.physics.resume();
-		    if(sizeCh > size){
-		       progress.fillStyle(0xc9f5bc, 0.9);
-		       progress.fillRect(514, 264.5, 200, 9);
-		    }
+		    sizeCh += 1;
 		}
 	    });
-         };//, this);
+        };
+	    
+	if(sizeCh > size){
+	    progress.fillStyle(0xc9f5bc, 0.9);
+            progress.fillRect(514, 264.5, size, 9);
+        }
 	    
         if(hearts >= 24){
             hearts = 24;
