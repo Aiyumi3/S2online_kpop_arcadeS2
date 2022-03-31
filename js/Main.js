@@ -531,9 +531,10 @@ class KPopGame extends Phaser.Scene {
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
-		html: '~ reload in <b></b> milliseconds~',
-                confirmButtonColor: '#9f4ae0',
-                confirmButtonText: '~continue~',
+		html: '<p style="color:white">   ~ reload in <b></b> milliseconds~</p>',
+		showCancelButton: true,
+                cancelButtonColor: '#9f4ae0',
+                cancelButtonText: '~continue~',
 		allowEscapeKey: false,
                 allowOutsideClick: false,
                 timer: 20000,
@@ -551,7 +552,10 @@ class KPopGame extends Phaser.Scene {
             }).then((result) => { 
 		if (result.dismiss === Swal.DismissReason.timer) {
                     location.reload();
-                }else if(result.isConfirmed) {
+                }else{
+		    Swal.stopLoading();
+                    Swal.close();
+
 		    this.scale.startFullscreen();
 		    gameOver = false;
 	            sizeCh += 3;
