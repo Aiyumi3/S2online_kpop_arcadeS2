@@ -564,7 +564,7 @@ class KPopGame extends Phaser.Scene {
             movingPlatform3.setVelocityX(77);
         }
 
-        if(movingPlatform2.y >= 555){
+        if(movingPlatform2.y >= 521){
             movingPlatform2.setVelocityY(-340);
         }else if(movingPlatform2.y <= 200){
             movingPlatform2.setVelocityY(131);
