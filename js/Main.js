@@ -368,6 +368,42 @@ class KPopGame extends Phaser.Scene {
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
+	    
+	const size = 200; //width rect
+        let sizeCh = (size*score)/3425;
+        //progress.clear();
+        progress.fillStyle(0xc9f5bc, 0.7);
+        progress.fillRect(514, 264.5, sizeCh, 9);
+          //progressBox.destroy();
+	if(sizeCh == size){
+	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
+            this.physics.pause();
+            gameOver = true;
+            Swal.fire({ // alert
+                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
+                icon: 'success',
+		showCancelButton: true,
+                confirmButtonColor: '#a7fa5a',
+                confirmButtonText: '~reload~',
+		cancelButtonColor: '#9f4ae0',
+		cancelButtonText: '~continue~'
+            }).then((result) => { 
+		if (result.isConfirmed) {
+	            location.reload();
+		}else{
+		    gameOver = false; 
+		    this.physics.resume();
+		    if(sizeCh > size){
+		       progress.fillStyle(0xc9f5bc, 0.9);
+		       progress.fillRect(514, 264.5, 200, 9);
+		    }
+		}
+	    });
+         };//, this);
+
+	 //if (sizeCh == size){
+            
+	 //}
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -511,40 +547,8 @@ class KPopGame extends Phaser.Scene {
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
         }
-	const size = 200; //width rect
-        let sizeCh = (size*score)/3425;
-        //progress.clear();
-        progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, sizeCh, 9);
-        
-	  //progressBox.destroy();
-	if(sizeCh == size){
-	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
-            this.physics.pause();
-            gameOver = true;
-            Swal.fire({ // alert
-                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
-                icon: 'success',
-		showCancelButton: true,
-                confirmButtonColor: '#a7fa5a',
-                confirmButtonText: '~reload~',
-		cancelButtonColor: '#9f4ae0',
-		cancelButtonText: '~continue~'
-            }).then((result) => { 
-		if (result.isConfirmed) {
-	            location.reload();
-		}else{
-		    gameOver = false; 
-		    this.physics.resume();
-		    progress.fillStyle(0xc9f5bc, 0.9);
-		    progress.fillRect(514, 264.5, 200, 9);
-		}
-	    });
-         };//, this);
-
-	 //if (sizeCh == size){
-            
-	 //}
+	
+	
 	    
         if(hearts >= 24){
             hearts = 24;
