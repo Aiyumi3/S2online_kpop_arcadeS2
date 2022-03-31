@@ -371,7 +371,7 @@ class KPopGame extends Phaser.Scene {
 	    
 	const size = 200; //width rect
         let sizeCh = (size*score)/3425;
-        //progress.clear();
+        progress.clear();
         progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
           //progressBox.destroy();
