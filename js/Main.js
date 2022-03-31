@@ -258,7 +258,7 @@ class KPopGame extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(-410);
+            player.setVelocityX(-350);
             player.anims.play('left');
         });
         btnLeft.on('pointerup', function(){
@@ -277,7 +277,7 @@ class KPopGame extends Phaser.Scene {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
-            player.setVelocityX(480);
+            player.setVelocityX(380);
             player.anims.play('right');
 	    player.x += 25;
         });
@@ -513,7 +513,7 @@ class KPopGame extends Phaser.Scene {
         }
 	    
 	const size = 200; //width rect
-        sizeCh = (size*score)/200;
+        sizeCh = (size*score)/100;
 	 
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
@@ -528,17 +528,22 @@ class KPopGame extends Phaser.Scene {
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
 		showCancelButton: true,
-                confirmButtonColor: '#a7fa5a',
-                confirmButtonText: '~reload~',
-		cancelButtonColor: '#9f4ae0',
-		cancelButtonText: '~continue~'
+                confirmButtonColor: '#9f4ae0',
+                confirmButtonText: '~continue~',
+		cancelButtonColor: '#a7fa5a',
+		cancelButtonText: '~reload~'
             }).then((result) => { 
 		if (result.isConfirmed) {
-	            location.reload();
-		}else{
+		    this.scale.startFullscreen();
+	            sizeCh += 1;
+	            this.physics.resume();
 		    gameOver = false; 
-		    this.physics.resume();
-		    sizeCh += 1;
+		    if(sizeCh > size){
+	                progress.fillStyle(0xc9f5bc, 0.9);
+                        progress.fillRect(514, 264.5, size, 9);
+                    }
+		}else{
+		    location.reload();
 		}
 	    });
         };
