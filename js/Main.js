@@ -547,7 +547,7 @@ class KPopGame extends Phaser.Scene {
 	    if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }
-		
+	    gameOver = true;
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
@@ -573,6 +573,7 @@ class KPopGame extends Phaser.Scene {
 		if (result.dismiss === Swal.DismissReason.timer) {
                     location.reload();
                 }else{
+		    gameOver = false;
                     Swal.close();
 		    this.scale.startFullscreen();
 		}
@@ -580,6 +581,7 @@ class KPopGame extends Phaser.Scene {
         };
 	    
 	if(sizeCh > size){
+	    gameOver = false;
 	    progressBox.destroy();
 	    progress.destroy();
 	    wm1.x = 585;
