@@ -526,12 +526,12 @@ class KPopGame extends Phaser.Scene {
 	    if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }
-            this.physics.pause();
-            gameOver = true;
+            //this.physics.pause();
+            //gameOver = true;
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
-		html: '<p style="color:white">   ~ reload in <b></b> milliseconds~</p>',
+		html: '<p style="color:white"> &nbsp;&nbsp;  ~ reload in <b></b> milliseconds~</p>',
 		showCancelButton: true,
                 cancelButtonColor: '#9f4ae0',
                 cancelButtonText: '~continue~',
@@ -557,15 +557,15 @@ class KPopGame extends Phaser.Scene {
                     Swal.close();
 
 		    this.scale.startFullscreen();
-		    gameOver = false;
+		    //gameOver = false;
 	            sizeCh += 3;
 		    progress.fillStyle(0xc9f5bc, 0.7);
                     progress.fillRect(514, 264.5, sizeCh, 9);
-	            this.physics.resume(); 
-		    if(sizeCh > size){
+	            //this.physics.resume(); 
+		    /*if(sizeCh > size){
 	                progress.fillStyle(0xc9f5bc, 0.9);
                         progress.fillRect(514, 264.5, size, 9);
-                    }
+                    }*/
 		}
 	    });
         };
