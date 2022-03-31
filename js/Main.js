@@ -3,7 +3,7 @@ let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress, progressBox, sizeCh, timerInterval; 
+    sky, snooze1, snooze2, snooze3, progress, progressBox, sizeCh, timerInterval, wm1, wm2, wm3; 
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -365,9 +365,9 @@ class KPopGame extends Phaser.Scene {
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
         progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
 	    
-        this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
-        this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
-        this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
+        wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
+        wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
+        wm3 = this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -526,8 +526,7 @@ class KPopGame extends Phaser.Scene {
 	    if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }
-            //this.physics.pause();
-            //gameOver = true;
+		
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
@@ -555,25 +554,15 @@ class KPopGame extends Phaser.Scene {
                 }else{
 		    Swal.stopLoading();
                     Swal.close();
-
+                    progressBox.destroy();
+	            progress.destroy();
 		    this.scale.startFullscreen();
-		    //gameOver = false;
-	            sizeCh += 3;
-		    progress.fillStyle(0xc9f5bc, 0.7);
-                    progress.fillRect(514, 264.5, sizeCh, 9);
-	            //this.physics.resume(); 
-		    /*if(sizeCh > size){
-	                progress.fillStyle(0xc9f5bc, 0.9);
-                        progress.fillRect(514, 264.5, size, 9);
-                    }*/
+		    wm1.x = 585;
+                    wm2.x = 599;
+                    wm3.x = 610; 
 		}
 	    });
         };
-	    
-	if(sizeCh > size){
-	    progress.fillStyle(0xc9f5bc, 0.9);
-            progress.fillRect(514, 264.5, size, 9);
-        }
 	    
         if(hearts >= 24){
             hearts = 24;
