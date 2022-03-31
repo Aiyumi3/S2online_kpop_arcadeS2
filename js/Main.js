@@ -539,7 +539,7 @@ class KPopGame extends Phaser.Scene {
 	    heal.enableBody(true, 763, 282, true, true);
         }
 	   
-	let sizeCh = (size*score)/100;
+	let sizeCh = (size*score)/2435;
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
           
