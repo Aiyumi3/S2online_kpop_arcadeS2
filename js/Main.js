@@ -3,7 +3,7 @@ let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress, progressBox; 
+    sky, snooze1, snooze2, snooze3, progress, progressBox, sizeCh; 
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -359,21 +359,20 @@ class KPopGame extends Phaser.Scene {
 	setInterval(() => {   //animation
 	    heal.enableBody(true, 763, 282, true, true);
         }, 15000);
-        
+	    
+        const size = 200; //width rect
 	progressBox = this.add.graphics().setScrollFactor(0);
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
-        progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
+        progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
 	    
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
 	    
-	const size = 200; //width rect
-        let sizeCh = (size*score)/3425;
-        progress.clear();
-        progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, sizeCh, 9);
+	
+        sizeCh = (size*score)/3425;
+        
           //progressBox.destroy();
 	if(sizeCh == size){
 	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
@@ -400,10 +399,6 @@ class KPopGame extends Phaser.Scene {
 		}
 	    });
          };//, this);
-
-	 //if (sizeCh == size){
-            
-	 //}
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -548,7 +543,8 @@ class KPopGame extends Phaser.Scene {
 	    heal.enableBody(true, 763, 282, true, true);
         }
 	
-	
+        progress.fillStyle(0xc9f5bc, 0.7);
+        progress.fillRect(514, 264.5, sizeCh, 9);
 	    
         if(hearts >= 24){
             hearts = 24;
