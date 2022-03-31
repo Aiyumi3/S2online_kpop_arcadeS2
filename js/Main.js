@@ -552,17 +552,23 @@ class KPopGame extends Phaser.Scene {
 		if (result.dismiss === Swal.DismissReason.timer) {
                     location.reload();
                 }else{
-		    Swal.stopLoading();
                     Swal.close();
-                    progressBox.destroy();
-	            progress.destroy();
+                    //progressBox.destroy();
+	            //progress.destroy();
 		    this.scale.startFullscreen();
-		    wm1.x = 585;
-                    wm2.x = 599;
-                    wm3.x = 610; 
+		    //wm1.x = 585;
+                    //wm2.x = 599;
+                    //wm3.x = 610; 
 		}
 	    });
         };
+	if(sizeCh > size){
+	    progressBox.destroy();
+	    progress.destroy();
+	    wm1.x = 585;
+            wm2.x = 599;
+            wm3.x = 610; 
+	}
 	    
         if(hearts >= 24){
             hearts = 24;
