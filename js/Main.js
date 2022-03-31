@@ -542,9 +542,9 @@ class KPopGame extends Phaser.Scene {
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
         }
-	
+
         progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, sizeCh, 9);
+        progress.fillRect(514, 264.5, (200*score)/3425;, 9);
 	    
         if(hearts >= 24){
             hearts = 24;
