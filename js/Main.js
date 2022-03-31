@@ -1,9 +1,11 @@
+const size = 200; //width rect
 let score = 0;
+let sizeCh = (size*score)/100;
 let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress, progressBox, sizeCh, timerInterval, wm1, wm2, wm3; 
+    sky, snooze1, snooze2, snooze3, progress, progressBox, timerInterval, wm1, wm2, wm3; 
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -363,7 +365,7 @@ class KPopGame extends Phaser.Scene {
 	progressBox = this.add.graphics().setScrollFactor(0);
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
-        progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
+        progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
 	    
         wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -433,7 +435,17 @@ class KPopGame extends Phaser.Scene {
                     allowOutsideClick: false,
                     confirmButtonColor: '#a7fa5a',
                     confirmButtonText: '~reload~'
-                }).then(() => {location.reload();})
+                }).then(() => {location.reload();});
+		if(sizeCh > size){
+	           Swal.fire({
+                       title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
+                       icon: 'warning',
+		       allowEscapeKey: false,
+                       allowOutsideClick: false,
+                       confirmButtonColor: '#a7fa5a',
+                       confirmButtonText: '~reload~'
+                   }).then(() => {location.reload();});	
+		}
             }
         }
 
@@ -502,7 +514,17 @@ class KPopGame extends Phaser.Scene {
                     allowOutsideClick: false,
                     confirmButtonColor: '#a7fa5a',
                     confirmButtonText: '~reload~'
-                }).then(() => {location.reload();})
+                }).then(() => {location.reload();});
+		if(sizeCh > size){
+	           Swal.fire({
+                       title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
+                       icon: 'warning',
+		       allowEscapeKey: false,
+                       allowOutsideClick: false,
+                       confirmButtonColor: '#a7fa5a',
+                       confirmButtonText: '~reload~'
+                   }).then(() => {location.reload();});
+	        }
             }
         }
     }
@@ -515,10 +537,7 @@ class KPopGame extends Phaser.Scene {
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
         }
-	    
-	const size = 200; //width rect
-        sizeCh = (size*score)/100;
-	 
+	     
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
           
@@ -530,7 +549,7 @@ class KPopGame extends Phaser.Scene {
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
-		html: '<p style="color:white"> &nbsp;&nbsp;  ~ reload in <b></b> milliseconds~</p>',
+		html: '<p style="color:white; text-align: center"> ~ reload in <b></b> milliseconds ~</p>',
 		showCancelButton: true,
                 cancelButtonColor: '#9f4ae0',
                 cancelButtonText: '~continue~',
@@ -553,15 +572,11 @@ class KPopGame extends Phaser.Scene {
                     location.reload();
                 }else{
                     Swal.close();
-                    //progressBox.destroy();
-	            //progress.destroy();
 		    this.scale.startFullscreen();
-		    //wm1.x = 585;
-                    //wm2.x = 599;
-                    //wm3.x = 610; 
 		}
 	    });
         };
+	    
 	if(sizeCh > size){
 	    progressBox.destroy();
 	    progress.destroy();
