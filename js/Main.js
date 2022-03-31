@@ -365,8 +365,6 @@ class KPopGame extends Phaser.Scene {
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
         progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
-	
-	let sizeCh = (size*score)/100;
 	    
         wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -429,15 +427,7 @@ class KPopGame extends Phaser.Scene {
                     this.scale.stopFullscreen();
                 }
 
-                Swal.fire({
-                    title: `😢📢Game over✨🥴🎊\n🌸~ your score: ${score} ~🌸`,
-                    icon: 'warning',
-	            allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    confirmButtonColor: '#a7fa5a',
-                    confirmButtonText: '~reload~'
-                }).then(() => {location.reload();});
-		if(sizeCh > size){
+		if(wm1.x == 585){
 	           Swal.fire({
                        title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
                        icon: 'warning',
@@ -446,6 +436,15 @@ class KPopGame extends Phaser.Scene {
                        confirmButtonColor: '#a7fa5a',
                        confirmButtonText: '~reload~'
                    }).then(() => {location.reload();});	
+		}else{
+		   Swal.fire({
+                       title: `😢📢Game over✨🥴🎊\n🌸~ your score: ${score} ~🌸`,
+                       icon: 'warning',
+	               allowEscapeKey: false,
+                       allowOutsideClick: false,
+                       confirmButtonColor: '#a7fa5a',
+                       confirmButtonText: '~reload~'
+                   }).then(() => {location.reload();});
 		}
             }
         }
@@ -508,15 +507,7 @@ class KPopGame extends Phaser.Scene {
                     this.scale.stopFullscreen();
                 }
 
-                Swal.fire({
-                    title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸`,
-                    icon: 'warning',
-		    allowEscapeKey: false,
-                    allowOutsideClick: false,
-                    confirmButtonColor: '#a7fa5a',
-                    confirmButtonText: '~reload~'
-                }).then(() => {location.reload();});
-		if(sizeCh > size){
+		if(wm1.x == 585){
 	           Swal.fire({
                        title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
                        icon: 'warning',
@@ -525,7 +516,16 @@ class KPopGame extends Phaser.Scene {
                        confirmButtonColor: '#a7fa5a',
                        confirmButtonText: '~reload~'
                    }).then(() => {location.reload();});
-	        }
+	        }else{
+                   Swal.fire({
+                       title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸`,
+                       icon: 'warning',
+		       allowEscapeKey: false,
+                       allowOutsideClick: false,
+                       confirmButtonColor: '#a7fa5a',
+                       confirmButtonText: '~reload~'
+                   }).then(() => {location.reload();});
+		}
             }
         }
     }
