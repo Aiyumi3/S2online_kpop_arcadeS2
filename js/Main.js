@@ -544,7 +544,7 @@ class KPopGame extends Phaser.Scene {
         }
 
         progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, (200*score)/3425;, 9);
+        progress.fillRect(514, 264.5, (200*score)/3425, 9);
 	    
         if(hearts >= 24){
             hearts = 24;
