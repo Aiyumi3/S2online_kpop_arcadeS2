@@ -270,7 +270,7 @@ class KPopGame extends Phaser.Scene {
             player.anims.play('turn');
         });
 
-        btnRight = this.add.image(531, 430, 'rightBtn').setInteractive();
+        btnRight = this.add.image(533, 430, 'rightBtn').setInteractive();
         btnRight.setScale(0.65);
         btnRight.setAlpha(0.5);
         btnRight.setScrollFactor(0); //is fixed to camera
@@ -557,7 +557,7 @@ class KPopGame extends Phaser.Scene {
                 cancelButtonText: '~continue~',
 		allowEscapeKey: false,
                 allowOutsideClick: false,
-                timer: 20000,
+                timer: 7000,
                 timerProgressBar: true,
 		didOpen: () => {
                     Swal.showLoading();
