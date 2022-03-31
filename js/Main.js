@@ -519,6 +519,9 @@ class KPopGame extends Phaser.Scene {
         sizeCh = (size*score)/200;
           //progressBox.destroy();
 	if(sizeCh == size){
+	    if(this.scale.isFullscreen){
+                this.scale.stopFullscreen();
+            }
 	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
             this.physics.pause();
             gameOver = true;
