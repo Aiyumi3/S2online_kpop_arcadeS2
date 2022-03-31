@@ -311,7 +311,7 @@ class KPopGame extends Phaser.Scene {
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,                                                         //in total = 12
-            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 107 }
+            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 77 }
         });
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));          // a slightly different bounce for each watermelon
@@ -360,45 +360,14 @@ class KPopGame extends Phaser.Scene {
 	    heal.enableBody(true, 763, 282, true, true);
         }, 15000);
 	    
-        const size = 200; //width rect
 	progressBox = this.add.graphics().setScrollFactor(0);
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
-        progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
+        progressBox.fillRoundedRect(512, 263, 200, 12, 3); //(x, y, w, h, radius)
 	    
         this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
-	    
-	
-        sizeCh = (size*score)/700;
-        
-          //progressBox.destroy();
-	if(sizeCh == size){
-	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
-            this.physics.pause();
-            gameOver = true;
-            Swal.fire({ // alert
-                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
-                icon: 'success',
-		showCancelButton: true,
-                confirmButtonColor: '#a7fa5a',
-                confirmButtonText: '~reload~',
-		cancelButtonColor: '#9f4ae0',
-		cancelButtonText: '~continue~'
-            }).then((result) => { 
-		if (result.isConfirmed) {
-	            location.reload();
-		}else{
-		    gameOver = false; 
-		    this.physics.resume();
-		    if(sizeCh > size){
-		       progress.fillStyle(0xc9f5bc, 0.9);
-		       progress.fillRect(514, 264.5, 200, 9);
-		    }
-		}
-	    });
-         };//, this);
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -544,7 +513,36 @@ class KPopGame extends Phaser.Scene {
         }
 
         progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, (200*score)/700, 9);
+        progress.fillRect(514, 264.5, (200*score)/200, 9);
+	    
+	const size = 200; //width rect
+        sizeCh = (size*score)/200;
+          //progressBox.destroy();
+	if(sizeCh == size){
+	//progress.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
+            this.physics.pause();
+            gameOver = true;
+            Swal.fire({ // alert
+                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
+                icon: 'success',
+		showCancelButton: true,
+                confirmButtonColor: '#a7fa5a',
+                confirmButtonText: '~reload~',
+		cancelButtonColor: '#9f4ae0',
+		cancelButtonText: '~continue~'
+            }).then((result) => { 
+		if (result.isConfirmed) {
+	            location.reload();
+		}else{
+		    gameOver = false; 
+		    this.physics.resume();
+		    if(sizeCh > size){
+		       progress.fillStyle(0xc9f5bc, 0.9);
+		       progress.fillRect(514, 264.5, 200, 9);
+		    }
+		}
+	    });
+         };//, this);
 	    
         if(hearts >= 24){
             hearts = 24;
