@@ -1,11 +1,10 @@
 const size = 200; //width rect
 let score = 0;
-let sizeCh = (size*score)/100;
 let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress, progressBox, timerInterval, wm1, wm2, wm3; 
+    sky, snooze1, snooze2, snooze3, progress, progressBox, timerInterval, wm1, wm2, wm3, sizeCh; 
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -366,6 +365,8 @@ class KPopGame extends Phaser.Scene {
 	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
         progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
+	
+	let sizeCh = (size*score)/100;
 	    
         wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -537,7 +538,8 @@ class KPopGame extends Phaser.Scene {
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
         }
-	     
+	   
+	let sizeCh = (size*score)/100;
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
           
