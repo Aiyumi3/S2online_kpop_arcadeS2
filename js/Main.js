@@ -539,9 +539,9 @@ class KPopGame extends Phaser.Scene {
         }
 	
 	if(score == (score-35)){
-	    sizeCh = (size*(score+35))/1524;
+	    sizeCh = (size*(score+35))/100;
 	}else{
-            sizeCh = (size*score)/1524;
+            sizeCh = (size*score)/100;
 	}
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
@@ -580,18 +580,18 @@ class KPopGame extends Phaser.Scene {
 		    sizeCh += 3;
                     Swal.close();
 		    this.scale.startFullscreen();
+			
+		    if(sizeCh > size){
+	                gameOver = false;
+	                progressBox.destroy();
+	                progress.destroy();
+	                wm1.x = 585;
+                        wm2.x = 599;
+                        wm3.x = 610; 
+	            }
 		}
 	    });
         };
-	    
-	if(sizeCh > size){
-	    gameOver = false;
-	    progressBox.destroy();
-	    progress.destroy();
-	    wm1.x = 585;
-            wm2.x = 599;
-            wm3.x = 610; 
-	}
 	    
         if(hearts >= 24){
             hearts = 24;
