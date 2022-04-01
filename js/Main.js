@@ -57,7 +57,6 @@ class KPopGame extends Phaser.Scene {
             progressBar.fillStyle(0xb1f0e1, 0.7);
             progressBar.fillRoundedRect(width / 2 - 155, height / 2 - 5, 300 * value, 30, 5);//(x, y, w, h, radius)
         });
-
         this.load.on('fileprogress', function (file) {
             assetText.setText('Loading asset: ' + file.key);
         });
@@ -538,8 +537,12 @@ class KPopGame extends Phaser.Scene {
 	if(score == 700){
 	    heal.enableBody(true, 763, 282, true, true);
         }
-	   
-	let sizeCh = (size*score)/2435;
+	
+	if(score == (score-35)){
+	    sizeCh = (size*(score+35))/1524;
+	}else{
+            sizeCh = (size*score)/1524;
+	}
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
           
@@ -574,6 +577,7 @@ class KPopGame extends Phaser.Scene {
                     location.reload();
                 }else{
 		    gameOver = false;
+		    sizeCh += 3;
                     Swal.close();
 		    this.scale.startFullscreen();
 		}
