@@ -560,7 +560,7 @@ class KPopGame extends Phaser.Scene {
                 denyButtonText: '~continue~',
 		allowEscapeKey: false,
                 allowOutsideClick: false,
-                timer: 20000,
+                timer: 15000,
                 timerProgressBar: true,
 		didOpen: () => {
                     Swal.showLoading();
@@ -576,9 +576,9 @@ class KPopGame extends Phaser.Scene {
 		if (result.dismiss === Swal.DismissReason.timer) {
                     location.reload();
                 }else if(result.isDenied){
+		    gameOver = false;
 		    clearInterval(timerInterval);
 		    Swal.close();
-		    gameOver = false;
 		    sizeCh = 205;
 		    this.scale.startFullscreen();
 		}
