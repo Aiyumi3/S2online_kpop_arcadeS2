@@ -324,9 +324,8 @@ class KPopGame extends Phaser.Scene {
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
 
-        heal = this.physics.add.image(735, 282, 'healing').setOrigin(0).setInteractive();
+        heal = this.add.image(739, 282, 'healing').setInteractive();
         heal.setScale(0.017);
-	heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
         heal.on('pointerdown', function(){
             this.setTint(0xe0faa5);
@@ -555,9 +554,9 @@ class KPopGame extends Phaser.Scene {
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
 		html: '<p style="color:white; text-align: center"> ~ reload in <b></b> milliseconds ~</p>',
-		showCancelButton: true,
-                cancelButtonColor: '#9f4ae0',
-                cancelButtonText: '~continue~',
+		showDenyButton: true,
+                denyButtonColor: '#9f4ae0',
+                denyButtonText: '~continue~',
 		allowEscapeKey: false,
                 allowOutsideClick: false,
                 timer: 20000,
@@ -575,11 +574,11 @@ class KPopGame extends Phaser.Scene {
             }).then((result) => { 
 		if (result.dismiss === Swal.DismissReason.timer) {
                     location.reload();
-                }else{
+                }else if(result.isDenied){
 		    clearInterval(timerInterval);
 		    Swal.close();
 		    gameOver = false;
-		    sizeCh = size + 3;
+		    sizeCh = 205;
 		    this.scale.startFullscreen();
 		}
 	    });
