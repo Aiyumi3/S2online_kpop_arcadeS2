@@ -122,12 +122,6 @@ class KPopGame extends Phaser.Scene {
                 backgroundSound.play();
             });
         }
-        soundbullet = this.sound.add('soundbullet', {
-            volume: 0.3
-        });
-        bombsound = this.sound.add('bombsound', {
-            volume: 0.3
-        });
 	    
 	platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
@@ -311,12 +305,12 @@ class KPopGame extends Phaser.Scene {
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,                                                         //in total = 12
-            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 77 }
+            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 55 }
         });
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));          // a slightly different bounce for each watermelon
             child.setCollideWorldBounds(true);
-            child.setScale(0.5);
+            child.setScale(0.4);
         });
         bombs = this.physics.add.group();
 
@@ -330,7 +324,7 @@ class KPopGame extends Phaser.Scene {
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
 
-        heal = this.physics.add.image(763, 282, 'healing').setInteractive();
+        heal = this.physics.add.image(763, 282, 'healing').setOrigin(0).setInteractive();
         heal.setScale(0.017);
 	heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
@@ -390,6 +384,9 @@ class KPopGame extends Phaser.Scene {
 	function hitBullet(player, bullet){
             player.setTint(0x8B0634);
             player.anims.play('turn');
+	    soundbullet = this.sound.add('soundbullet', {
+                volume: 0.3
+            });
             if(!this.sound.locked){
                 // already unlocked so play
                 soundbullet.play();
@@ -477,6 +474,9 @@ class KPopGame extends Phaser.Scene {
             setInterval(() => {
                 player.clearTint();
             }, 2500);
+            bombsound = this.sound.add('bombsound', {
+                volume: 0.3
+            });
             if(!this.sound.locked){
                 // already unlocked so play
                 bombsound.play();
@@ -578,7 +578,6 @@ class KPopGame extends Phaser.Scene {
                 }else{
 		    clearInterval(timerInterval);
 		    Swal.close();
-		   // Swal.stopLoading();
 		    gameOver = false;
 		    sizeCh += 3;
 		    this.scale.startFullscreen();
@@ -587,7 +586,6 @@ class KPopGame extends Phaser.Scene {
         };
 	
 	if(sizeCh > size){
-	   // gameOver = false;
 	    progressBox.destroy();
 	    progress.destroy();
 	    wm1.x = 585;
