@@ -578,9 +578,9 @@ class KPopGame extends Phaser.Scene {
                 }else{
 		    clearInterval(timerInterval);
 		    Swal.close();
-		    Swal.stopLoading();
+		   // Swal.stopLoading();
 		    gameOver = false;
-		    sizeCh += 1;
+		    sizeCh += 3;
 		    this.scale.startFullscreen();
 		}
 	    });
