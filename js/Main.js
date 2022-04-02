@@ -551,6 +551,7 @@ class KPopGame extends Phaser.Scene {
                 this.scale.stopFullscreen();
             }
 	    gameOver = true;
+		
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
@@ -581,6 +582,7 @@ class KPopGame extends Phaser.Scene {
 		    Swal.close();
 		    sizeCh = 205;
 		    this.scale.startFullscreen();
+		    Swal.stopLoading();
 		}
 	    });
         };
