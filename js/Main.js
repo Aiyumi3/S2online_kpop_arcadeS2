@@ -305,7 +305,7 @@ class KPopGame extends Phaser.Scene {
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,                                                         //in total = 12
-            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 55 }
+            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 90 }
         });
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));          // a slightly different bounce for each watermelon
@@ -324,7 +324,7 @@ class KPopGame extends Phaser.Scene {
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
 
-        heal = this.physics.add.image(763, 282, 'healing').setOrigin(0).setInteractive();
+        heal = this.physics.add.image(743, 282, 'healing').setOrigin(0).setInteractive();
         heal.setScale(0.017);
 	heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
@@ -579,7 +579,7 @@ class KPopGame extends Phaser.Scene {
 		    clearInterval(timerInterval);
 		    Swal.close();
 		    gameOver = false;
-		    sizeCh += 3;
+		    sizeCh = size + 3;
 		    this.scale.startFullscreen();
 		}
 	    });
