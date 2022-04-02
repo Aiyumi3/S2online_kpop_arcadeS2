@@ -324,7 +324,7 @@ class KPopGame extends Phaser.Scene {
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
 
-        heal = this.physics.add.image(743, 282, 'healing').setOrigin(0).setInteractive();
+        heal = this.physics.add.image(735, 282, 'healing').setOrigin(0).setInteractive();
         heal.setScale(0.017);
 	heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
