@@ -550,18 +550,17 @@ class KPopGame extends Phaser.Scene {
 	    if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }
-	    gameOver = true;
-		
+	    gameOver = true;	
             Swal.fire({      // alert
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
-		html: '<p style="color:white; text-align: center"> ~ reload in <b></b> milliseconds ~</p>',
+		html: '<p style="color:white; text-align: center"> ~ continue in <b></b> milliseconds ~</p>',
 		showDenyButton: true,
-                denyButtonColor: '#9f4ae0',
-                denyButtonText: '~continue~',
+                denyButtonColor: '#a7fa5a',
+                denyButtonText: '~reload~',
 		allowEscapeKey: false,
                 allowOutsideClick: false,
-                timer: 15000,
+                timer: 7000,
                 timerProgressBar: true,
 		didOpen: () => {
                     Swal.showLoading();
@@ -575,14 +574,10 @@ class KPopGame extends Phaser.Scene {
                 }
             }).then((result) => { 
 		if (result.dismiss === Swal.DismissReason.timer) {
-                    location.reload();
+                     gameOver = false;
+		     sizeCh = size + 5;
                 }else if(result.isDenied){
-		    gameOver = false;
-		    clearInterval(timerInterval);
-		    Swal.close();
-		    sizeCh = 205;
-		    this.scale.startFullscreen();
-		    Swal.stopLoading();
+		    location.reload();
 		}
 	    });
         };
@@ -593,6 +588,7 @@ class KPopGame extends Phaser.Scene {
 	    wm1.x = 585;
             wm2.x = 599;
             wm3.x = 610; 
+	    this.scale.startFullscreen();
 	}
 	    
         if(hearts >= 24){
