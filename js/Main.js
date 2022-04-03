@@ -561,7 +561,7 @@ class KPopGame extends Phaser.Scene {
 	    let heartTxt = this.add.text(500, 350, '', { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             heartTxt.setDepth(1);
 	    scoreTxt.setText(` ${score}`);
-            heartsTxt.setText(` ${hearts}`);
+            heartTxt.setText(` ${hearts}`);
 
             let continueText = this.add.text(500, 400, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             continueText.setScrollFactor(0); //is fixed to camera
