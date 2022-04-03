@@ -557,7 +557,7 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 		
-	    let scoreTxt = this.add.text(611, 345, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let scoreTxt = this.add.text(611, 339, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setScrollFactor(0); //is fixed to camera
 	    scoreTxt.setDepth(1);
 	    let heartTxt = this.add.text(597, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
@@ -587,6 +587,9 @@ class KPopGame extends Phaser.Scene {
 		wm1.x = 585;
                 wm2.x = 599;
                 wm3.x = 610; 
+		gameOver = false;
+		progressBox.destroy();
+	        progress.destroy();
 		winnerMg.destroy();
 	        reloadText.destroy();
 	        continueText.destroy();
@@ -594,12 +597,6 @@ class KPopGame extends Phaser.Scene {
 	        heartTxt.destroy();
             });
         }
-	
-	if(wm1.x == 585){
-	    gameOver = false;
-	    progressBox.destroy();
-	    progress.destroy();
-	}
 	    
         if(hearts >= 24){
             hearts = 24;
