@@ -552,9 +552,9 @@ class KPopGame extends Phaser.Scene {
                 this.scale.stopFullscreen();
             }
 	    gameOver = true;	
-	    let winnerMg = this.add.image(609, 360, 'winnerMg').setOrigion(0.5, 0.5);
+	    let winnerMg = this.add.image(598, 360, 'winnerMg');
             winnerMg.setScrollFactor(0); // is fixed to cam
-            winnerMg.setScale(0.25);  //smaller
+            winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 	    let scoreTxt = this.add.text(500, 320, `${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setDepth(1);
