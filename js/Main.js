@@ -552,7 +552,7 @@ class KPopGame extends Phaser.Scene {
                 this.scale.stopFullscreen();
             }
 	    gameOver = true;	
-	    this.physics.pause();
+	    this.scene.pause();
 	    let winnerMg = this.add.image(598, 360, 'winnerMg');
             winnerMg.setScrollFactor(0); // is fixed to cam
             winnerMg.setScale(0.29);  //smaller
@@ -565,11 +565,11 @@ class KPopGame extends Phaser.Scene {
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
 		
-            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Lora'});
+            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Break Fill'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(615, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Lora'});
+            let reloadText = this.add.text(615, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Break Fill'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
@@ -590,7 +590,7 @@ class KPopGame extends Phaser.Scene {
                 wm2.x = 599;
                 wm3.x = 610; 
 		gameOver = false;
-		this.physics.resume();
+		this.scene.resume('default');
 		progressBox.destroy();
 	        progress.destroy();
 		winnerMg.destroy();
