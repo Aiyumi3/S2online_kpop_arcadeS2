@@ -556,7 +556,7 @@ class KPopGame extends Phaser.Scene {
                 icon: 'success',
 		html: '<p style="color:white; text-align: center"> ~ continue in <b></b> milliseconds ~</p>',
 		customClass: {
-                    container: "success-mg",
+                    container: 'success-mg',
                 },
 		showDenyButton: true,
                 denyButtonColor: '#a7fa5a',
@@ -580,6 +580,7 @@ class KPopGame extends Phaser.Scene {
                      gameOver = false;
 		     sizeCh = size + 5;
 		     Swal.close();
+		     document.querySelectorAll('.swal2-container .swal2-center .success-mg .swal2-backdrop-show').forEach(el => el.remove());
                 }else if(result.isDenied){
 		    location.reload();
 		}
@@ -587,6 +588,7 @@ class KPopGame extends Phaser.Scene {
         };
 	
 	if(sizeCh > size){
+	    gameOver = false;
 	    progressBox.destroy();
 	    progress.destroy();
 	    wm1.x = 585;
