@@ -557,17 +557,17 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 		
-	    let scoreTxt = this.add.text(611, 347, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let scoreTxt = this.add.text(611, 344, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setScrollFactor(0); //is fixed to camera
 	    scoreTxt.setDepth(1);
-	    let heartTxt = this.add.text(597, 373, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let heartTxt = this.add.text(597, 376, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
-            let continueText = this.add.text(550, 427, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let continueText = this.add.text(550, 423, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(619, 427, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let reloadText = this.add.text(619, 423, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
@@ -588,15 +588,15 @@ class KPopGame extends Phaser.Scene {
 		wm1.x = 585;
                 wm2.x = 599;
                 wm3.x = 610; 
+		winnerMg.destroy();//setVisible(false);
+	        reloadText.destroy();
+	        continueText.destroy();
+                scoreTxt.destroy();
+	        heartTxt.destroy();
             });
         }
 	
 	if(wm1.x == 585){
-	    winnerMg.destroy();//setVisible(false);
-	    reloadText.destroy();
-	    continueText.destroy();
-            scoreTxt.destroy();
-	    heartTxt.destroy();
 	    progressBox.destroy();
 	    progress.destroy();
 	}
