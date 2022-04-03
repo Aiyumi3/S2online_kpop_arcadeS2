@@ -69,6 +69,7 @@ class KPopGame extends Phaser.Scene {
         });
 
         this.load.image('startplay', './assets/startplay.jpg');
+        this.load.image('winnerMg', './assets/winnerMg.jpg');
         this.load.image('sky', './assets/sky.jpg');
         this.load.image('ground', './assets/platform.png');
         this.load.image('ground1', './assets/platformHalf.png');
@@ -531,7 +532,7 @@ class KPopGame extends Phaser.Scene {
 
     update () {
         if(gameOver){
-            return;  //allows to show alert
+            return;  
         }
 	    
 	if(score == 700){
@@ -539,9 +540,9 @@ class KPopGame extends Phaser.Scene {
         }
 	
 	if(score == (score-35)){
-	    sizeCh = (size*(score+35))/100;
+	    sizeCh = (size*(score+35))/10;
 	}else{
-            sizeCh = (size*score)/100;
+            sizeCh = (size*score)/10;
 	}
 	progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
@@ -551,44 +552,42 @@ class KPopGame extends Phaser.Scene {
                 this.scale.stopFullscreen();
             }
 	    gameOver = true;	
-            Swal.fire({      // alert
-                title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
-                icon: 'success',
-		html: '<p style="color:white; text-align: center"> ~ continue in <b></b> milliseconds ~</p>',
-		customClass: {
-                    container: 'success-mg',
-                },
-		showDenyButton: true,
-                denyButtonColor: '#a7fa5a',
-                denyButtonText: '~reload~',
-		allowEscapeKey: false,
-                allowOutsideClick: false,
-                timer: 7000,
-                timerProgressBar: true,
-		didOpen: () => {
-                    Swal.showLoading();
-                    const b = Swal.getHtmlContainer().querySelector('b');
-                    timerInterval = setInterval(() => {
-                        b.textContent = Swal.getTimerLeft();
-                    }, 100);
-                },
-                willClose: () => {
-                    clearInterval(timerInterval);
-                }
-            }).then((result) => { 
-		if (result.dismiss === Swal.DismissReason.timer) {
-                     gameOver = false;
-		     sizeCh = size + 5;
-		     Swal.close();
-		     document.querySelectorAll('.swal2-container .swal2-center .success-mg .swal2-backdrop-show').forEach(el => el.remove());
-                }else if(result.isDenied){
-		    location.reload();
-		}
-	    });
-        };
+	    let winnerMg = this.add.image(609, 360, 'winnerMg');
+            winnerMg.setScrollFactor(0); // is fixed to cam
+            winnerMg.setScale(0.3);  //smaller
+            winnerMg.setDepth(1); //on top
+	    let scoreTxt = this.add.text(500, 290, `${score}`, { fontSize: '48pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let heartTxt = this.add.text(500, 310, `${hearts}`, { fontSize: '48pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+
+            let continueText = this.add.text(500, 370, 'continue', { fontSize: '28pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            continueText.setScrollFactor(0); //is fixed to camera
+	    continueText.setInteractive();
+            let reloadText = this.add.text(540, 370, 'reload', { fontSize: '28pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            reloadText.setScrollFactor(0); //is fixed to camera
+            reloadText.setInteractive();
+            reloadText.on('pointerdown', function(){
+                this.setTint(0xe0faa5);
+            });
+            reloadText.on('pointerup', function(){
+                this.clearTint();
+                location.reload();
+            });	
+	    continueText.on('pointerdown', function(){
+                this.setTint(0xe0faa5);
+            });
+            continueText.on('pointerup', function(){
+                this.clearTint();
+                winnerMg.destroy();//setVisible(false);
+		reloadText.destroy();
+		continueText.destroy();
+		scoreTxt.destroy();
+		heartTxt.destroy();
+		gameOver = false;
+		sizeCh = size + 5;
+            });
+        }
 	
 	if(sizeCh > size){
-	    gameOver = false;
 	    progressBox.destroy();
 	    progress.destroy();
 	    wm1.x = 585;
