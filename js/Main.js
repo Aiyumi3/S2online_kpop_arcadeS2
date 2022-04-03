@@ -556,18 +556,18 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScrollFactor(0); // is fixed to cam
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
-	    let scoreTxt = this.add.text(500, 320, `${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let scoreTxt = this.add.text(500, 320, '', { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setDepth(1);
-	    let heartTxt = this.add.text(500, 350, `${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let heartTxt = this.add.text(500, 350, '', { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             heartTxt.setDepth(1);
-	    //scoreTxt.setText(`score: ${score}`);
-            //heartsTxt.setText(`💚: ${hearts}`);
+	    scoreTxt.setText(` ${score}`);
+            heartsTxt.setText(` ${hearts}`);
 
-            let continueText = this.add.text(500, 390, 'continue', { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let continueText = this.add.text(500, 400, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(540, 390, 'reload', { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let reloadText = this.add.text(570, 400, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
@@ -583,7 +583,7 @@ class KPopGame extends Phaser.Scene {
             });
             continueText.on('pointerup', function(){
                 this.clearTint();
-                winnerMg.destroy();//setVisible(false);
+                winnerMg.setVisible(false);
 		reloadText.destroy();
 		continueText.destroy();
 		scoreTxt.destroy();
