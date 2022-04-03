@@ -103,7 +103,7 @@ class KPopGame extends Phaser.Scene {
         });
         startplay.on('pointerup', function(){
             this.clearTint();
-            startplay.setVisible(false);
+            startplay.destroy();
         });
 
         cam = this.cameras.main;
@@ -557,17 +557,17 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 		
-	    let scoreTxt = this.add.text(611, 344, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let scoreTxt = this.add.text(611, 345, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setScrollFactor(0); //is fixed to camera
 	    scoreTxt.setDepth(1);
-	    let heartTxt = this.add.text(597, 376, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let heartTxt = this.add.text(597, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
-            let continueText = this.add.text(550, 423, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(619, 423, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let reloadText = this.add.text(619, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
@@ -583,12 +583,11 @@ class KPopGame extends Phaser.Scene {
             });
             continueText.on('pointerup', function(){
                 this.clearTint();
-		gameOver = false;
 		sizeCh = size + 5;
 		wm1.x = 585;
                 wm2.x = 599;
                 wm3.x = 610; 
-		winnerMg.destroy();//setVisible(false);
+		winnerMg.destroy();
 	        reloadText.destroy();
 	        continueText.destroy();
                 scoreTxt.destroy();
@@ -597,6 +596,7 @@ class KPopGame extends Phaser.Scene {
         }
 	
 	if(wm1.x == 585){
+	    gameOver = false;
 	    progressBox.destroy();
 	    progress.destroy();
 	}
