@@ -557,19 +557,17 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 		
-	    let scoreTxt = this.add.text(500, 350, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let scoreTxt = this.add.text(611, 347, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setScrollFactor(0); //is fixed to camera
 	    scoreTxt.setDepth(1);
-	    let heartTxt = this.add.text(500, 370, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let heartTxt = this.add.text(597, 373, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
-	    //scoreTxt.setText(` ${score}`);
-            //heartTxt.setText(` ${hearts}`);
-            let continueText = this.add.text(550, 430, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let continueText = this.add.text(550, 427, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(620, 430, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            let reloadText = this.add.text(619, 427, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
@@ -585,22 +583,22 @@ class KPopGame extends Phaser.Scene {
             });
             continueText.on('pointerup', function(){
                 this.clearTint();
-                winnerMg.setVisible(false);
-		reloadText.destroy();
-		continueText.destroy();
-		scoreTxt.destroy();
-		heartTxt.destroy();
 		gameOver = false;
 		sizeCh = size + 5;
+		wm1.x = 585;
+                wm2.x = 599;
+                wm3.x = 610; 
             });
         }
 	
-	if(sizeCh > size){
+	if(wm1.x == 585){
+	    winnerMg.destroy();//setVisible(false);
+	    reloadText.destroy();
+	    continueText.destroy();
+            scoreTxt.destroy();
+	    heartTxt.destroy();
 	    progressBox.destroy();
 	    progress.destroy();
-	    wm1.x = 585;
-            wm2.x = 599;
-            wm3.x = 610; 
 	}
 	    
         if(hearts >= 24){
