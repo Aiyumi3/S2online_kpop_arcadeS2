@@ -554,17 +554,21 @@ class KPopGame extends Phaser.Scene {
 	    gameOver = true;	
 	    let winnerMg = this.add.image(609, 360, 'winnerMg');
             winnerMg.setScrollFactor(0); // is fixed to cam
-            winnerMg.setScale(0.3);  //smaller
+            winnerMg.setScale(0.25);  //smaller
             winnerMg.setDepth(1); //on top
 	    let scoreTxt = this.add.text(500, 290, `${score}`, { fontSize: '48pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    scoreTxt.setDepth(1);
 	    let heartTxt = this.add.text(500, 310, `${hearts}`, { fontSize: '48pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+            heartTxt.setDepth(1);
 
             let continueText = this.add.text(500, 370, 'continue', { fontSize: '28pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
+	    continueText.setDepth(1);
             let reloadText = this.add.text(540, 370, 'reload', { fontSize: '28pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
+	    reloadText.setDepth(1);
             reloadText.on('pointerdown', function(){
                 this.setTint(0xe0faa5);
             });
