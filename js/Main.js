@@ -576,6 +576,7 @@ class KPopGame extends Phaser.Scene {
 		if (result.dismiss === Swal.DismissReason.timer) {
                      gameOver = false;
 		     sizeCh = size + 5;
+		     Swal.close();
                 }else if(result.isDenied){
 		    location.reload();
 		}
