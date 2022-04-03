@@ -3,9 +3,7 @@ body {
     margin: 0;
     background: linear-gradient(-45deg, #ffd1ac, #e6ccff, #ff9999) no-repeat;
 }
-.swal2-image {
-    border-radius: 15px;
-}
+
 .swal2-modal{
     border-radius: 25px;
 }
