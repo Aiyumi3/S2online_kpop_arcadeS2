@@ -555,6 +555,9 @@ class KPopGame extends Phaser.Scene {
                 title: `🎊🎶📢Winner💫✨😊 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈 \n 💚: ${hearts}`,
                 icon: 'success',
 		html: '<p style="color:white; text-align: center"> ~ continue in <b></b> milliseconds ~</p>',
+		customClass: {
+                    container: "success-mg",
+                },
 		showDenyButton: true,
                 denyButtonColor: '#a7fa5a',
                 denyButtonText: '~reload~',
