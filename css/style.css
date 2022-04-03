@@ -3,7 +3,16 @@ body {
     margin: 0;
     background: linear-gradient(-45deg, #ffd1ac, #e6ccff, #ff9999) no-repeat;
 }
-
-.swal2-modal{
+.swal2-modal {
     border-radius: 25px;
+    width: 70%; 
+    height: 70%;
+}
+#swal2-title {
+    font-size: 17pt;
+}
+.swal2-warning {
+    width: 20%; 
+    height: 50%; 
+    margin:0 0 0 40%; 
 }
