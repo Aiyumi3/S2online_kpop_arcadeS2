@@ -592,7 +592,6 @@ class KPopGame extends Phaser.Scene {
 	    wm1.x = 585;
             wm2.x = 599;
             wm3.x = 610; 
-	    this.scale.startFullscreen();
 	}
 	    
         if(hearts >= 24){
