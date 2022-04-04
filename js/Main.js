@@ -584,7 +584,6 @@ class KPopGame extends Phaser.Scene {
             });
             continueText.on('pointerup', function(){
                 this.clearTint();
-		gameOver = false;
 	        reloadText.destroy();
 	        continueText.destroy();
                 scoreTxt.destroy();
@@ -598,6 +597,9 @@ class KPopGame extends Phaser.Scene {
 	        progress.destroy();
             });
         }
+	if(wm1.x = 585){
+	    gameOver = false;
+	}
 	    
         if(hearts >= 24){
             hearts = 24;
