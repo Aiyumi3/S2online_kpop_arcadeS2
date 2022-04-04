@@ -557,18 +557,18 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 		
-	    let scoreTxt = this.add.text(611, 339, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
+	    let scoreTxt = this.add.text(611, 339, ` ${score}`, { font: '11pt monospace', fill: '#ffffff'});
 	    scoreTxt.setScrollFactor(0); //is fixed to camera
 	    scoreTxt.setDepth(1);
 	    let heartTxt = this.add.text(597, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
 		
-            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS', fontWeight: 'lighter'});
+            let continueText = this.add.text(550, 417, 'continue', { font: '7pt monospace', fill: '#ffffff'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(615, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS', fontWeight: 'lighter'});
+            let reloadText = this.add.text(615, 417, 'reload', { font: '7pt monospace', fill: '#ffffff'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
@@ -585,17 +585,17 @@ class KPopGame extends Phaser.Scene {
             continueText.on('pointerup', function(){
                 this.clearTint();
 		sizeCh = size + 5;
+		gameOver = false;
 		wm1.x = 585;
                 wm2.x = 599;
                 wm3.x = 610; 
-		gameOver = false;
-		progressBox.destroy();
-	        progress.destroy();
 		winnerMg.destroy();
 	        reloadText.destroy();
 	        continueText.destroy();
                 scoreTxt.destroy();
 	        heartTxt.destroy();
+		progressBox.destroy();
+	        progress.destroy();
             });
         }
 	    
