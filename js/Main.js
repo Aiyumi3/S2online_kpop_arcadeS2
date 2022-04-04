@@ -564,11 +564,11 @@ class KPopGame extends Phaser.Scene {
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
 		
-            let continueText = this.add.text(550, 417, 'continue', { font: '7pt monospace', fill: '#ffffff'});
+            let continueText = this.add.text(550, 417, 'continue', { font: '7pt Arial', fill: '#ffffff'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(615, 417, 'reload', { font: '7pt monospace', fill: '#ffffff'});
+            let reloadText = this.add.text(615, 417, 'reload', { font: '7pt Arial', fill: '#ffffff'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
