@@ -585,21 +585,19 @@ class KPopGame extends Phaser.Scene {
             continueText.on('pointerup', function(){
                 this.clearTint();
 		gameOver = false;
-	        reloadText.setVisible(false);
-	        continueText.setVisible(false);
-                scoreTxt.setVisible(false);
-	        heartTxt.setVisible(false);
-		winnerMg.setVisible(false);
+	        reloadText.destroy();
+	        continueText.destroy();
+                scoreTxt.destroy();
+	        heartTxt.destroy();
+		winnerMg.destroy();
 		sizeCh = size + 5;
 		wm1.x = 585;
+		wm2.x = 599;
+                wm3.x = 610; 
+                progressBox.destroy();
+	        progress.destroy();
             });
         }
-	if(wm1.x = 585){
-	    wm2.x = 599;
-            wm3.x = 610; 
-            progressBox.destroy();
-	    progress.destroy();
-	}
 	    
         if(hearts >= 24){
             hearts = 24;
