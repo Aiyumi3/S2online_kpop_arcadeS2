@@ -315,12 +315,12 @@ class KPopGame extends Phaser.Scene {
         });
         bombs = this.physics.add.group();
 
-        heartsText = this.add.text(725, 255, '💚: 24', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'Comic Sans MS Bold Italic',
+        heartsText = this.add.text(725, 255, '💚: 24', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'Comic Sans MS',
             stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3});
         heartsText.setScrollFactor(0); //is fixed to camera
         heartsText.setShadow(2, 2,'#2a031b', 1, false, true);
 
-        scoreText = this.add.text(437, 255, 'score: 0', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'Comic Sans MS Bold Italic',
+        scoreText = this.add.text(437, 255, 'score: 0', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'Comic Sans MS',
             stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3});
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
@@ -557,18 +557,18 @@ class KPopGame extends Phaser.Scene {
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
 		
-	    let scoreTxt = this.add.text(611, 339, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS Bold Italic'});
+	    let scoreTxt = this.add.text(611, 339, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    scoreTxt.setScrollFactor(0); //is fixed to camera
 	    scoreTxt.setDepth(1);
-	    let heartTxt = this.add.text(597, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS Bold Italic'});
+	    let heartTxt = this.add.text(597, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Comic Sans MS'});
 	    heartTxt.setScrollFactor(0); //is fixed to camera
             heartTxt.setDepth(1);
 		
-            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS Italic', fontWeight: 'lighter'});
+            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS', fontWeight: 'lighter'});
             continueText.setScrollFactor(0); //is fixed to camera
 	    continueText.setInteractive();
 	    continueText.setDepth(1);
-            let reloadText = this.add.text(615, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS Italic', fontWeight: 'lighter'});
+            let reloadText = this.add.text(615, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Comic Sans MS', fontWeight: 'lighter'});
             reloadText.setScrollFactor(0); //is fixed to camera
             reloadText.setInteractive();
 	    reloadText.setDepth(1);
