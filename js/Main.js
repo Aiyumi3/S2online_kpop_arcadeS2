@@ -594,7 +594,7 @@ class KPopGame extends Phaser.Scene {
 		winnerMg.destroy();
             });
         }
-	if(wm1.x = 585;){
+	if(wm1.x = 585){
 	    wm2.x = 599;
             wm3.x = 610; 
             progressBox.destroy();
