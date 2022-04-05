@@ -10,7 +10,7 @@ body {
 }
 #swal2-title {
     font-size: 17pt;
-    font-Family: 'Comic Sans MS'; 
+    font-Family: 'Comic Sans MS', serif; 
     font-weight: 100;
 }
 .swal2-warning {

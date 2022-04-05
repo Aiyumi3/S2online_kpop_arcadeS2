@@ -1,10 +1,14 @@
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+const rndNum = getRndInteger(500,5100);
 const size = 200; //width rect
 let score = 0;
 let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
     heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
-    sky, snooze1, snooze2, snooze3, progress, progressBox, timerInterval, wm1, wm2, wm3, sizeCh; 
+    sky, snooze1, snooze2, snooze3, progress, progressBox, wm1, wm2, wm3, sizeCh, cursors;
 
 class KPopGame extends Phaser.Scene {
     constructor () {super();}
@@ -89,19 +93,20 @@ class KPopGame extends Phaser.Scene {
         this.load.audio('soundbullet', ['./assets/audio/soundbullet.wav']);
     }
 
-    create () {	    
+    create () {
         sky = this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);       //  background for game
 
         mousePointer = this.input.activePointer;
+        cursors = this.input.keyboard.createCursorKeys();
 
         startplay = this.add.image(609, 360, 'startplay').setInteractive();
         startplay.setScrollFactor(0); // is fixed to cam
         startplay.setScale(0.3);  //smaller
         startplay.setDepth(1); //on top
-        startplay.on('pointerdown', function(){
+        startplay.on('pointerdown', function () {
             this.setTint(0xe0faa5);
         });
-        startplay.on('pointerup', function(){
+        startplay.on('pointerup', function () {
             this.clearTint();
             startplay.destroy();
         });
@@ -110,30 +115,30 @@ class KPopGame extends Phaser.Scene {
         cam.setBounds(0, 0, 1207, 720);
         cam.setZoom(3.5); //zoom in
 
-        backgroundSound =  this.sound.add('background', {
+        backgroundSound = this.sound.add('background', {
             volume: 0.07,
             loop: true
         });
-        if(!this.sound.locked){
+        if (!this.sound.locked) {
             // already unlocked so play
             backgroundSound.play();
-        }else{
+        } else {
             // wait for 'unlocked' and then play
             this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
                 backgroundSound.play();
             });
         }
-	    
-	platforms = this.physics.add.staticGroup();                        //  create platforms
+
+        platforms = this.physics.add.staticGroup();                        //  create platforms
         platforms.create(390, 677, 'ground').setScale(3).refreshBody();
         platforms.create(1200, 677, 'ground').setScale(3).refreshBody();
         platforms.create(250, 440, 'ground1');
         platforms.create(70, 600, 'ground2');
         platforms.create(580, 530, 'ground2');
         platforms.create(100, 239, 'ground2');
-	platforms.create(200, 239, 'ground2');
+        platforms.create(200, 239, 'ground2');
         snooze1 = platforms.create(250, 239, 'ground1').setScale(0.7);
-	platforms.create(973, 258, 'ground2');
+        platforms.create(973, 258, 'ground2');
         snooze2 = platforms.create(990, 258, 'ground1');
         snooze3 = platforms.create(1099, 409, 'ground2').setScale(0.7);
         platforms.create(750, 140, 'ground1');
@@ -142,24 +147,24 @@ class KPopGame extends Phaser.Scene {
         setInterval(() => {   //animation
             snooze1.disableBody(true, true);
         }, 3107);
-	setInterval(() => {   //animation
+        setInterval(() => {   //animation
             snooze1.enableBody(true, snooze1.x, snooze1.y, true, true);
         }, 1050);
-	    
-	setInterval(() => {   //animation
+
+        setInterval(() => {   //animation
             snooze2.disableBody(true, true);
         }, 1000);
-	setInterval(() => {   //animation
+        setInterval(() => {   //animation
             snooze2.enableBody(true, snooze2.x, snooze2.y, true, true);
         }, 555);
-	    
-	setInterval(() => {   //animation
-            snooze3.disableBody(true,true);
+
+        setInterval(() => {   //animation
+            snooze3.disableBody(true, true);
         }, 900);
-	setInterval(() => {   //animation
+        setInterval(() => {   //animation
             snooze3.enableBody(true, snooze3.x, snooze3.y, true, true);
         }, 280);
-		
+
         movingPlatform = this.physics.add.image(207, 239, 'ground2');
         movingPlatform.setImmovable(true);
         movingPlatform.body.allowGravity = false;                             // <--> moving platform
@@ -195,25 +200,25 @@ class KPopGame extends Phaser.Scene {
 
         this.anims.create({                                                      //  player animations
             key: 'left',
-            frames: [ { key: 'mark', frame: 1 }, { key: 'mark', frame: 2 }, { key: 'mark', frame: 3 }],
+            frames: [{key: 'mark', frame: 1}, {key: 'mark', frame: 2}, {key: 'mark', frame: 3}],
             frameRate: 17,
             repeat: -1
         });
         this.anims.create({
             key: 'turn',
-            frames: [ { key: 'mark', frame: 4 }, { key: 'mark', frame: 6 }],
+            frames: [{key: 'mark', frame: 4}, {key: 'mark', frame: 6}],
             frameRate: 7,
             repeat: -1
         });
         this.anims.create({
             key: 'right',
-            frames: [ { key: 'mark', frame: 5 }, { key: 'mark', frame: 6 }, { key: 'mark', frame: 7 }],
+            frames: [{key: 'mark', frame: 5}, {key: 'mark', frame: 6}, {key: 'mark', frame: 7}],
             frameRate: 17,
             repeat: -1
         });
         this.anims.create({
             key: 'run',
-            frames: [ { key: 'mark', frame: 4 }, { key: 'mark', frame: 5 }, { key: 'mark', frame: 3 }],
+            frames: [{key: 'mark', frame: 4}, {key: 'mark', frame: 5}, {key: 'mark', frame: 3}],
             frameRate: 20,
             repeat: -1
         });
@@ -225,20 +230,20 @@ class KPopGame extends Phaser.Scene {
         this.physics.add.collider(player, snooze1);
         this.physics.add.collider(player, snooze2);
         this.physics.add.collider(player, snooze3);
-	this.physics.add.collider(player, fly, upWay, null, this);
+        this.physics.add.collider(player, fly, this.upWay, null, this);
         this.physics.add.collider(platforms, bullet1);
-        this.physics.add.collider(player, bullet1, hitBullet, null, this);
+        this.physics.add.collider(player, bullet1, this.hitBullet, null, this);
 
         btn = this.add.image(443, 453, 'fullscreen').setInteractive();//can tap
         btn.setScale(0.15);         //smaller
         btn.setAlpha(0.5);
         btn.setScrollFactor(0); //is fixed to camera
         btn.on('pointerup', function () {
-            if(this.scale.isFullscreen){
+            if (this.scale.isFullscreen) {
                 this.scale.stopFullscreen();
                 btn.setScale(0.25);             //smaller
                 btn.setAlpha(0.5);
-            }else{
+            } else {
                 this.scale.startFullscreen();
                 btn.setScale(0.19);                                  //smaller
                 btn.setAlpha(0.7);
@@ -249,14 +254,14 @@ class KPopGame extends Phaser.Scene {
         btnLeft.setScale(0.65);
         btnLeft.setAlpha(0.5);
         btnLeft.setScrollFactor(0); //is fixed to camera
-        btnLeft.on('pointerdown', function(){
+        btnLeft.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
             player.setVelocityX(-350);
             player.anims.play('left');
         });
-        btnLeft.on('pointerup', function(){
+        btnLeft.on('pointerup', function () {
             this.clearTint();
             this.setAlpha(0.5);
             this.setScale(0.65);
@@ -268,15 +273,15 @@ class KPopGame extends Phaser.Scene {
         btnRight.setScale(0.65);
         btnRight.setAlpha(0.5);
         btnRight.setScrollFactor(0); //is fixed to camera
-        btnRight.on('pointerdown', function(){
+        btnRight.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
             player.setVelocityX(380);
             player.anims.play('right');
-	    player.x += 25;
+            player.x += 25;
         });
-        btnRight.on('pointerup', function(){
+        btnRight.on('pointerup', function () {
             this.clearTint();
             this.setAlpha(0.5);
             this.setScale(0.65);
@@ -288,14 +293,14 @@ class KPopGame extends Phaser.Scene {
         btnUp.setScale(0.65);
         btnUp.setAlpha(0.5);
         btnUp.setScrollFactor(0); //is fixed to camera
-        btnUp.on('pointerdown', function(){
+        btnUp.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
             this.setScale(0.75);
             player.setVelocityY(-295);
             player.anims.play('run');
         });
-        btnUp.on('pointerup', function(){
+        btnUp.on('pointerup', function () {
             this.clearTint();
             this.setAlpha(0.5);
             this.setScale(0.65);
@@ -306,7 +311,7 @@ class KPopGame extends Phaser.Scene {
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,                                                         //in total = 12
-            setXY: { x: 65, y: Phaser.Math.Between(3, 525), stepX: 90 }
+            setXY: {x: 65, y: Phaser.Math.Between(3, 525), stepX: 90}
         });
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));          // a slightly different bounce for each watermelon
@@ -315,51 +320,55 @@ class KPopGame extends Phaser.Scene {
         });
         bombs = this.physics.add.group();
 
-        heartsText = this.add.text(725, 255, '💚: 24', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'monospace',
-            stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3});
+        heartsText = this.add.text(725, 255, '💚: 24', {
+            fontSize: '9pt', fill: '#c6f50c', fontFamily: 'Segoe Script',
+            stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3
+        });
         heartsText.setScrollFactor(0); //is fixed to camera
-        heartsText.setShadow(2, 2,'#2a031b', 1, false, true);
+        heartsText.setShadow(2, 2, '#2a031b', 1, false, true);
 
-        scoreText = this.add.text(437, 255, 'score: 0', { fontSize: '9pt', fill: '#c6f50c', fontFamily:'monospace',
-            stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3});
+        scoreText = this.add.text(437, 255, 'score: 0', {
+            fontSize: '9pt', fill: '#c6f50c', fontFamily: 'Segoe Script',
+            stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3
+        });
         scoreText.setScrollFactor(0); //is fixed to camera
-        scoreText.setShadow(2, 2,'#2a031b', 1, false, true);
+        scoreText.setShadow(2, 2, '#2a031b', 1, false, true);
 
         heal = this.physics.add.image(739, 282, 'healing').setInteractive();
         heal.setScale(0.017);
-	heal.body.allowGravity = false;
+        heal.body.allowGravity = false;
         heal.setScrollFactor(0); //is fixed to camera
-        heal.on('pointerdown', function(){
+        heal.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setScale(0.08);
-            if(hearts >= 17 && hearts <= 24){
+            if (hearts >= 17 && hearts <= 24) {
                 hearts += 1.5;
                 heartsText.setText(`💚: ${hearts}`);
-            }else if(hearts < 9){
+            } else if (hearts < 9) {
                 hearts += 5;
                 heartsText.setText(`💚: ${hearts}`);
-            }else if(hearts >= 9 && hearts < 17){
+            } else if (hearts >= 9 && hearts < 17) {
                 hearts += 3;
                 heartsText.setText(`💚: ${hearts}`);
             }
         });
-        heal.on('pointerup', function(){
+        heal.on('pointerup', function () {
             this.clearTint();
             this.setScale(0.017);
             heal.disableBody(true, true);
         });
-	setInterval(() => {   //animation
+        setInterval(() => {   //animation
             heal.disableBody(true, true);
         }, 5107);
-	setInterval(() => {   //animation
-	    heal.enableBody(true, 763, 282, true, true);
+        setInterval(() => {   //animation
+            heal.enableBody(true, 763, 282, true, true);
         }, 15000);
-	    
-	progressBox = this.add.graphics().setScrollFactor(0);
-	progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
+
+        progressBox = this.add.graphics().setScrollFactor(0);
+        progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
         progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
-	    
+
         wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
         wm3 = this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
@@ -372,237 +381,220 @@ class KPopGame extends Phaser.Scene {
         this.physics.add.collider(bombs, movingPlatform);
         this.physics.add.collider(bombs, movingPlatform2);
         this.physics.add.collider(bombs, movingPlatform3);
-        this.physics.add.overlap(player, stars, collectStar, null, this);
-        this.physics.add.collider(player, bombs, hitBomb, null, this);
+        this.physics.add.overlap(player, stars, this.collectStar, null, this);
+        this.physics.add.collider(player, bombs, this.hitBomb, null, this);
+    }
 
-        function upWay(player){
-	    player.setVelocity(-160, -450);
-            player.y -= 99;
-	    player.x -= 50;
-            player.anims.play('left');
-	}
-	
-	function hitBullet(player, bullet){
-            player.setTint(0x8B0634);
-            player.anims.play('turn');
-	    soundbullet = this.sound.add('soundbullet', {
-                volume: 0.3
-            });
-            if(!this.sound.locked){
-                // already unlocked so play
+    upWay(player){
+        player.setVelocity(-160, -450);
+        player.y -= 99;
+        player.x -= 50;
+        player.anims.play('left');
+    }
+    hitBullet(player, bullet){
+        player.setTint(0x8B0634);
+        player.anims.play('turn');
+        soundbullet = this.sound.add('soundbullet', {
+            volume: 0.3
+        });
+        if(!this.sound.locked){
+            // already unlocked so play
+            soundbullet.play();
+        }else{
+            // wait for 'unlocked' and then play
+            this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
                 soundbullet.play();
-            }else{
-                // wait for 'unlocked' and then play
-                this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
-                    soundbullet.play();
-                });
-            }
-            setInterval(() => {
-                player.clearTint();
-            }, 3000);
-
-            hearts -= 3;
-            heartsText.setText(`💚: ${hearts}`);
-            if(bullet.x >= 700){
-                player.x = 500;
-            }else if(bullet.y > 580){
-                bullet.y = 580;
-            }
-
-            if(hearts < 0){
-                hearts = 0;
-                heartsText.setText(`💚: ${hearts}`);
-            }
-
-            if(hearts === 0){
-                bullet.disableBody(true, true);
-                player.setTint(0x8B0634);
-                this.physics.pause();
-                gameOver = true;
-
-                if(this.scale.isFullscreen){
-                    this.scale.stopFullscreen();
-                }
-
-		if(wm1.x == 585){
-	           Swal.fire({
-                       title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
-                       icon: 'warning',
-		       allowEscapeKey: false,
-                       allowOutsideClick: false,
-                       confirmButtonColor: '#a7fa5a',
-                       confirmButtonText: '~reload~'
-                   }).then(() => {location.reload();});	
-		}else{
-		   Swal.fire({
-                       title: `😢📢Game over✨🥴🎊\n🌸~ your score: ${score} ~🌸`,
-                       icon: 'warning',
-	               allowEscapeKey: false,
-                       allowOutsideClick: false,
-                       confirmButtonColor: '#a7fa5a',
-                       confirmButtonText: '~reload~'
-                   }).then(() => {location.reload();});
-		}
-            }
-        }
-
-        function collectStar(player, star){
-            star.disableBody(true, true);
-            score += 5;
-            scoreText.setText(`score: ${score}`);
-
-            if(stars.countActive(true) === 0){
-                stars.children.iterate(function(child){
-                    //  new watermelons
-                    child.enableBody(true, child.x, Phaser.Math.Between(3, 525), true, true);
-                });
-
-                let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-                let bomb = bombs.create(x, 16, 'bomb');
-                bomb.setBounce(1);
-                bomb.setScale(0.2); //smaller
-                bomb.setVelocity(Phaser.Math.Between(-120, 90), 20);
-                bomb.allowGravity = false;
-                bomb.setCollideWorldBounds(true);
-                setInterval(() => {
-                    bomb.disableBody(true, true);
-                }, 19703);
-            }
-        }
-
-        function hitBomb(player, bomb){
-            player.setTint(0x8B0634);
-            setInterval(() => {
-                player.clearTint();
-            }, 2500);
-            bombsound = this.sound.add('bombsound', {
-                volume: 0.3
             });
-            if(!this.sound.locked){
-                // already unlocked so play
-                bombsound.play();
-            }else{
-                // wait for 'unlocked' and then play
-                this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {bombsound.play();});
-            }
-            player.anims.play('turn');
-            bomb.disableBody(true, true);
+        }
+        setInterval(() => {
+            player.clearTint();
+        }, 3000);
 
-            score -= 35;
-            hearts -= 0.5;
-            scoreText.setText(`score: ${score}`);
+        hearts -= 3;
+        heartsText.setText(`💚: ${hearts}`);
+        if(bullet.x >= 700){
+            player.x = 500;
+        }else if(bullet.y > 580){
+            bullet.y = 580;
+        }
+
+        if(hearts < 0){
+            hearts = 0;
             heartsText.setText(`💚: ${hearts}`);
+        }
 
-            if(hearts < 0){
-                hearts = 0;
-                heartsText.setText(`💚: ${hearts}`);
+        if(hearts === 0){
+            bullet.disableBody(true, true);
+            player.setTint(0x8B0634);
+            this.physics.pause();
+            gameOver = true;
+
+            if(this.scale.isFullscreen){
+                this.scale.stopFullscreen();
             }
 
-            if(hearts === 0 || player.y > 700){
-                player.setTint(0x8B0634);
-                this.physics.pause();
-                gameOver = true;
+            if(wm1.x === 585){
+                Swal.fire({
+                    title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
+                    icon: 'warning',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonColor: '#a7fa5a',
+                    confirmButtonText: '~reload~'
+                }).then(() => {location.reload();});
+            }else{
+                Swal.fire({
+                    title: `😢📢Game over✨🥴🎊\n🌸~ your score: ${score} ~🌸`,
+                    icon: 'warning',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonColor: '#a7fa5a',
+                    confirmButtonText: '~reload~'
+                }).then(() => {location.reload();});
+            }
+        }
+    }
+    collectStar(player, star){
+        star.disableBody(true, true);
+        score += 5;
+        scoreText.setText(`score: ${score}`);
 
-                if(this.scale.isFullscreen){
-                    this.scale.stopFullscreen();
-                }
+        if(stars.countActive(true) === 0){
+            stars.children.iterate(function(child){
+                //  new watermelons
+                child.enableBody(true, child.x, Phaser.Math.Between(3, 525), true, true);
+            });
 
-		if(wm1.x == 585){
-	           Swal.fire({
-                       title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
-                       icon: 'warning',
-		       allowEscapeKey: false,
-                       allowOutsideClick: false,
-                       confirmButtonColor: '#a7fa5a',
-                       confirmButtonText: '~reload~'
-                   }).then(() => {location.reload();});
-	        }else{
-                   Swal.fire({
-                       title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸`,
-                       icon: 'warning',
-		       allowEscapeKey: false,
-                       allowOutsideClick: false,
-                       confirmButtonColor: '#a7fa5a',
-                       confirmButtonText: '~reload~'
-                   }).then(() => {location.reload();});
-		}
+            let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+            let bomb = bombs.create(x, 16, 'bomb');
+            bomb.setBounce(1);
+            bomb.setScale(0.2); //smaller
+            bomb.setVelocity(Phaser.Math.Between(-120, 90), 20);
+            bomb.allowGravity = false;
+            bomb.setCollideWorldBounds(true);
+            setInterval(() => {
+                bomb.disableBody(true, true);
+            }, 19703);
+        }
+    }
+    hitBomb(player, bomb){
+        player.setTint(0x8B0634);
+        setInterval(() => {
+            player.clearTint();
+        }, 2500);
+        bombsound = this.sound.add('bombsound', {
+            volume: 0.3
+        });
+        if(!this.sound.locked){
+            // already unlocked so play
+            bombsound.play();
+        }else{
+            // wait for 'unlocked' and then play
+            this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {bombsound.play();});
+        }
+        player.anims.play('turn');
+        bomb.disableBody(true, true);
+
+        score -= 35;
+        hearts -= 0.5;
+        scoreText.setText(`score: ${score}`);
+        heartsText.setText(`💚: ${hearts}`);
+
+        if(hearts < 0){
+            hearts = 0;
+            heartsText.setText(`💚: ${hearts}`);
+        }
+
+        if(hearts === 0 || player.y > 700){
+            player.setTint(0x8B0634);
+            this.physics.pause();
+            gameOver = true;
+
+            if(this.scale.isFullscreen){
+                this.scale.stopFullscreen();
+            }
+
+            if(wm1.x === 585){
+                Swal.fire({
+                    title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸 \n 🍈 🍈 🍈`,
+                    icon: 'warning',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonColor: '#a7fa5a',
+                    confirmButtonText: '~reload~'
+                }).then(() => {location.reload();});
+            }else{
+                Swal.fire({
+                    title: `🎈📢Game over✨😟 \n🌸~ your score: ${score} ~🌸`,
+                    icon: 'warning',
+                    allowEscapeKey: false,
+                    allowOutsideClick: false,
+                    confirmButtonColor: '#a7fa5a',
+                    confirmButtonText: '~reload~'
+                }).then(() => {location.reload();});
             }
         }
     }
 
     update () {
         if(gameOver){
-            return;  
+            return;
         }
-	    
-	if(score == 700){
-	    heal.enableBody(true, 763, 282, true, true);
+
+        if(cursors.left.isDown){
+            player.setVelocityX(-150);
+            player.anims.play('left');
         }
-	
-	if(score == (score-35)){
-	    sizeCh = (size*(score+35))/10;
-	}else{
-            sizeCh = (size*score)/10;
-	}
-	progress.fillStyle(0xc9f5bc, 0.7);
+        if(cursors.right.isDown){
+            player.setVelocityX(180);
+            player.anims.play('right');
+        }
+        if(cursors.up.isDown){
+            player.setVelocityY(-195);
+            player.anims.play('run');
+        }
+
+	    if(score === 700){
+            heal.enableBody(true, 763, 282, true, true);
+        }
+
+        if(score === (score-35)){
+            sizeCh = (size*(score+35))/rndNum;
+        }else{
+            sizeCh = (size*score)/rndNum;
+        }
+	    progress.fillStyle(0xc9f5bc, 0.7);
         progress.fillRect(514, 264.5, sizeCh, 9);
           
-	if(sizeCh == size){
-	    if(this.scale.isFullscreen){
+	    if(sizeCh >= size){
+            if(this.scale.isFullscreen){
                 this.scale.stopFullscreen();
             }
-	    gameOver = true;	
-	    let winnerMg = this.add.image(598, 360, 'winnerMg');
+            this.physics.pause();
+            gameOver = true;
+            let winnerMg = this.add.image(598, 360, 'winnerMg');
             winnerMg.setScrollFactor(0); // is fixed to cam
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
-
-	    let scoreTxt = this.add.text(611, 339, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Lemon'});
-	    scoreTxt.setScrollFactor(0); //is fixed to camera
-	    scoreTxt.setDepth(1);
-	    let heartTxt = this.add.text(597, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Lemon'});
-	    heartTxt.setScrollFactor(0); //is fixed to camera
-            heartTxt.setDepth(1);
-
-            let continueText = this.add.text(550, 417, 'continue', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Raleway'});
-            continueText.setScrollFactor(0); //is fixed to camera
-	    continueText.setInteractive();
-	    continueText.setDepth(1);
-            let reloadText = this.add.text(615, 417, 'reload', { fontSize: '7pt', fill: '#ffffff', fontFamily:'Raleway'});
-            reloadText.setScrollFactor(0); //is fixed to camera
-            reloadText.setInteractive();
-	    reloadText.setDepth(1);
-            reloadText.on('pointerdown', function(){
-                this.setTint(0xe0faa5);
+            winnerMg.on('pointerdown', function(){
+                this.setTint(0x280731ff);
             });
-            reloadText.on('pointerup', function(){
+            winnerMg.on('pointerup', function(){
                 this.clearTint();
                 location.reload();
-            });	
-	    continueText.on('pointerdown', function(){
-                this.setTint(0xe0faa5);
             });
-            continueText.on('pointerup', function(){
-                this.clearTint();
-		sizeCh = size + 5;
-		wm1.x = 585;
-                wm2.x = 599;
-                wm3.x = 610; 
-		gameOver = false;
-		progressBox.destroy();
-	        progress.destroy();
-		winnerMg.destroy();
-	        reloadText.destroy();
-	        continueText.destroy();
-                scoreTxt.destroy();
-	        heartTxt.destroy();
-            });
+            let scoreTxt = this.add.text(612, 339, ` ${score}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Segoe UI'});
+	        scoreTxt.setScrollFactor(0); //is fixed to camera
+	        scoreTxt.setDepth(1);
+	        let heartTxt = this.add.text(599, 377, ` ${hearts}`, { fontSize: '11pt', fill: '#ffffff', fontFamily:'Segoe UI'});
+	        heartTxt.setScrollFactor(0); //is fixed to camera
+            heartTxt.setDepth(1);
         }
 	    
         if(hearts >= 24){
             hearts = 24;
             heartsText.setText(`💚: ${hearts}`);
-            heal.setVisible(false);
+            heal.disableBody(true, true);
         }
 
         if(movingPlatform.x >= 600){
@@ -622,8 +614,8 @@ class KPopGame extends Phaser.Scene {
         }else if(movingPlatform2.y <= 200){
             movingPlatform2.setVelocityY(131);
         }
-		
-	fly.rotation -= 0.7;
+
+        fly.rotation -= 0.7;
     }
 }
 
