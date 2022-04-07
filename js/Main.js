@@ -572,12 +572,12 @@ class KPopGame extends Phaser.Scene {
             }
             this.physics.pause();
             gameOver = true;
-            let winnerMg = this.add.image(598, 360, 'winnerMg');
+            let winnerMg = this.add.image(598, 360, 'winnerMg').setInteractive();
             winnerMg.setScrollFactor(0); // is fixed to cam
             winnerMg.setScale(0.29);  //smaller
             winnerMg.setDepth(1); //on top
             winnerMg.on('pointerdown', function(){
-                this.setTint(0x280731ff);
+                this.setTint(0xe0faa5);
             });
             winnerMg.on('pointerup', function(){
                 this.clearTint();
