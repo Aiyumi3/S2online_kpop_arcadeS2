@@ -7,7 +7,7 @@ let score = 0;
 let hearts = 24;
 let gameOver = false;
 let player, startplay, stars, bombs, platforms, movingPlatform, movingPlatform2, movingPlatform3, scoreText, bullet1,
-    heartsText, btnUp, btnLeft, btnRight, mousePointer, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
+    heartsText, btnUp, btnLeft, btnRight, btn, backgroundSound, bombsound, soundbullet, cam, heal, fly,
     sky, snooze1, snooze2, snooze3, progress, progressBox, wm1, wm2, wm3, sizeCh, cursors;
 
 class KPopGame extends Phaser.Scene {
@@ -20,12 +20,12 @@ class KPopGame extends Phaser.Scene {
         let progressBar = this.add.graphics();
         let progressBox = this.add.graphics();
         progressBox.fillStyle(0x222222, 0.3);//color, transparency
-        progressBox.fillRoundedRect(width / 2 - 165, height / 2 - 15, 320, 50, 15);//(x, y, w, h, radius)
+        progressBox.fillRoundedRect(width / 2 - 205, height / 2 - 15, 420, 50, 15);//(x, y, w, h, radius)
 
         let loadingText = this.make.text({
             x: width / 2 + 10,
             y: height / 2 - 50,
-            text: 'Loading...',
+            text: 'L o a d i n g...',
             style: {
                 font: '20px monospace',
                 fill: '#ffffff'
@@ -59,7 +59,7 @@ class KPopGame extends Phaser.Scene {
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0xb1f0e1, 0.7);
-            progressBar.fillRoundedRect(width / 2 - 155, height / 2 - 5, 300 * value, 30, 5);//(x, y, w, h, radius)
+            progressBar.fillRoundedRect(width / 2 - 195, height / 2 - 5, 400 * value, 30, 5);//(x, y, w, h, radius)
         });
         this.load.on('fileprogress', function (file) {
             assetText.setText('Loading asset: ' + file.key);
@@ -91,18 +91,31 @@ class KPopGame extends Phaser.Scene {
         this.load.audio('background', ['./assets/audio/nctdream_hotsouce_dinover.mp3']);
         this.load.audio('bombsound', ['./assets/audio/bombsound.wav']);
         this.load.audio('soundbullet', ['./assets/audio/soundbullet.wav']);
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            loadingText.setScale(2, 1);
+            percentText.setScale(2, 1);
+            assetText.setScale(2, 1);
+        }else{
+            loadingText.setScale(1);
+            percentText.setScale(1);
+            assetText.setScale(1);
+        }
     }
 
     create () {
         sky = this.add.image(0, 0, 'sky').setOrigin(0).setScrollFactor(1);       //  background for game
 
-        mousePointer = this.input.activePointer;
         cursors = this.input.keyboard.createCursorKeys();
 
         startplay = this.add.image(609, 360, 'startplay').setInteractive();
         startplay.setScrollFactor(0); // is fixed to cam
-        startplay.setScale(0.3);  //smaller
         startplay.setDepth(1); //on top
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            startplay.setScale(0.45, 0.3);
+        }else{
+            startplay.setScale(0.3);
+        }
+
         startplay.on('pointerdown', function () {
             this.setTint(0xe0faa5);
         });
@@ -174,7 +187,6 @@ class KPopGame extends Phaser.Scene {
         movingPlatform2.body.allowGravity = false;                            // |^ moving platform
 
         bullet1 = this.physics.add.image(700, 580, 'bullet').setOrigin(0);
-        bullet1.setScale(0.4);
         bullet1.setBounce(0.2);
         bullet1.body.allowGravity = false;
         bullet1.setCollideWorldBounds(true);
@@ -182,11 +194,16 @@ class KPopGame extends Phaser.Scene {
             targets: bullet1,
             x: 1100,
             ease: 'Power1',
-            duration: 500,
+            duration: 200,
             flipX: true,
             yoyo: true,
             repeat: -1
         });
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            bullet1.setScale(0.4, 0.15);
+        }else{
+            bullet1.setScale(0.4);
+        }
 
         movingPlatform3 = this.physics.add.image(770, 395, 'ground2');
         movingPlatform3.setImmovable(true);
@@ -194,9 +211,13 @@ class KPopGame extends Phaser.Scene {
 
         player = this.physics.add.sprite(270, 520, 'mark');
         player.setBounce(0.2);                                                   //  a slight bounce
-        player.setScale(0.7);                                                    //smaller
         player.setCollideWorldBounds(true);                                      //border's limit
         cam.startFollow(player, true, 0.2, 0.2);
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            player.setScale(0.9, 0.55);
+        }else{
+            player.setScale(0.7);                                                    //smaller
+        }
 
         this.anims.create({                                                      //  player animations
             key: 'left',
@@ -241,7 +262,7 @@ class KPopGame extends Phaser.Scene {
         btn.on('pointerup', function () {
             if (this.scale.isFullscreen) {
                 this.scale.stopFullscreen();
-                btn.setScale(0.25);             //smaller
+                btn.setScale(0.25);                                   //smaller
                 btn.setAlpha(0.5);
             } else {
                 this.scale.startFullscreen();
@@ -251,32 +272,61 @@ class KPopGame extends Phaser.Scene {
         }, this);
 
         btnLeft = this.add.image(487, 430, 'leftBtn').setInteractive();
-        btnLeft.setScale(0.65);
         btnLeft.setAlpha(0.5);
         btnLeft.setScrollFactor(0); //is fixed to camera
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            btnLeft.setScale(0.65, 0.4);
+            btnLeft.on('pointerdown', function () {
+                this.setScale(0.75, 0.5);
+            });
+            btnLeft.on('pointerup', function () {
+                this.setScale(0.65, 0.4);
+            });
+        }else{
+            btnLeft.setScale(0.65);
+            btnLeft.on('pointerdown', function () {
+                this.setScale(0.75);
+            });
+            btnLeft.on('pointerup', function () {
+                this.setScale(0.65);
+            });
+        }
         btnLeft.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
-            this.setScale(0.75);
             player.setVelocityX(-350);
             player.anims.play('left');
         });
         btnLeft.on('pointerup', function () {
             this.clearTint();
             this.setAlpha(0.5);
-            this.setScale(0.65);
             player.setVelocityX(0);
             player.anims.play('turn');
         });
 
         btnRight = this.add.image(535, 430, 'rightBtn').setInteractive();
-        btnRight.setScale(0.65);
         btnRight.setAlpha(0.5);
         btnRight.setScrollFactor(0); //is fixed to camera
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            btnRight.setScale(0.65, 0.4);
+            btnRight.on('pointerdown', function () {
+                this.setScale(0.75, 0.5);
+            });
+            btnRight.on('pointerup', function () {
+                this.setScale(0.65, 0.4);
+            });
+        }else{
+            btnRight.setScale(0.65);
+            btnRight.on('pointerdown', function () {
+                this.setScale(0.75);
+            });
+            btnRight.on('pointerup', function () {
+                this.setScale(0.65);
+            });
+        }
         btnRight.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
-            this.setScale(0.75);
             player.setVelocityX(380);
             player.anims.play('right');
             player.x += 25;
@@ -284,26 +334,39 @@ class KPopGame extends Phaser.Scene {
         btnRight.on('pointerup', function () {
             this.clearTint();
             this.setAlpha(0.5);
-            this.setScale(0.65);
             player.setVelocityX(0);
             player.anims.play('turn');
         });
 
         btnUp = this.add.image(727, 430, 'upBtn').setInteractive();
-        btnUp.setScale(0.65);
         btnUp.setAlpha(0.5);
         btnUp.setScrollFactor(0); //is fixed to camera
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            btnUp.setScale(0.65, 0.4);
+            btnUp.on('pointerdown', function () {
+                this.setScale(0.75, 0.5);
+            });
+            btnUp.on('pointerup', function () {
+                this.setScale(0.65, 0.4);
+            });
+        }else{
+            btnUp.setScale(0.65);
+            btnUp.on('pointerdown', function () {
+                this.setScale(0.75);
+            });
+            btnUp.on('pointerup', function () {
+                this.setScale(0.65);
+            });
+        }
         btnUp.on('pointerdown', function () {
             this.setTint(0xe0faa5);
             this.setAlpha(0.7);
-            this.setScale(0.75);
             player.setVelocityY(-295);
             player.anims.play('run');
         });
         btnUp.on('pointerup', function () {
             this.clearTint();
             this.setAlpha(0.5);
-            this.setScale(0.65);
             player.setVelocityX(0);
             player.anims.play('turn');
         });
@@ -316,16 +379,21 @@ class KPopGame extends Phaser.Scene {
         stars.children.iterate(function (child) {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));          // a slightly different bounce for each watermelon
             child.setCollideWorldBounds(true);
-            child.setScale(0.4);
+            child.setScale(0.65);
         });
         bombs = this.physics.add.group();
 
-        heartsText = this.add.text(725, 255, '💚: 24', {
+        heartsText = this.add.text(719, 255, '💚: 24', {
             fontSize: '9pt', fill: '#c6f50c', fontFamily: 'Segoe Script',
             stroke: 'rgba(194,86,222,0.94)', strokeThickness: 3
         });
         heartsText.setScrollFactor(0); //is fixed to camera
         heartsText.setShadow(2, 2, '#2a031b', 1, false, true);
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            heartsText.setScale(1, 0.8);
+        }else{
+            heartsText.setScale(1);
+        }
 
         scoreText = this.add.text(437, 255, 'score: 0', {
             fontSize: '9pt', fill: '#c6f50c', fontFamily: 'Segoe Script',
@@ -333,14 +401,19 @@ class KPopGame extends Phaser.Scene {
         });
         scoreText.setScrollFactor(0); //is fixed to camera
         scoreText.setShadow(2, 2, '#2a031b', 1, false, true);
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            scoreText.setScale(1, 0.8);
+        }else{
+            scoreText.setScale(1);
+        }
 
         heal = this.physics.add.image(739, 282, 'healing').setInteractive();
-        heal.setScale(0.017);
         heal.body.allowGravity = false;
+        heal.setScale(0.017);
         heal.setScrollFactor(0); //is fixed to camera
         heal.on('pointerdown', function () {
             this.setTint(0xe0faa5);
-            this.setScale(0.08);
+            heal.setScale(0.7);
             if (hearts >= 17 && hearts <= 24) {
                 hearts += 1.5;
                 heartsText.setText(`💚: ${hearts}`);
@@ -354,7 +427,7 @@ class KPopGame extends Phaser.Scene {
         });
         heal.on('pointerup', function () {
             this.clearTint();
-            this.setScale(0.017);
+            heal.setScale(0.017);
             heal.disableBody(true, true);
         });
         setInterval(() => {   //animation
@@ -367,11 +440,20 @@ class KPopGame extends Phaser.Scene {
         progressBox = this.add.graphics().setScrollFactor(0);
         progress = this.add.graphics().setScrollFactor(0); //is fixed to camera;
         progressBox.fillStyle(0x222222, 0.4); //color, transparency
-        progressBox.fillRoundedRect(512, 263, size, 12, 3); //(x, y, w, h, radius)
+        progressBox.fillRoundedRect(512, 263, size, 7, 3); //(x, y, w, h, radius)
 
-        wm1 = this.add.image(591, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
-        wm2 = this.add.image(652, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
-        wm3 = this.add.image(709, 268, 'watermelon').setScale(0.011).setScrollFactor(0); //is fixed to camera
+        wm1 = this.add.image(591, 268, 'watermelon').setScrollFactor(0); //is fixed to camera
+        wm2 = this.add.image(652, 268, 'watermelon').setScrollFactor(0); //is fixed to camera
+        wm3 = this.add.image(709, 268, 'watermelon').setScrollFactor(0); //is fixed to camera
+        if(this.scale.orientation === Phaser.Scale.PORTRAIT){
+            wm1.setScale(0.011, 0.008);
+            wm2.setScale(0.011, 0.008);
+            wm3.setScale(0.011, 0.008);
+        }else{
+            wm1.setScale(0.011);
+            wm2.setScale(0.011);
+            wm3.setScale(0.011);
+        }
 
         this.physics.add.collider(stars, movingPlatform);
         this.physics.add.collider(stars, movingPlatform2);
@@ -460,6 +542,15 @@ class KPopGame extends Phaser.Scene {
         scoreText.setText(`score: ${score}`);
 
         if(stars.countActive(true) === 0){
+            bullet1.setVisible(false);
+            let x1 = Phaser.Math.Between(200, 755);
+            let y1 = Phaser.Math.Between(120, 580)
+            bullet1.x = x1;
+            bullet1.y = y1;
+            if (bullet1.x === x1 && bullet1.y === y1){
+                bullet1.setVisible(true);
+            }
+
             stars.children.iterate(function(child){
                 //  new watermelons
                 child.enableBody(true, child.x, Phaser.Math.Between(3, 525), true, true);
@@ -468,7 +559,7 @@ class KPopGame extends Phaser.Scene {
             let x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
             let bomb = bombs.create(x, 16, 'bomb');
             bomb.setBounce(1);
-            bomb.setScale(0.2); //smaller
+            bomb.setScale(0.25); //smaller
             bomb.setVelocity(Phaser.Math.Between(-120, 90), 20);
             bomb.allowGravity = false;
             bomb.setCollideWorldBounds(true);
@@ -564,7 +655,7 @@ class KPopGame extends Phaser.Scene {
             sizeCh = (size*score)/rndNum;
         }
 	    progress.fillStyle(0xc9f5bc, 0.7);
-        progress.fillRect(514, 264.5, sizeCh, 9);
+        progress.fillRect(514, 264.5, sizeCh, 4);
           
 	    if(sizeCh >= size){
             if(this.scale.isFullscreen){
@@ -622,7 +713,8 @@ class KPopGame extends Phaser.Scene {
 const config = {
     type: Phaser.AUTO,
     scale: {
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.DOM.FIT,
+        orientation: Phaser.Scale.Orientation.PORTRAIT,
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 1207,

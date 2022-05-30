@@ -4,17 +4,22 @@ body {
     background: linear-gradient(-45deg, #ffd1ac, #e6ccff, #ff9999) no-repeat;
 }
 .swal2-modal {
-    border-radius: 25px;
-    width: 70%; 
-    height: 70%;
+    border-radius: 100px;
+    width: 100%;
+    height: 100%;
 }
 #swal2-title {
-    font-size: 17pt;
+    font-size: 27pt;
     font-Family: 'Comic Sans MS', serif; 
     font-weight: 100;
 }
 .swal2-warning {
-    width: 20%; 
-    height: 50%; 
-    margin:0 0 0 40%; 
+    width: 50%;
+    height: 50%;
+    margin: 50% 0 0 25%;
+}
+.swal2-styled.swal2-confirm {
+    border-radius: 50px;
+    color: rgba(68, 3, 50, 0.93);
+    font-size: 30pt;
 }
