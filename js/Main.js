@@ -260,12 +260,12 @@ class KPopGame extends Phaser.Scene {
         btn.setAlpha(0.5);
         btn.setScrollFactor(0); //is fixed to camera
         btn.on('pointerup', function () {
-            if (this.scale.isFullscreen) {
-                this.scale.stopFullscreen();
+            if (game.scale.isFullscreen) {
+                game.scale.stopFullscreen();
                 btn.setScale(0.25);                                   //smaller
                 btn.setAlpha(0.5);
             } else {
-                this.scale.startFullscreen();
+                game.scale.startFullscreen();
                 btn.setScale(0.19);                                  //smaller
                 btn.setAlpha(0.7);
             }
@@ -716,6 +716,7 @@ const config = {
         mode: Phaser.DOM.FIT,
         orientation: Phaser.Scale.Orientation.PORTRAIT,
         parent: 'gameNct',
+	fullscreenTarget: 'gameNct',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 1207,
         height: 720
