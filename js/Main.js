@@ -715,7 +715,7 @@ const config = {
     scale: {
         mode: Phaser.DOM.FIT,
         orientation: Phaser.Scale.Orientation.PORTRAIT,
-        parent: 'div',
+        parent: 'gameNct',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 1207,
         height: 720
