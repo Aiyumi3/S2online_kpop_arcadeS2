@@ -1,7 +1,7 @@
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
-const rndNum = getRndInteger(500,5100);
+const rndNum = getRndInteger(143,798);
 const size = 200; //width rect
 let score = 0;
 let hearts = 24;
@@ -715,7 +715,7 @@ const config = {
     scale: {
         mode: Phaser.DOM.FIT,
         orientation: Phaser.Scale.Orientation.PORTRAIT,
-        parent: 'phaser-example',
+        parent: 'div',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 1207,
         height: 720
